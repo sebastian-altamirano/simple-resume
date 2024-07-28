@@ -1,0 +1,22 @@
+{% macro sectionItem(title, subtitle, startDate, endDate, summary, highlights) %}
+	<h3 class="section-item__heading">
+		<span>{{ title }}</span>
+		<span class="section-item__date-range"
+			>{{ startDate | dateformat("%m-%Y") }} -
+			{% if endDate is defined %}
+				{{ endDate | dateformat("%m-%Y") }}
+			{% else %}
+				{{ _("Present") }}
+			{% endif %}
+		</span>
+		<span class="section-item__subtitle">{{ subtitle }}</span>
+	</h3>
+
+	{% if summary is defined %}<p class="section-item__summary">{{ summary }}</p>{% endif %}
+
+	{% if highlights is defined %}
+		<ul class="section-item__highlights">
+			{% for highlight in highlights %}<li>{{ highlight }}</li>{% endfor %}
+		</ul>
+	{% endif %}
+{%- endmacro %}

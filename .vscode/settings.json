@@ -1,0 +1,49 @@
+{
+	// ------------------------------------------- General -------------------------------------------
+
+	"editor.insertSpaces": false,
+	"editor.tabSize": 2,
+
+	"files.eol": "\n",
+	"files.insertFinalNewline": true,
+	"files.trimTrailingWhitespace": true,
+
+	"search.exclude": {
+		"**/node_modules": true,
+		"**/venv": true,
+		"**/.ruff_cache": true,
+		"**/.venv": true,
+		"**/__pycache__": true,
+		"**/pdm.lock": true
+	},
+
+	// -------------------------------------------- JSON ---------------------------------------------
+
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+
+	// ------------------------------------------ Markdown -------------------------------------------
+
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.formatOnSave": true
+	},
+
+	// ------------------------------------------- Python --------------------------------------------
+
+	"[python]": {
+		"editor.codeActionsOnSave": {
+			"source.unusedImports": "explicit"
+		},
+		"editor.defaultFormatter": "charliermarsh.ruff",
+		"editor.formatOnSave": true,
+		"editor.insertSpaces": true,
+		"editor.tabSize": 4
+	},
+
+	"python.analysis.autoImportCompletions": true,
+	"python.analysis.typeCheckingMode": "strict",
+	"python.analysis.experimentalserver": true
+}

@@ -1,0 +1,62 @@
+:root {
+	--color-primary: #1f2d5c;
+	--color-primary-light: #edf2fe;
+	--color-background: #fcfcfd;
+
+	--link-padding: 0 6px;
+}
+
+.resume {
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	font-family: "Roboto", sans-serif;
+	line-height: 1.6;
+}
+
+a {
+	color: inherit;
+	padding: var(--link-padding);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-weight: 500;
+	line-height: 1.15;
+}
+
+h1 {
+	font-size: 1.8rem !important;
+}
+
+h2 {
+	font-size: 1.6rem !important;
+}
+
+h3 {
+	font-size: 1.42rem !important;
+}
+
+h4 {
+	font-size: 1.27rem !important;
+}
+
+h5 {
+	font-size: 1.13rem !important;
+}
+
+.resume__header {
+	background-color: var(--color-primary);
+	color: var(--color-background);
+	padding: 16px 24px;
+}
+
+.resume__body {
+	padding: 16px 24px;
+}
+
+.resume__section:not(:last-child) {
+	margin-bottom: 1rem;
+}

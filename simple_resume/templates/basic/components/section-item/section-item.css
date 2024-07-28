@@ -1,0 +1,27 @@
+.section-item__heading {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	margin: 0 0 0.5rem;
+}
+
+.section-item__subtitle,
+.section-item__date-range {
+	font-weight: 300;
+}
+
+.section-item__subtitle {
+	flex-basis: 100%;
+}
+
+.section-item__summary {
+	margin: 0;
+}
+
+.section-item__summary + .section-item__highlights {
+	margin: 0.25rem 0 0;
+}
+
+.section-item__highlights {
+	list-style-type: disc;
+}

@@ -1,0 +1,25 @@
+.knowledge,
+.skills-group__skills {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.skills-group:not(:last-child) {
+	margin-bottom: 0.5rem;
+}
+
+.skills-group__name {
+	margin: 0 0 0.125rem;
+}
+
+.skills-group__skills {
+	display: flex;
+	flex-flow: row wrap;
+	gap: 0.375rem;
+}
+
+.skill {
+	background-color: var(--color-primary-light);
+	padding: 4px 8px;
+}

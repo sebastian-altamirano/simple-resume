@@ -1,0 +1,19 @@
+{% from 'components/section-title/section-title.jinja' import sectionTitle %}
+
+{% macro knowledge(skillsGroups=[]) %}
+	{{ sectionTitle(_('Skills')) }}
+
+	<ul class="knowledge">
+		{% for skillsGroup in skillsGroups %}
+			<li class="skills-group">
+				<h3 class="skills-group__name">{{ skillsGroup.name | addcolon }}</h3>
+
+				<ul class="skills-group__skills">
+					{% for skill in skillsGroup.keywords %}
+						<li class="skill">{{ skill }}</li>
+					{% endfor %}
+				</ul>
+			</li>
+		{% endfor %}
+	</ul>
+{%- endmacro %}

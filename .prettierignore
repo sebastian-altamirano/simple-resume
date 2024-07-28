@@ -1,0 +1,10 @@
+**/node_modules
+**/venv
+**/.ruff_cache
+**/.venv
+**/__pycache__
+**/pdm.lock
+simple_resume/*
+!simple_resume/schemas
+!simple_resume/templates
+!simple_resume/translations

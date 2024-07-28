@@ -1,0 +1,21 @@
+{% from 'components/section-item/section-item.jinja' import sectionItem %}
+{% from 'components/section-title/section-title.jinja' import sectionTitle %}
+
+{% macro education(educationHistory=[]) %}
+	{{ sectionTitle(_('Education')) }}
+
+	<ul class="education-history">
+		{% for educationHistoryEntry in educationHistory %}
+			<li class="education-history-entry">
+				{{
+					sectionItem(
+						educationHistoryEntry.area,
+						educationHistoryEntry.institution,
+						educationHistoryEntry.startDate,
+						educationHistoryEntry.endDate
+					)
+				}}
+			</li>
+		{% endfor %}
+	</ul>
+{%- endmacro %}

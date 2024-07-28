@@ -1,0 +1,30 @@
+.contact-information__title {
+	margin: 0 0 0.75rem;
+}
+
+.contact-information__name,
+.contact-information__position {
+	display: block;
+}
+
+.contact-information__name {
+	margin: 0 0 0.25rem;
+}
+
+.contact-information__position {
+	font-weight: 300;
+}
+
+.contact-information__address {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.contact-information-item:not(:last-child) {
+	margin-bottom: 0.125rem;
+}
+
+.contact-information-item__description {
+	padding: var(--link-padding);
+}

@@ -1,0 +1,11 @@
+.section-title {
+	background-color: var(--color-primary);
+	box-sizing: border-box;
+	color: var(--color-background);
+	font-weight: 300;
+	margin: 0 0 1rem;
+	padding: 8px 12px;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+}

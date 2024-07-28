@@ -1,0 +1,15 @@
+{
+	"plugins": ["prettier-plugin-jinja-template"],
+	"overrides": [
+		{
+			"files": "*.jinja",
+			"options": {
+				"parser": "jinja-template"
+			}
+		}
+	],
+	"endOfLine": "lf",
+	"printWidth": 100,
+	"tabWidth": 4,
+	"useTabs": true
+}
