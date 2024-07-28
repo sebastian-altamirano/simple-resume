@@ -5,6 +5,7 @@
 		"ms-python.debugpy",
 		"charliermarsh.ruff",
 		"esbenp.prettier-vscode",
-		"samuelcolvin.jinjahtml"
+		"samuelcolvin.jinjahtml",
+		"tamasfe.even-better-toml"
 	]
 }

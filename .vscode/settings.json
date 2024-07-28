@@ -45,5 +45,12 @@
 
 	"python.analysis.autoImportCompletions": true,
 	"python.analysis.typeCheckingMode": "strict",
-	"python.analysis.experimentalserver": true
+	"python.analysis.experimentalserver": true,
+
+	// -------------------------------------------- TOML ---------------------------------------------
+
+	"[toml]": {
+		"editor.defaultFormatter": "tamasfe.even-better-toml",
+		"editor.formatOnSave": true
+	}
 }

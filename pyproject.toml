@@ -1,33 +1,28 @@
+#:schema https://json.schemastore.org/pyproject.json
+
 [project]
 name = "simple-resume"
 version = "1.0.0"
 description = "CLI tool to build a resume using a JSON Resume file"
-authors = [
-    {name = "Sebastián Altamirano"},
-]
+authors = [{ name = "Sebastián Altamirano" }]
 dependencies = [
-    "weasyprint>=62.3",
-    "Jinja2>=3.1.4",
-    "Babel>=2.15.0",
-    "typer>=0.12.3",
-    "jsonschema>=4.23.0",
-    "Flask>=3.0.3",
+	"weasyprint>=62.3",
+	"Jinja2>=3.1.4",
+	"Babel>=2.15.0",
+	"typer>=0.12.3",
+	"jsonschema>=4.23.0",
+	"Flask>=3.0.3",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 [tool.pdm]
 distribution = false
 
 [tool.pdm.dev-dependencies]
-lint = [
-    "ruff>=0.5.5",
-]
-types = [
-    "types-jsonschema>=4.23.0.20240712",
-    "pyright>=1.1.373",
-]
+lint = ["ruff>=0.5.5"]
+types = ["types-jsonschema>=4.23.0.20240712", "pyright>=1.1.373"]
 
 [tool.pdm.scripts]
 extract-messages = "pybabel extract . -F simple_resume/translations/babel.cfg -o simple_resume/translations/messages.pot"
@@ -51,57 +46,53 @@ src = ["simple_resume"]
 line-ending = "lf"
 
 [tool.ruff.lint]
-ignore = [
-    "ANN101",
-    "D107",
-    "ISC001",
-]
+ignore = ["ANN101", "D107", "ISC001"]
 select = [
-    "A",
-    "ANN",
-    "ARG",
-    "ASYNC",
-    "B",
-    "BLE",
-    "C4",
-    "C90",
-    "D",
-    "DTZ",
-    "E",
-    "EM",
-    "ERA",
-    "F",
-    "FA",
-    "FBT",
-    "FIX",
-    "FURB",
-    "I",
-    "ICN",
-    "INP",
-    "INT",
-    "ISC",
-    "N",
-    "PERF",
-    "PIE",
-    "PLC",
-    "PLE",
-    "PLR",
-    "PLW",
-    "PTH",
-    "Q",
-    "RET",
-    "RUF",
-    "SIM",
-    "SLF",
-    "SLOT",
-    "T10",
-    "T20",
-    "TCH",
-    "TID",
-    "TRY",
-    "UP",
-    "W",
-    "YTT",
+	"A",
+	"ANN",
+	"ARG",
+	"ASYNC",
+	"B",
+	"BLE",
+	"C4",
+	"C90",
+	"D",
+	"DTZ",
+	"E",
+	"EM",
+	"ERA",
+	"F",
+	"FA",
+	"FBT",
+	"FIX",
+	"FURB",
+	"I",
+	"ICN",
+	"INP",
+	"INT",
+	"ISC",
+	"N",
+	"PERF",
+	"PIE",
+	"PLC",
+	"PLE",
+	"PLR",
+	"PLW",
+	"PTH",
+	"Q",
+	"RET",
+	"RUF",
+	"SIM",
+	"SLF",
+	"SLOT",
+	"T10",
+	"T20",
+	"TCH",
+	"TID",
+	"TRY",
+	"UP",
+	"W",
+	"YTT",
 ]
 
 [tool.ruff.lint.isort]
