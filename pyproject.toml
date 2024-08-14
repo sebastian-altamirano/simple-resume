@@ -1,5 +1,9 @@
 #:schema https://json.schemastore.org/pyproject.json
 
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
 [project]
 name = "simple-resume"
 version = "1.0.0"
@@ -17,8 +21,11 @@ requires-python = "==3.12.*"
 readme = "README.md"
 license = { text = "MIT" }
 
+[project.scripts]
+simple-resume = "simple_resume.__main__:app"
+
 [tool.pdm]
-distribution = false
+distribution = true
 
 [tool.pdm.dev-dependencies]
 lint = ["ruff>=0.5.5"]
@@ -32,6 +39,7 @@ compile-messages = "pybabel compile -d simple_resume/translations"
 format.composite = ["ruff format", "npx prettier --write --ignore-unknown ."]
 lint.composite = ["ruff check", "pyright"]
 lint.env.PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release"
+pre_build = { composite = ["compile-messages"] }
 
 [tool.pyright]
 include = ["simple_resume"]

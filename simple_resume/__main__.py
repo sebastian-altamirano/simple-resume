@@ -14,4 +14,4 @@ app.command()(commands.export)
 app.command()(commands.serve)
 app.command()(commands.validate)
 
-app()
+app(prog_name="simple-resume")
