@@ -1,0 +1,42 @@
+{
+	"provider": "jsdelivr",
+	"destination": "simple_resume/static",
+	"packages": [
+		{
+			"name": "@fontsource/roboto",
+			"version": "5.0.14",
+			"destination": "fonts/roboto",
+			"files": [
+				"latin-300.css",
+				"latin-400.css",
+				"latin-500.css",
+				"files/roboto-latin-300-normal.woff2",
+				"files/roboto-latin-400-normal.woff2",
+				"files/roboto-latin-500-normal.woff2"
+			]
+		},
+		{
+			"name": "@radix-ui/colors",
+			"version": "3.0.0",
+			"destination": "styles/radix-colors",
+			"files": ["gray.css", "indigo.css"]
+		},
+		{
+			"name": "bootstrap-icons",
+			"version": "1.11.3",
+			"destination": "icons",
+			"files": [
+				{
+					"name": "bootstrap-icons.svg",
+					"rename": "bootstrap-sprite.svg"
+				}
+			]
+		},
+		{
+			"name": "sanitize.css",
+			"version": "13.0.0",
+			"destination": "styles",
+			"files": ["sanitize.min.css"]
+		}
+	]
+}

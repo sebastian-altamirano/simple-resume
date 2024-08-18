@@ -66,7 +66,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-node_modules
 
 # mypy
 .mypy_cache/
@@ -91,3 +90,12 @@ cython_debug/
 
 # Type stubs
 typings/
+
+# Node dependencies
+node_modules/
+
+# Simple Resume template dependencies
+simple_resume/static/*
+!simple_resume/static/styles/
+simple_resume/static/styles/*
+!simple_resume/static/styles/bootstrap-icons.css

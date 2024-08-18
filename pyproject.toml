@@ -29,6 +29,7 @@ distribution = true
 
 [tool.pdm.dev-dependencies]
 lint = ["ruff>=0.5.5"]
+tooling = ["frontman>=0.3.1"]
 types = ["types-jsonschema>=4.23.0.20240712", "pyright>=1.1.373"]
 
 [tool.pdm.scripts]

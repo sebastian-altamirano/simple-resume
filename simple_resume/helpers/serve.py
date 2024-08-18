@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 from babel.support import Translations
 from flask import Flask, render_template
 
-from simple_resume.helpers.constants import TEMPLATES_PATH, TRANSLATIONS_PATH
+from simple_resume.helpers.constants import STATIC_PATH, TEMPLATES_PATH, TRANSLATIONS_PATH
 from simple_resume.helpers.jinja import (
     add_custom_filters_to_jinja_environment,
     add_i18n_support_to_jinja_environment,
@@ -32,7 +32,7 @@ def serve_resume(
     template_path = TEMPLATES_PATH / template
     app = Flask(
         __name__,
-        static_folder=(template_path / "static").as_posix(),
+        static_folder=(STATIC_PATH).as_posix(),
         template_folder=template_path.as_posix(),
     )
 

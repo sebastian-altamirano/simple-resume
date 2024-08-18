@@ -10,6 +10,7 @@ DEFAULT_TEMPLATE = "basic"
 
 PACKAGE_PATH = (Path(__file__) / ".." / "..").resolve()
 SCHEMAS_PATH = (PACKAGE_PATH / "schemas").resolve()
+STATIC_PATH = (PACKAGE_PATH / "static").resolve()
 TEMPLATES_PATH = (PACKAGE_PATH / "templates").resolve()
 TRANSLATIONS_PATH = (PACKAGE_PATH / "translations").resolve()
 

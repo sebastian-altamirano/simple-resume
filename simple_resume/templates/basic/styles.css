@@ -1,16 +1,17 @@
+@import "static/fonts/roboto/latin-300.css";
+@import "static/fonts/roboto/latin-400.css";
+@import "static/fonts/roboto/latin-500.css";
+@import "static/styles/bootstrap-icons.css";
+@import "static/styles/radix-colors/gray.css";
+@import "static/styles/radix-colors/indigo.css";
+@import "static/styles/sanitize.min.css";
+
 :root {
-	--color-primary: #1f2d5c;
-	--color-primary-light: #edf2fe;
-	--color-background: #fcfcfd;
+	--color-primary: var(--indigo-12);
+	--color-primary-light: var(--indigo-3);
+	--color-background: var(--gray-1);
 
 	--link-padding: 0 6px;
-}
-
-.resume {
-	background-color: var(--color-background);
-	color: var(--color-primary);
-	font-family: "Roboto", sans-serif;
-	line-height: 1.6;
 }
 
 a {
@@ -45,6 +46,13 @@ h4 {
 
 h5 {
 	font-size: 1.13rem !important;
+}
+
+.resume {
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	font-family: "Roboto", sans-serif;
+	line-height: 1.6;
 }
 
 .resume__header {

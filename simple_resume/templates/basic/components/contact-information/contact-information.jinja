@@ -1,4 +1,4 @@
-{% from 'components/icons/icons.jinja' import emailIcon, locationIcon, linkedInIcon, telephoneIcon %}
+{% from 'components/icons/icons.jinja' import icon %}
 
 {% macro contactInformation(name, position, city, region, countryCode, email, phone, profiles=[]) %}
 	<h1 class="contact-information__title">
@@ -9,23 +9,26 @@
 	<address>
 		<ul class="contact-information__address">
 			<li class="contact-information-item">
-				{{ locationIcon(_('Location:')) }}
+				{{ icon('geo-alt-fill', _('Location:')) }}
 				<span class="contact-information-item__description"
 					>{{ city }}, {{ region }}, {{ countryCode | countryname }}</span
 				>
 			</li>
+
 			<li class="contact-information-item">
-				{{ emailIcon(_('Email:')) }}
+				{{ icon('envelope-fill', _('Email:')) }}
 				{{ email | urlize }}
 			</li>
+
 			<li class="contact-information-item">
-				{{ telephoneIcon(_('Phone number:')) }}
+				{{ icon('telephone-fill', _('Phone number:')) }}
 				<a href="{{ phone | telurl }}">{{ phone }}</a>
 			</li>
+
 			{% for profile in profiles %}
 				{% if profile.url is defined and 'linkedin' in profile.url %}
 					<li class="contact-information-item">
-						{{ linkedInIcon(_('LinkedIn:')) }}
+						{{ icon('linkedin', _('LinkedIn:')) }}
 						<a href="{{ profile.url }}" rel="noopener noreferrer" target="_blank"
 							>{{ profile.url }}</a
 						>
