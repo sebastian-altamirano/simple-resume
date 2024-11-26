@@ -37,7 +37,11 @@ extract-messages = "pybabel extract . -F simple_resume/translations/babel.cfg -o
 initialize-messages = "pybabel init -i simple_resume/translations/messages.pot -d simple_resume/translations -l"
 update-messages = "pybabel update -i simple_resume/translations/messages.pot -d simple_resume/translations"
 compile-messages = "pybabel compile -d simple_resume/translations"
-format.composite = ["ruff format", "npx prettier --write --ignore-unknown ."]
+format.composite = [
+	"ruff check --select I --fix",             # Sort imports
+	"ruff format",
+	"npx prettier --write --ignore-unknown .",
+]
 lint.composite = ["ruff check", "pyright"]
 lint.env.PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release"
 pre_build = { composite = ["compile-messages"] }
