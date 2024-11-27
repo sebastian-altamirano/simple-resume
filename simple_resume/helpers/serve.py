@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from multiprocessing import Process
 from typing import TYPE_CHECKING
 
 from babel.support import Translations
@@ -17,17 +18,36 @@ if TYPE_CHECKING:
     from simple_resume.type_definitions.json_resume import JsonResume
 
 
-def serve_resume(
-    resume: JsonResume,
-    template: str,
-    language: str,
-) -> None:
+def serve_resume(resume: JsonResume, template: str, language: str) -> Process:
     """Serve a JSON Resume.
 
     Args:
         resume: The content of a JSON Resume file.
         template: The name of the template to use.
         language: The language tag of the language to use.
+
+    Returns:
+        A process instance that can be used to stop the server.
+    """
+    process = Process(target=lambda: _create_flask_app_for_resume(resume, template, language).run())
+    process.start()
+    return process
+
+
+def _create_flask_app_for_resume(
+    resume: JsonResume,
+    template: str,
+    language: str,
+) -> Flask:
+    """Create a Flask application to serve a JSON Resume.
+
+    Args:
+        resume: The content of a JSON Resume file.
+        template: The name of the template to use.
+        language: The language tag of the language to use.
+
+    Returns:
+        A Flask application instance configured to serve the JSON Resume.
     """
     template_path = TEMPLATES_PATH / template
     app = Flask(
@@ -45,4 +65,4 @@ def serve_resume(
 
     app.add_url_rule("/", "index", lambda: render_template("index.jinja", **resume))
 
-    app.run(debug=True)
+    return app
