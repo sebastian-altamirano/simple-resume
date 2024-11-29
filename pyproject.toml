@@ -10,12 +10,12 @@ version = "1.0.0"
 description = "CLI tool to build a resume using a JSON Resume file"
 authors = [{ name = "Sebastián Altamirano" }]
 dependencies = [
-	"weasyprint>=62.3",
-	"Jinja2>=3.1.4",
 	"Babel>=2.15.0",
-	"typer>=0.12.3",
-	"jsonschema>=4.23.0",
 	"Flask>=3.0.3",
+	"Jinja2>=3.1.4",
+	"jsonschema>=4.23.0",
+	"playwright>=1.49.0",
+	"typer>=0.12.3",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"

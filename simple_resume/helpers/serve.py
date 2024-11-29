@@ -16,9 +16,10 @@ from simple_resume.helpers.jinja import (
 
 if TYPE_CHECKING:
     from simple_resume.type_definitions.json_resume import JsonResume
+    from simple_resume.type_definitions.serve import SimpleResumeServer
 
 
-def serve_resume(resume: JsonResume, template: str, language: str) -> Process:
+def serve_resume(resume: JsonResume, template: str, language: str) -> SimpleResumeServer:
     """Serve a JSON Resume.
 
     Args:
@@ -29,9 +30,12 @@ def serve_resume(resume: JsonResume, template: str, language: str) -> Process:
     Returns:
         A process instance that can be used to stop the server.
     """
-    process = Process(target=lambda: _create_flask_app_for_resume(resume, template, language).run())
+    port = 5000
+    process = Process(
+        target=lambda: _create_flask_app_for_resume(resume, template, language).run(port=port)
+    )
     process.start()
-    return process
+    return {"process": process, "url": f"http://localhost:{port}"}
 
 
 def _create_flask_app_for_resume(
