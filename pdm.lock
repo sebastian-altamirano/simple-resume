@@ -5,7 +5,7 @@
 groups = ["default", "lint", "tooling", "types"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:075e4359910e89ec83b72c8a29feefc3fc868e9a8427004859805354728e2412"
+content_hash = "sha256:6ef795dc6fa39291231886b4cd11ff840d79ed12b0261e9ea2caaa0bbbc5553f"
 
 [[metadata.targets]]
 requires_python = "==3.12.*"
@@ -201,6 +201,37 @@ dependencies = [
 files = [
     {file = "jinja2-3.1.4-py3-none-any.whl", hash = "sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d"},
     {file = "jinja2-3.1.4.tar.gz", hash = "sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369"},
+]
+
+[[package]]
+name = "jinjax"
+version = "0.48"
+requires_python = "<4.0,>=3.10"
+summary = "Replace your HTML templates with Python server-Side components"
+groups = ["default"]
+dependencies = [
+    "jinja2>=3.0",
+    "markupsafe>=2.0",
+]
+files = [
+    {file = "jinjax-0.48-py3-none-any.whl", hash = "sha256:c556e7e73d9d9a9b7dd6f590bdca37bf9c514ca1af83ee94059dc727a66bd69b"},
+    {file = "jinjax-0.48.tar.gz", hash = "sha256:689847fb095846ebd7ce1c254ae407698689a4b33300c461ff337f79194b69bc"},
+]
+
+[[package]]
+name = "jinjax"
+version = "0.48"
+extras = ["whitenoise"]
+requires_python = "<4.0,>=3.10"
+summary = "Replace your HTML templates with Python server-Side components"
+groups = ["default"]
+dependencies = [
+    "jinjax==0.48",
+    "whitenoise>=5.3",
+]
+files = [
+    {file = "jinjax-0.48-py3-none-any.whl", hash = "sha256:c556e7e73d9d9a9b7dd6f590bdca37bf9c514ca1af83ee94059dc727a66bd69b"},
+    {file = "jinjax-0.48.tar.gz", hash = "sha256:689847fb095846ebd7ce1c254ae407698689a4b33300c461ff337f79194b69bc"},
 ]
 
 [[package]]
@@ -596,4 +627,15 @@ dependencies = [
 files = [
     {file = "werkzeug-3.0.3-py3-none-any.whl", hash = "sha256:fc9645dc43e03e4d630d23143a04a7f947a9a3b5727cd535fdfe155a17cc48c8"},
     {file = "werkzeug-3.0.3.tar.gz", hash = "sha256:097e5bfda9f0aba8da6b8545146def481d06aa7d3266e7448e2cccf67dd8bd18"},
+]
+
+[[package]]
+name = "whitenoise"
+version = "6.8.2"
+requires_python = ">=3.9"
+summary = "Radically simplified static file serving for WSGI applications"
+groups = ["default"]
+files = [
+    {file = "whitenoise-6.8.2-py3-none-any.whl", hash = "sha256:df12dce147a043d1956d81d288c6f0044147c6d2ab9726e5772ac50fb45d2280"},
+    {file = "whitenoise-6.8.2.tar.gz", hash = "sha256:486bd7267a375fa9650b136daaec156ac572971acc8bf99add90817a530dd1d4"},
 ]

@@ -1,0 +1,18 @@
+{#def experiences=[] #}
+
+<SectionTitle title="{{ _('Experience') }}" />
+
+<ul class="work-experiences">
+	{% for experience in experiences %}
+		<li class="work-experience">
+			<SectionItem
+				title="{{ experience.position }}"
+				subtitle="{{ experience.name }}"
+				startDate="{{ experience.startDate }}"
+				endDate="{{ experience.endDate }}"
+				summary="{{ experience.summary }}"
+				highlights="{{ experience.highlights }}"
+			/>
+		</li>
+	{% endfor %}
+</ul>

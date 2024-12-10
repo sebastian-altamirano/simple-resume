@@ -1,0 +1,13 @@
+{#def title #}
+{#css styles/sanitize.min.css #}
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{{ title }}</title>
+		{{ catalog.render_assets() }}
+	</head>
+	<body>{{ content }}</body>
+</html>

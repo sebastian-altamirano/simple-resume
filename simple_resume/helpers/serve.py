@@ -6,9 +6,15 @@ from multiprocessing import Process
 from typing import TYPE_CHECKING
 
 from babel.support import Translations
-from flask import Flask, render_template
+from flask import Flask
+from jinjax import Catalog
 
-from simple_resume.helpers.constants import STATIC_PATH, TEMPLATES_PATH, TRANSLATIONS_PATH
+from simple_resume.helpers.constants import (
+    COMPONENTS_PATH,
+    STATIC_PATH,
+    TEMPLATES_PATH,
+    TRANSLATIONS_PATH,
+)
 from simple_resume.helpers.jinja import (
     add_custom_filters_to_jinja_environment,
     add_i18n_support_to_jinja_environment,
@@ -53,20 +59,23 @@ def _create_flask_app_for_resume(
     Returns:
         A Flask application instance configured to serve the JSON Resume.
     """
-    template_path = TEMPLATES_PATH / template
-    app = Flask(
-        __name__,
-        static_folder=(STATIC_PATH).as_posix(),
-        template_folder=template_path.as_posix(),
-    )
+    app = Flask(__name__)
 
     add_custom_filters_to_jinja_environment(app.jinja_env, language)
     translations = Translations.load(TRANSLATIONS_PATH, language)
     add_i18n_support_to_jinja_environment(app.jinja_env, translations)
 
+    catalog = Catalog(jinja_env=app.jinja_env, root_url="/static/")
+    catalog.add_folder(COMPONENTS_PATH)
+    catalog.add_folder(TEMPLATES_PATH / template)
+    catalog.add_folder(STATIC_PATH)
+    app.wsgi_app = catalog.get_middleware(
+        app.wsgi_app, autorefresh=app.debug, allowed_ext=[".css", ".svg", ".woff", ".woff2"]
+    )
+
     app.jinja_env.auto_reload = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-    app.add_url_rule("/", "index", lambda: render_template("index.jinja", **resume))
+    app.add_url_rule("/", "index", lambda: catalog.render("Resume", **resume))
 
     return app

@@ -9,6 +9,8 @@ DEFAULT_OUTPUT_PATH = Path("~/Desktop").expanduser()
 DEFAULT_TEMPLATE = "basic"
 
 PACKAGE_PATH = (Path(__file__) / ".." / "..").resolve()
+
+COMPONENTS_PATH = (PACKAGE_PATH / "components").resolve()
 SCHEMAS_PATH = (PACKAGE_PATH / "schemas").resolve()
 STATIC_PATH = (PACKAGE_PATH / "static").resolve()
 TEMPLATES_PATH = (PACKAGE_PATH / "templates").resolve()
