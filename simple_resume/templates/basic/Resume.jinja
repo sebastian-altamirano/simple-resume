@@ -8,25 +8,25 @@
 	styles/radix-colors/indigo.css
 #}
 
-<Layout title="{{ basics.name }}">
+<Layout :title="basics.name">
 	<main class="resume">
 		<header class="resume__header">
 			<ContactInformation
-				name="{{ basics.name }}"
-				position="{{ basics.label }}"
-				city="{{ basics.location.city }}"
-				region="{{ basics.location.region }}"
-				countryCode="{{ basics.location.countryCode }}"
-				email="{{ basics.email }}"
-				phone="{{ basics.phone }}"
-				profiles="{{ basics.profiles }}"
+				:name="basics.name"
+				:position="basics.label"
+				:city="basics.location.city"
+				:region="basics.location.region"
+				:countryCode="basics.location.countryCode"
+				:email="basics.email"
+				:phone="basics.phone"
+				:profiles="basics.profiles"
 			/>
 		</header>
 		<article class="resume__body">
-			<section class="resume__section"><Knowledge skillsGroups="{{ skills }}" /></section>
-			<section class="resume__section"><WorkExperience experiences="{{ work }}" /></section>
+			<section class="resume__section"><Knowledge :skillsGroups="skills" /></section>
+			<section class="resume__section"><WorkExperience :experiences="work" /></section>
 			<section class="resume__section">
-				<Education educationHistory="{{ education }}" />
+				<Education :educationHistory="education" />
 			</section>
 		</article>
 	</main>

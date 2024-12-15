@@ -8,26 +8,26 @@
 <address>
 	<ul class="contact-information__address">
 		<li class="contact-information-item">
-			<Icon id="geo-alt-fill" title="{{ _('Location:') }}" />
+			<Icon id="geo-alt-fill" :title="_('Location:')" />
 			<span class="contact-information-item__description"
 				>{{ city }}, {{ region }}, {{ countryCode | countryname }}</span
 			>
 		</li>
 
 		<li class="contact-information-item">
-			<Icon id="envelope-fill" title="{{ _('Email:') }}" />
+			<Icon id="envelope-fill" :title="_('Email:')" />
 			{{ email | urlize }}
 		</li>
 
 		<li class="contact-information-item">
-			<Icon id="telephone-fill" title="{{ _('Phone number:') }}" />
+			<Icon id="telephone-fill" :title="_('Phone number:')" />
 			<a href="{{ phone | telurl }}">{{ phone }}</a>
 		</li>
 
 		{% for profile in profiles %}
 			{% if profile.url is defined and 'linkedin' in profile.url %}
 				<li class="contact-information-item">
-					<Icon id="linkedin" title="{{ _('LinkedIn:') }}" />
+					<Icon id="linkedin" :title="_('LinkedIn:')" />
 					<a href="{{ profile.url }}" rel="noopener noreferrer" target="_blank"
 						>{{ profile.url }}</a
 					>
