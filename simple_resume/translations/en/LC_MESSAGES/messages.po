@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-27 22:29-0300\n"
+"POT-Creation-Date: 2024-12-15 21:08-0300\n"
 "PO-Revision-Date: 2024-04-14 18:02-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -16,7 +16,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: simple_resume/components/Layout.jinja:9
+msgid "Simple Resume - Preview"
+msgstr ""
 
 #: simple_resume/helpers/export.py:69
 msgid "Anonymous"
@@ -26,35 +30,35 @@ msgstr ""
 msgid "{name}_Resume"
 msgstr ""
 
-#: simple_resume/templates/basic/components/contact-information/contact-information.jinja:12
+#: simple_resume/templates/basic/ContactInformation.jinja:11
 msgid "Location:"
 msgstr ""
 
-#: simple_resume/templates/basic/components/contact-information/contact-information.jinja:18
+#: simple_resume/templates/basic/ContactInformation.jinja:18
 msgid "Email:"
 msgstr ""
 
-#: simple_resume/templates/basic/components/contact-information/contact-information.jinja:22
+#: simple_resume/templates/basic/ContactInformation.jinja:23
 msgid "Phone number:"
 msgstr ""
 
-#: simple_resume/templates/basic/components/contact-information/contact-information.jinja:28
+#: simple_resume/templates/basic/ContactInformation.jinja:30
 msgid "LinkedIn:"
 msgstr ""
 
-#: simple_resume/templates/basic/components/education/education.jinja:5
+#: simple_resume/templates/basic/Education.jinja:3
 msgid "Education"
 msgstr ""
 
-#: simple_resume/templates/basic/components/knowledge/knowledge.jinja:4
+#: simple_resume/templates/basic/Knowledge.jinja:3
 msgid "Skills"
 msgstr ""
 
-#: simple_resume/templates/basic/components/section-item/section-item.jinja:9
+#: simple_resume/templates/basic/SectionItem.jinja:10
 msgid "Present"
 msgstr ""
 
-#: simple_resume/templates/basic/components/work-experience/work-experience.jinja:5
+#: simple_resume/templates/basic/WorkExperience.jinja:3
 msgid "Experience"
 msgstr ""
 

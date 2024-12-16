@@ -15,6 +15,7 @@ from simple_resume.helpers.constants import (
     TEMPLATES_PATH,
     TRANSLATIONS_PATH,
 )
+from simple_resume.helpers.i18n import get_localized_file_name_without_extension
 from simple_resume.helpers.jinja import (
     add_custom_filters_to_jinja_environment,
     add_i18n_support_to_jinja_environment,
@@ -70,12 +71,20 @@ def _create_flask_app_for_resume(
     catalog.add_folder(TEMPLATES_PATH / template)
     catalog.add_folder(STATIC_PATH)
     app.wsgi_app = catalog.get_middleware(
-        app.wsgi_app, autorefresh=app.debug, allowed_ext=[".css", ".svg", ".woff", ".woff2"]
+        app.wsgi_app, autorefresh=app.debug, allowed_ext=[".css", ".js", ".svg", ".woff", ".woff2"]
     )
 
     app.jinja_env.auto_reload = True
     app.config["TEMPLATES_AUTO_RELOAD"] = True
 
-    app.add_url_rule("/", "index", lambda: catalog.render("Resume", **resume))
+    app.add_url_rule(
+        "/",
+        "index",
+        lambda: catalog.render(
+            "Resume",
+            **resume,
+            fileName=get_localized_file_name_without_extension(resume, translations),
+        ),
+    )
 
     return app

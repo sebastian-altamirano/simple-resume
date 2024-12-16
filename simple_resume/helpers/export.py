@@ -2,18 +2,17 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 from babel.support import Translations
 from playwright.sync_api import sync_playwright
 
 from simple_resume.helpers.constants import TRANSLATIONS_PATH
+from simple_resume.helpers.i18n import get_localized_file_name_without_extension
 from simple_resume.helpers.serve import serve_resume
-from simple_resume.helpers.string import remove_accents
 
 if TYPE_CHECKING:
-    from gettext import NullTranslations
+    from pathlib import Path
 
     from simple_resume.type_definitions.json_resume import JsonResume
 
@@ -52,20 +51,3 @@ def export_resume(
         browser.close()
 
     server["process"].terminate()
-
-
-def get_localized_file_name_without_extension(
-    resume: JsonResume, translations: NullTranslations
-) -> str:
-    """Return the localized file name of a JSON Resume without extension.
-
-    Args:
-        resume: The content of a JSON Resume file.
-        translations: The message catalog to use.
-
-    Returns:
-        The localized file name without extension.
-    """
-    name = resume.get("basics", {}).get("name", translations.gettext("Anonymous"))
-    formatted_name = "_".join(remove_accents(name).split(" "))
-    return translations.gettext("{name}_Resume").format(name=formatted_name)

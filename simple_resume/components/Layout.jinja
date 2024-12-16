@@ -1,4 +1,4 @@
-{#def title #}
+{#def fileName #}
 {#css styles/sanitize.min.css #}
 
 <!doctype html>
@@ -6,8 +6,10 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>{{ title }}</title>
+		<title>{{ _('Simple Resume - Preview') }}</title>
 		{{ catalog.render_assets() }}
 	</head>
-	<body>{{ content }}</body>
+	<body data-file-name="{{ fileName }}">
+		{{ content }}
+	</body>
 </html>

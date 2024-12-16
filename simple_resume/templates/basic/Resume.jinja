@@ -1,4 +1,4 @@
-{#def basics, skills, work, education #}
+{#def basics, skills, work, education, fileName #}
 {#css
 	fonts/roboto/latin-300.css,
 	fonts/roboto/latin-400.css,
@@ -8,7 +8,7 @@
 	styles/radix-colors/indigo.css
 #}
 
-<Layout :title="basics.name">
+<Layout :fileName="fileName">
 	<main class="resume">
 		<header class="resume__header">
 			<ContactInformation
