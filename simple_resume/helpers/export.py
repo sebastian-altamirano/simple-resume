@@ -17,6 +17,27 @@ if TYPE_CHECKING:
     from simple_resume.type_definitions.json_resume import JsonResume
 
 
+def _generate_pdf(server_url: str, resume_path: Path) -> None:
+    """Generate a PDF from a JSON Resume that is being served.
+
+    Args:
+        server_url: The URL of the server where the resume is being served.
+        resume_path: The path where the generated PDF will be saved.
+    """
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            channel="chromium",
+        )
+        page = browser.new_page()
+        page.goto(server_url, wait_until="load")
+        page.pdf(
+            path=resume_path,
+            prefer_css_page_size=True,
+            print_background=True,
+        )
+        browser.close()
+
+
 def export_resume(
     resume: JsonResume,
     template: str,
@@ -33,23 +54,14 @@ def export_resume(
     """
     server = serve_resume(resume, template=template, language=language)
 
-    # Create the output directory if it doesn't exist.
-    output_path.mkdir(parents=True, exist_ok=True)
+    try:
+        # Create the output directory if it doesn't exist.
+        output_path.mkdir(parents=True, exist_ok=True)
 
-    translations = Translations.load(TRANSLATIONS_PATH, language)
-    file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
+        translations = Translations.load(TRANSLATIONS_PATH, language)
+        file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
+        resume_path = output_path / file_name
 
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel="chromium",
-        )
-        page = browser.new_page()
-        page.goto(server["url"], wait_until="load")
-        page.pdf(
-            path=output_path / file_name,
-            prefer_css_page_size=True,
-            print_background=True,
-        )
-        browser.close()
-
-    server["process"].terminate()
+        _generate_pdf(server["url"], resume_path)
+    finally:
+        server["process"].terminate()
