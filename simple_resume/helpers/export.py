@@ -44,7 +44,7 @@ def export_resume(
             channel="chromium",
         )
         page = browser.new_page()
-        page.goto(server["url"])
+        page.goto(server["url"], wait_until="load")
         page.pdf(
             path=output_path / file_name,
             prefer_css_page_size=True,
