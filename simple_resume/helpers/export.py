@@ -44,8 +44,8 @@ def export_resume(
         page = browser.new_page()
         page.goto(server["url"])
         page.pdf(
-            format="A4",
             path=output_path / file_name,
+            prefer_css_page_size=True,
             print_background=True,
         )
         browser.close()
