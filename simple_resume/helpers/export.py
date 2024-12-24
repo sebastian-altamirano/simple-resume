@@ -40,7 +40,9 @@ def export_resume(
     file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
 
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch()
+        browser = playwright.chromium.launch(
+            channel="chromium",
+        )
         page = browser.new_page()
         page.goto(server["url"])
         page.pdf(
