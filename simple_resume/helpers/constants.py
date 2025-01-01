@@ -6,6 +6,7 @@ from pathlib import Path
 
 DEFAULT_LANGUAGE = "en"
 DEFAULT_OUTPUT_PATH = Path("~/Desktop").expanduser()
+DEFAULT_PORT = 5000
 DEFAULT_TEMPLATE = "basic"
 
 PACKAGE_PATH = (Path(__file__) / ".." / "..").resolve()

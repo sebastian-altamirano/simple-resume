@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 from babel.support import Translations
 from playwright.sync_api import sync_playwright
 
-from simple_resume.helpers.constants import TRANSLATIONS_PATH
+from simple_resume.helpers.constants import DEFAULT_PORT, TRANSLATIONS_PATH
 from simple_resume.helpers.i18n import get_localized_file_name_without_extension
-from simple_resume.helpers.serve import serve_resume
+from simple_resume.helpers.serve import serve_resume_for_export
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -52,7 +52,9 @@ def export_resume(
         language: The language tag of the language to use.
         output_path: The path to the directory where the resume will be exported.
     """
-    server = serve_resume(resume, template=template, language=language)
+    server = serve_resume_for_export(
+        resume, template=template, language=language, port=DEFAULT_PORT
+    )
 
     try:
         # Create the output directory if it doesn't exist.
@@ -62,6 +64,6 @@ def export_resume(
         file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
         resume_path = output_path / file_name
 
-        _generate_pdf(server["url"], resume_path)
+        _generate_pdf(f"http://localhost:{DEFAULT_PORT}", resume_path)
     finally:
-        server["process"].terminate()
+        server.terminate()
