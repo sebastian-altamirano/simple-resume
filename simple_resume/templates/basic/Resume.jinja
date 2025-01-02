@@ -23,10 +23,14 @@
 			/>
 		</header>
 		<article class="resume__body">
-			<section class="resume__section"><Knowledge :skillsGroups="resume.skills" /></section>
-			<section class="resume__section"><WorkExperience :experiences="resume.work" /></section>
 			<section class="resume__section">
-				<Education :educationHistory="resume.education" />
+				<Skills :skills="resume.skills" />
+			</section>
+			<section class="resume__section">
+				<WorkExperience :workExperience="resume.work" />
+			</section>
+			<section class="resume__section">
+				<EducationHistory :educationHistory="resume.education" />
 			</section>
 		</article>
 	</main>

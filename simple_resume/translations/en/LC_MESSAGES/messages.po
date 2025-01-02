@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-15 21:08-0300\n"
+"POT-Creation-Date: 2025-01-02 20:43-0300\n"
 "PO-Revision-Date: 2024-04-14 18:02-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -22,11 +22,11 @@ msgstr ""
 msgid "Simple Resume - Preview"
 msgstr ""
 
-#: simple_resume/helpers/export.py:69
+#: simple_resume/helpers/i18n.py:28
 msgid "Anonymous"
 msgstr ""
 
-#: simple_resume/helpers/export.py:71
+#: simple_resume/helpers/i18n.py:30
 msgid "{name}_Resume"
 msgstr ""
 
@@ -46,16 +46,16 @@ msgstr ""
 msgid "LinkedIn:"
 msgstr ""
 
-#: simple_resume/templates/basic/Education.jinja:3
+#: simple_resume/templates/basic/EducationHistory.jinja:3
 msgid "Education"
 msgstr ""
 
-#: simple_resume/templates/basic/Knowledge.jinja:3
-msgid "Skills"
+#: simple_resume/templates/basic/SectionItem.jinja:11
+msgid "Present"
 msgstr ""
 
-#: simple_resume/templates/basic/SectionItem.jinja:10
-msgid "Present"
+#: simple_resume/templates/basic/Skills.jinja:3
+msgid "Skills"
 msgstr ""
 
 #: simple_resume/templates/basic/WorkExperience.jinja:3

@@ -1,0 +1,16 @@
+{#def educationHistory = [] #}
+
+<SectionTitle :title="_('Education')" />
+
+<ul class="education-history">
+	{% for entry in educationHistory %}
+		<li class="education-history__entry">
+			<SectionItem
+				:title="entry.area"
+				:subtitle="entry.institution"
+				:startDate="entry.startDate"
+				:endDate="entry.endDate"
+			/>
+		</li>
+	{% endfor %}
+</ul>

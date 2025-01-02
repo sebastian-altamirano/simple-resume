@@ -1,17 +1,17 @@
-{#def experiences=[] #}
+{#def workExperience = [] #}
 
 <SectionTitle :title="_('Experience')" />
 
-<ul class="work-experiences">
-	{% for experience in experiences %}
-		<li class="work-experience">
+<ul class="work-experience">
+	{% for entry in workExperience %}
+		<li class="work-experience__entry">
 			<SectionItem
-				:title="experience.position"
-				:subtitle="experience.name"
-				:startDate="experience.startDate"
-				:endDate="experience.endDate"
-				:summary="experience.summary"
-				:highlights="experience.highlights"
+				:title="entry.position"
+				:subtitle="entry.name"
+				:startDate="entry.startDate"
+				:endDate="entry.endDate"
+				:summary="entry.summary"
+				:highlights="entry.highlights"
 			/>
 		</li>
 	{% endfor %}
