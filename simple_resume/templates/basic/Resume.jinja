@@ -1,4 +1,4 @@
-{#def basics, skills, work, education, fileName #}
+{#def fileName, resume #}
 {#css
 	fonts/roboto/latin-300.css,
 	fonts/roboto/latin-400.css,
@@ -12,21 +12,21 @@
 	<main class="resume">
 		<header class="resume__header">
 			<ContactInformation
-				:name="basics.name"
-				:position="basics.label"
-				:city="basics.location.city"
-				:region="basics.location.region"
-				:countryCode="basics.location.countryCode"
-				:email="basics.email"
-				:phone="basics.phone"
-				:profiles="basics.profiles"
+				:name="resume.basics.name"
+				:position="resume.basics.label"
+				:city="resume.basics.location.city"
+				:region="resume.basics.location.region"
+				:countryCode="resume.basics.location.countryCode"
+				:email="resume.basics.email"
+				:phone="resume.basics.phone"
+				:profiles="resume.basics.profiles"
 			/>
 		</header>
 		<article class="resume__body">
-			<section class="resume__section"><Knowledge :skillsGroups="skills" /></section>
-			<section class="resume__section"><WorkExperience :experiences="work" /></section>
+			<section class="resume__section"><Knowledge :skillsGroups="resume.skills" /></section>
+			<section class="resume__section"><WorkExperience :experiences="resume.work" /></section>
 			<section class="resume__section">
-				<Education :educationHistory="education" />
+				<Education :educationHistory="resume.education" />
 			</section>
 		</article>
 	</main>

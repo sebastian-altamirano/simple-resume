@@ -110,8 +110,8 @@ def _create_flask_app_for_resume(
         "index",
         lambda: catalog.render(
             "Resume",
-            **resume,
             fileName=get_localized_file_name_without_extension(resume, translations),
+            resume=resume,
         ),
     )
 
