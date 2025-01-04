@@ -1,12 +1,8 @@
 """Contains type definitions related to the CLI."""
 
-# ruff: noqa: UP007
-# Typer does not support the `X | Y` syntax for type annotations:
-# https://github.com/tiangolo/typer/issues/533
-
 from __future__ import annotations
 
-from typing import Annotated, Optional
+from typing import Annotated
 
 from typer import Option
 
@@ -16,7 +12,7 @@ ResumePath = Annotated[str, Option(help="The path to the JSON Resume file.")]
 
 
 ResumeTemplate = Annotated[
-    Optional[str],
+    str | None,
     Option(
         help=(
             "The name of the template to use. If not provided, the template specified in the "
@@ -27,7 +23,7 @@ ResumeTemplate = Annotated[
 ]
 
 ResumeLanguage = Annotated[
-    Optional[str],
+    str | None,
     Option(
         help=(
             "The language tag of the language to use, for example: 'en', 'en_US'. If not provided, "
@@ -38,7 +34,7 @@ ResumeLanguage = Annotated[
 ]
 
 ResumeOutputPath = Annotated[
-    Optional[str],
+    str | None,
     Option(
         help=(
             "The path to the directory where the resume will be exported. If not provided, it will "
