@@ -10,6 +10,11 @@ from simple_resume.helpers.constants import DEFAULT_LANGUAGE
 
 ResumePath = Annotated[str, Option(help="The path to the JSON Resume file.")]
 
+ResumePathWithFallback = Annotated[
+    str | None,
+    Option(help="The path to the JSON Resume file. If not provided, a sample resume will be used."),
+]
+
 
 ResumeTemplate = Annotated[
     str | None,

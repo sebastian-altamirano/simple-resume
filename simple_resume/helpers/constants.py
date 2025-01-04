@@ -12,10 +12,13 @@ DEFAULT_TEMPLATE = "basic"
 PACKAGE_PATH = (Path(__file__) / ".." / "..").resolve()
 
 COMPONENTS_PATH = (PACKAGE_PATH / "components").resolve()
+SAMPLE_DATA_PATH = (PACKAGE_PATH / "sample_data").resolve()
 SCHEMAS_PATH = (PACKAGE_PATH / "schemas").resolve()
 STATIC_PATH = (PACKAGE_PATH / "static").resolve()
 TEMPLATES_PATH = (PACKAGE_PATH / "templates").resolve()
 TRANSLATIONS_PATH = (PACKAGE_PATH / "translations").resolve()
+
+SAMPLE_RESUME_PATH = (SAMPLE_DATA_PATH / "resume.en.json").resolve()
 
 JSON_RESUME_SCHEMA_PATH = (SCHEMAS_PATH / "json-resume-v1.schema.json").resolve()
 JSON_RESUME_SCHEMA_URL = (

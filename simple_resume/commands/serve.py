@@ -9,18 +9,18 @@ from typer import (
 )
 
 from simple_resume.helpers.cli import get_language, get_template
-from simple_resume.helpers.constants import DEFAULT_PORT
+from simple_resume.helpers.constants import DEFAULT_PORT, SAMPLE_RESUME_PATH
 from simple_resume.helpers.json_resume import get_simple_resume_metadata, read_and_validate_resume
 from simple_resume.helpers.serve import serve_resume_for_development
 from simple_resume.type_definitions.cli import (  # noqa: TCH001 Typer requires these type annotations to be available at runtime.
     ResumeLanguage,
-    ResumePath,
+    ResumePathWithFallback,
     ResumeTemplate,
 )
 
 
 def serve(
-    resume_path: ResumePath,
+    resume_path: ResumePathWithFallback = None,
     template: ResumeTemplate = None,
     language: ResumeLanguage = None,
     port: Annotated[
@@ -34,7 +34,7 @@ def serve(
     ] = DEFAULT_PORT,
 ) -> None:
     """Start a web server that hosts a JSON resume."""
-    resume = read_and_validate_resume(resume_path)
+    resume = read_and_validate_resume(resume_path or str(SAMPLE_RESUME_PATH))
     metadata = get_simple_resume_metadata(resume)
     serve_resume_for_development(
         resume,
