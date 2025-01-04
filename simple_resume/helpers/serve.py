@@ -26,27 +26,6 @@ if TYPE_CHECKING:
     from simple_resume.type_definitions.json_resume import JsonResume
 
 
-def serve_resume_for_export(resume: JsonResume, template: str, language: str, port: int) -> Process:
-    """Serve a JSON Resume without live reloading and wrapped in a process, so it can be stopped.
-
-    Args:
-        resume: The content of a JSON Resume file.
-        template: The name of the template to use.
-        language: The language tag of the language to use.
-        port: The port on which the server should listen.
-
-    Returns:
-        A process instance that can be used to stop the server.
-    """
-    app = _create_flask_app_for_resume(resume, template, language)
-
-    port = 5000
-    process = Process(target=lambda: app.run(port=port))
-    process.start()
-
-    return process
-
-
 def serve_resume_for_development(
     resume: JsonResume, template: str, language: str, port: int
 ) -> None:
@@ -67,6 +46,27 @@ def serve_resume_for_development(
     server.watch("**/*.js")
 
     server.serve(port=port)
+
+
+def serve_resume_for_export(resume: JsonResume, template: str, language: str, port: int) -> Process:
+    """Serve a JSON Resume without live reloading and wrapped in a process, so it can be stopped.
+
+    Args:
+        resume: The content of a JSON Resume file.
+        template: The name of the template to use.
+        language: The language tag of the language to use.
+        port: The port on which the server should listen.
+
+    Returns:
+        A process instance that can be used to stop the server.
+    """
+    app = _create_flask_app_for_resume(resume, template, language)
+
+    port = 5000
+    process = Process(target=lambda: app.run(port=port))
+    process.start()
+
+    return process
 
 
 def _create_flask_app_for_resume(

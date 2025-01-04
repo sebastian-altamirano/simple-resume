@@ -2,13 +2,20 @@
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
+import flask.cli
 from babel.support import Translations
 from playwright.sync_api import sync_playwright
 
 from simple_resume.helpers.constants import DEFAULT_PORT, TRANSLATIONS_PATH
 from simple_resume.helpers.i18n import get_localized_file_name_without_extension
+from simple_resume.helpers.logging import (
+    print_error_message,
+    print_info_message,
+    print_success_message,
+)
 from simple_resume.helpers.serve import serve_resume_for_export
 
 if TYPE_CHECKING:
@@ -52,6 +59,11 @@ def export_resume(
         language: The language tag of the language to use.
         output_path: The path to the directory where the resume will be exported.
     """
+    # Disable all Flask logging.
+    flask.cli.show_server_banner = lambda *_args: None  # type: ignore
+    logging.getLogger("werkzeug").disabled = True
+
+    print_info_message("Exporting the resume...")
     server = serve_resume_for_export(
         resume, template=template, language=language, port=DEFAULT_PORT
     )
@@ -65,5 +77,9 @@ def export_resume(
         resume_path = output_path / file_name
 
         _generate_pdf(f"http://localhost:{DEFAULT_PORT}", resume_path)
+        print_success_message(f"Resume successfully exported to `{resume_path}`.")
+    except:
+        print_error_message("Failed to export the resume.")
+        raise
     finally:
         server.terminate()
