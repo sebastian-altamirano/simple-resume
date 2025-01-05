@@ -21,7 +21,12 @@ from simple_resume.helpers.exceptions import (
     UnsupportedJsonResumeVersionError,
 )
 from simple_resume.helpers.i18n import get_supported_languages
-from simple_resume.helpers.logging import print_info_message
+from simple_resume.helpers.logging import (
+    print_error_message,
+    print_info_message,
+    print_success_message,
+    print_warning_message,
+)
 from simple_resume.helpers.templates import get_registered_templates
 from simple_resume.type_definitions.json_resume import SimpleResumeMetadata
 
@@ -37,9 +42,17 @@ def validate_resume(resume: dict[str, Any]) -> None:
         InvalidJsonResumeMetadataError: If the metadata of the JSON Resume is not valid.
         InvalidJsonResumeContentError: If the content of the JSON Resume is not valid.
     """
-    _validate_resume_version(resume)
-    _validate_resume_metadata(resume)
-    _validate_resume_content(resume)
+    print_info_message("Validating the resume...")
+
+    try:
+        _validate_resume_version(resume)
+        _validate_resume_metadata(resume)
+        _validate_resume_content(resume)
+    except:
+        print_error_message("The resume is not valid.")
+        raise
+
+    print_success_message("The resume is valid.")
 
 
 def _validate_resume_content(resume: dict[str, Any]) -> None:
@@ -70,6 +83,13 @@ def _validate_resume_metadata(resume: dict[str, Any]) -> None:
         InvalidJsonResumeMetadataError: If the metadata of the JSON Resume is not valid.
     """
     if "meta" not in resume or "simpleResume" not in resume["meta"]:
+        print_warning_message(
+            "No metadata found in the resume. The metadata allows you to specify the template and "
+            "language to be used when exporting or serving the resume. If these values are not "
+            f"specified, the default language ({DEFAULT_LANGUAGE}) and template "
+            f"({DEFAULT_TEMPLATE}) will be used. Alternatively, you can specify these values using "
+            "command line arguments."
+        )
         return
 
     metadata = resume["meta"]["simpleResume"]
@@ -83,9 +103,10 @@ def _validate_resume_metadata(resume: dict[str, Any]) -> None:
     metadata = cast(SimpleResumeMetadata, metadata)
 
     if (language := metadata.get("language")) is None:
-        print_info_message(
-            "No language is specified in the resume metadata, the default language "
-            f"({DEFAULT_LANGUAGE}) will be used when exporting or serving the resume."
+        print_warning_message(
+            "A language is not specified in the resume metadata, so unless specified by a command "
+            f"line argument, the default language ({DEFAULT_LANGUAGE}) will be used when exporting "
+            "or serving the resume."
         )
     elif language not in (supported_languages := get_supported_languages()):
         error_message = (
@@ -95,9 +116,10 @@ def _validate_resume_metadata(resume: dict[str, Any]) -> None:
         raise InvalidJsonResumeMetadataError(error_message)
 
     if (template := metadata.get("template")) is None:
-        print_info_message(
-            "No template is specified in the resume metadata, the default template "
-            f"({DEFAULT_TEMPLATE}) will be used when exporting or serving the resume."
+        print_warning_message(
+            "A template is not specified in the resume metadata, so unless specified by a command "
+            f"line argument, the default template ({DEFAULT_TEMPLATE}) will be used when exporting "
+            "or serving the resume."
         )
     elif template not in (registered_templates := get_registered_templates()):
         error_message = (
