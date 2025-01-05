@@ -77,7 +77,9 @@ def export_resume(
         resume_path = output_path / file_name
 
         _generate_pdf(f"http://localhost:{DEFAULT_PORT}", resume_path)
-        print_success_message(f"Resume successfully exported to `{resume_path}`.")
+        print_success_message(
+            f"Resume exported to `{resume_path}` (language: {language}; template: {template})."
+        )
     except:
         print_error_message("Failed to export the resume.")
         raise
