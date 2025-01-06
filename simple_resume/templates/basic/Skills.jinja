@@ -8,11 +8,7 @@
 			<Entry>
 				<h3 class="skills-group__name">{{ skillsGroup.name | addcolon }}</h3>
 
-				<ul class="skills-group__skills">
-					{% for skill in skillsGroup.keywords %}
-						<li class="skill">{{ skill }}</li>
-					{% endfor %}
-				</ul>
+				<Tags :tags="skillsGroup.keywords" />
 			</Entry>
 		</li>
 	{% endfor %}
