@@ -5,6 +5,47 @@ from __future__ import annotations
 from simple_resume.helpers.constants import JSON_RESUME_SCHEMA_URL
 
 
+class EndDateBeforeStartDateError(Exception):
+    """Exception raised when an end date is before a start date in a JSON Resume.
+
+    Args:
+        start_date_json_pointer: The JSON Pointer to the start date, e.g. `/work/0/startDate`.
+        end_date_json_pointer: The JSON Pointer to the end date, e.g. `/work/0/endDate`.
+        start_date: The start date.
+        end_date: The end date.
+    """
+
+    def __init__(
+        self,
+        start_date_json_pointer: str,
+        end_date_json_pointer: str,
+        start_date: str,
+        end_date: str,
+    ) -> None:
+        super().__init__(
+            f"The end date '{end_date}' (`{end_date_json_pointer}`) cannot be earlier than the "
+            f"start date '{start_date}' ({start_date_json_pointer})."
+        )
+
+
+class FutureDateError(Exception):
+    """Exception raised when a date in a JSON Resume is in the future.
+
+    Note: A future date is valid when used to indicate an expected date.
+
+    Args:
+        date_json_pointer: The JSON Pointer to the date, e.g. `/certificates/0/date`.
+        date: The date that is in the future.
+    """
+
+    def __init__(
+        self,
+        date_json_pointer: str,
+        date: str,
+    ) -> None:
+        super().__init__(f"The date '{date}' (`{date_json_pointer}`) cannot be in the future.")
+
+
 class InvalidJsonResumeContentError(Exception):
     """Exception raised when the content of a JSON Resume is not valid."""
 

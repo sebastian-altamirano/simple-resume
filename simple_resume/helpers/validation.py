@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from pathlib import Path
-from typing import Any, cast
+from typing import cast
 
 from jsonschema import ValidationError, validate
 
@@ -16,6 +17,8 @@ from simple_resume.helpers.constants import (
     SIMPLE_RESUME_METADATA_SCHEMA_PATH,
 )
 from simple_resume.helpers.exceptions import (
+    EndDateBeforeStartDateError,
+    FutureDateError,
     InvalidJsonResumeContentError,
     InvalidJsonResumeMetadataError,
     UnsupportedJsonResumeVersionError,
@@ -28,10 +31,10 @@ from simple_resume.helpers.logging import (
     print_warning_message,
 )
 from simple_resume.helpers.templates import get_registered_templates
-from simple_resume.type_definitions.json_resume import SimpleResumeMetadata
+from simple_resume.type_definitions.json_resume import JsonResume, SimpleResumeMetadata
 
 
-def validate_resume(resume: dict[str, Any]) -> None:
+def validate_resume(resume: JsonResume) -> None:
     """Validate a JSON resume.
 
     Args:
@@ -48,6 +51,7 @@ def validate_resume(resume: dict[str, Any]) -> None:
         _validate_resume_version(resume)
         _validate_resume_metadata(resume)
         _validate_resume_content(resume)
+        _validate_resume_dates(resume)
     except:
         print_error_message("The resume is not valid.")
         raise
@@ -55,7 +59,7 @@ def validate_resume(resume: dict[str, Any]) -> None:
     print_success_message("The resume is valid.")
 
 
-def _validate_resume_content(resume: dict[str, Any]) -> None:
+def _validate_resume_content(resume: JsonResume) -> None:
     """Validate the content of a JSON Resume.
 
     Args:
@@ -73,7 +77,99 @@ def _validate_resume_content(resume: dict[str, Any]) -> None:
         raise InvalidJsonResumeContentError() from error
 
 
-def _validate_resume_metadata(resume: dict[str, Any]) -> None:
+def _validate_resume_date(date_json_pointer: str, date: str | None) -> None:
+    """Validate a date of a JSON Resume.
+
+    Note: The date is converted to the local timezone before validation.
+
+    Args:
+        date_json_pointer: The JSON Pointer to the date, e.g. `/certificates/0/date`.
+        date: The date, or `None` if not specified.
+
+    Raises:
+        FutureDateError: If the date is in the future.
+    """
+    if not date:
+        return
+
+    parsed_date = datetime.fromisoformat(date).astimezone()
+    if parsed_date > datetime.now().astimezone():
+        raise FutureDateError(date_json_pointer, date)
+
+
+def _validate_resume_date_range(
+    start_date_json_pointer: str,
+    end_date_json_pointer: str,
+    start_date: str | None,
+    end_date: str | None,
+) -> None:
+    """Validate a start date and an end date of a JSON Resume.
+
+    Note: Both dates are converted to the local timezone before validation.
+
+    Args:
+        start_date_json_pointer: The JSON Pointer to the start date, e.g. `/work/0/startDate`.
+        end_date_json_pointer: The JSON Pointer to the end date, e.g. `/work/0/endDate`.
+        start_date: The start date, or `None` if not specified.
+        end_date: The end date, or `None` if not specified.
+
+    Raises:
+        EndDateBeforeStartDateError: If the end date is before the start date.
+        FutureDateError: If the start date is in the future.
+    """
+    if not start_date:
+        return
+
+    parsed_start_date = datetime.fromisoformat(start_date).astimezone()
+    if parsed_start_date > datetime.now().astimezone():
+        raise FutureDateError(start_date_json_pointer, start_date)
+
+    if not end_date:
+        return
+
+    parsed_end_date = datetime.fromisoformat(end_date).astimezone()
+    if parsed_end_date < parsed_start_date:
+        raise EndDateBeforeStartDateError(
+            start_date_json_pointer, end_date_json_pointer, start_date, end_date
+        )
+
+
+def _validate_resume_dates(resume: JsonResume) -> None:
+    """Validate the dates of a JSON Resume.
+
+    Note: All dates are converted to the local timezone before validation.
+
+    Args:
+        resume: The content of a JSON Resume file.
+
+    Raises:
+        EndDateBeforeStartDateError: If an end date is before a start date.
+        FutureDateError: If a date is in the future.
+    """
+    keys_with_date_range = ("work", "volunteer", "projects", "education")
+    for key in keys_with_date_range:
+        entries = resume.get(key, [])
+        for index, item in enumerate(entries):
+            _validate_resume_date_range(
+                f"/{key}/{index}/startDate",
+                f"/{key}/{index}/endDate",
+                item.get("startDate", None),
+                item.get("endDate", None),
+            )
+
+    # `publications` is not included because `/publications/{index}/releaseDate` may be in the
+    # future.
+    keys_with_date = ("awards", "certificates")
+    for key in keys_with_date:
+        entries = resume.get(key, [])
+        for index, item in enumerate(entries):
+            _validate_resume_date(
+                f"/{key}/{index}/date",
+                item.get("date", None),
+            )
+
+
+def _validate_resume_metadata(resume: JsonResume) -> None:
     """Validate the metadata of a JSON Resume.
 
     Args:
@@ -129,7 +225,7 @@ def _validate_resume_metadata(resume: dict[str, Any]) -> None:
         raise InvalidJsonResumeMetadataError(error_message)
 
 
-def _validate_resume_version(resume: dict[str, Any]) -> None:
+def _validate_resume_version(resume: JsonResume) -> None:
     """Validate if the version of a JSON Resume is supported.
 
     Args:
