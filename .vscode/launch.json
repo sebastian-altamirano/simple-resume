@@ -1,0 +1,39 @@
+{
+	"configurations": [
+		{
+			"args": [
+				"export",
+				"--resume-path",
+				"${workspaceFolder}/simple_resume/sample_data/resume.en.json"
+			],
+			"jinja": true,
+			"justMyCode": true,
+			"name": "Export Resume",
+			"program": "${workspaceFolder}/simple_resume/__main__.py",
+			"request": "launch",
+			"type": "debugpy"
+		},
+		{
+			"args": ["serve"],
+			"jinja": true,
+			"justMyCode": true,
+			"name": "Serve Resume",
+			"program": "${workspaceFolder}/simple_resume/__main__.py",
+			"request": "launch",
+			"type": "debugpy"
+		},
+		{
+			"args": [
+				"validate",
+				"--resume-path",
+				"${workspaceFolder}/simple_resume/sample_data/resume.en.json"
+			],
+			"justMyCode": true,
+			"name": "Validate Resume",
+			"program": "${workspaceFolder}/simple_resume/__main__.py",
+			"request": "launch",
+			"type": "debugpy"
+		}
+	],
+	"version": "0.2.0"
+}
