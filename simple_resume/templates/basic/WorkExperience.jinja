@@ -8,8 +8,8 @@
 			<SectionItem
 				:title="entry.position"
 				:subtitle="entry.name"
-				:startDate="entry.startDate"
-				:endDate="entry.endDate"
+				:startDate="entry.startDate | default(None)"
+				:endDate="entry.endDate | default(None)"
 				:summary="entry.summary"
 				:highlights="entry.highlights"
 			/>

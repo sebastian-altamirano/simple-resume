@@ -86,9 +86,9 @@ def _create_flask_app_for_resume(
     """
     app = Flask(__name__)
 
-    add_custom_filters_to_jinja_environment(app.jinja_env, language)
     translations = Translations.load(TRANSLATIONS_PATH, language)
     add_i18n_support_to_jinja_environment(app.jinja_env, translations)
+    add_custom_filters_to_jinja_environment(app.jinja_env, language, translations)
 
     # Auto-reload is disabled because it is handled by the livereload server.
     auto_reload = False

@@ -15,14 +15,16 @@ if TYPE_CHECKING:
 def add_custom_filters_to_jinja_environment(
     environment: JinjaEnvironment,
     language: str,
+    translations: NullTranslations,
 ) -> None:
     """Add custom filters to a Jinja environment.
 
     Args:
         environment: The Jinja environment to modify.
         language: The language to use for localization.
+        translations: The message catalog to use.
     """
-    environment.filters.update(get_all_custom_filters(language))
+    environment.filters.update(get_all_custom_filters(language, translations))
 
 
 def add_i18n_support_to_jinja_environment(

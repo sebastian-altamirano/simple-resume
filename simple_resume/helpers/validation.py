@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime
 from pathlib import Path
-from typing import cast
+from typing import TYPE_CHECKING
 
 from jsonschema import ValidationError, validate
 
@@ -16,6 +15,7 @@ from simple_resume.helpers.constants import (
     JSON_RESUME_SCHEMA_URL,
     SIMPLE_RESUME_METADATA_SCHEMA_PATH,
 )
+from simple_resume.helpers.dates import get_current_date, parse_date
 from simple_resume.helpers.exceptions import (
     EndDateBeforeStartDateError,
     FutureDateError,
@@ -31,7 +31,9 @@ from simple_resume.helpers.logging import (
     print_warning_message,
 )
 from simple_resume.helpers.templates import get_registered_templates
-from simple_resume.type_definitions.json_resume import JsonResume, SimpleResumeMetadata
+
+if TYPE_CHECKING:
+    from simple_resume.type_definitions.json_resume import JsonResume
 
 
 def validate_resume(resume: JsonResume) -> None:
@@ -84,7 +86,7 @@ def _validate_resume_date(date_json_pointer: str, date: str | None) -> None:
 
     Args:
         date_json_pointer: The JSON Pointer to the date, e.g. `/certificates/0/date`.
-        date: The date, or `None` if not specified.
+        date: The date, or `None` if not provided.
 
     Raises:
         FutureDateError: If the date is in the future.
@@ -92,8 +94,8 @@ def _validate_resume_date(date_json_pointer: str, date: str | None) -> None:
     if not date:
         return
 
-    parsed_date = datetime.fromisoformat(date).astimezone()
-    if parsed_date > datetime.now().astimezone():
+    parsed_date = parse_date(date)
+    if parsed_date > get_current_date():
         raise FutureDateError(date_json_pointer, date)
 
 
@@ -110,8 +112,8 @@ def _validate_resume_date_range(
     Args:
         start_date_json_pointer: The JSON Pointer to the start date, e.g. `/work/0/startDate`.
         end_date_json_pointer: The JSON Pointer to the end date, e.g. `/work/0/endDate`.
-        start_date: The start date, or `None` if not specified.
-        end_date: The end date, or `None` if not specified.
+        start_date: The start date, or `None` if not provided.
+        end_date: The end date, or `None` if not provided.
 
     Raises:
         EndDateBeforeStartDateError: If the end date is before the start date.
@@ -120,14 +122,14 @@ def _validate_resume_date_range(
     if not start_date:
         return
 
-    parsed_start_date = datetime.fromisoformat(start_date).astimezone()
-    if parsed_start_date > datetime.now().astimezone():
+    parsed_start_date = parse_date(start_date)
+    if parsed_start_date > get_current_date():
         raise FutureDateError(start_date_json_pointer, start_date)
 
     if not end_date:
         return
 
-    parsed_end_date = datetime.fromisoformat(end_date).astimezone()
+    parsed_end_date = parse_date(end_date)
     if parsed_end_date < parsed_start_date:
         raise EndDateBeforeStartDateError(
             start_date_json_pointer, end_date_json_pointer, start_date, end_date
@@ -196,7 +198,6 @@ def _validate_resume_metadata(resume: JsonResume) -> None:
         )
     except ValidationError as error:
         raise InvalidJsonResumeMetadataError() from error
-    metadata = cast(SimpleResumeMetadata, metadata)
 
     if (language := metadata.get("language")) is None:
         print_warning_message(

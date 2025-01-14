@@ -8,8 +8,8 @@
 			<SectionItem
 				:title="entry.area"
 				:subtitle="entry.institution"
-				:startDate="entry.startDate"
-				:endDate="entry.endDate"
+				:startDate="entry.startDate | default(None)"
+				:endDate="entry.endDate | default(None)"
 			/>
 		</li>
 	{% endfor %}

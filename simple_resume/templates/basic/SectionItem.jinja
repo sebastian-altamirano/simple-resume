@@ -1,16 +1,11 @@
-{#def title, subtitle, startDate, endDate, summary = None, highlights = None #}
+{#def title, subtitle, startDate = None, endDate = None, summary = None, highlights = None #}
 
 <Entry>
 	<h3 class="section-item__heading">
 		<span>{{ title }}</span>
 		<span class="section-item__date-range"
-			>{{ startDate | dateformat("%m-%Y") }} -
-			{% if endDate is defined %}
-				{{ endDate | dateformat("%m-%Y") }}
-			{% else %}
-				{{ _("Present") }}
-			{% endif %}
-		</span>
+			>{{ "%m-%Y" | daterangeformat(startDate, endDate) }}</span
+		>
 		<span class="section-item__subtitle">{{ subtitle }}</span>
 	</h3>
 
