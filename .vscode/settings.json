@@ -13,6 +13,7 @@
 		"**/venv": true,
 		"**/.ruff_cache": true,
 		"**/.venv": true,
+		"**/.venv_frontman": true,
 		"**/__pycache__": true,
 		"**/pdm.lock": true
 	},
@@ -60,7 +61,6 @@
 
 	"python.analysis.autoImportCompletions": true,
 	"python.analysis.typeCheckingMode": "strict",
-	"python.analysis.experimentalserver": true,
 
 	// -------------------------------------------- TOML ---------------------------------------------
 
