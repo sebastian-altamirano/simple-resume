@@ -1,4 +1,4 @@
-{#def fileName, resume #}
+{#def file_name, resume #}
 {#css
 	fonts/roboto/latin-300.css,
 	fonts/roboto/latin-400.css,
@@ -8,7 +8,7 @@
 	styles/radix-colors/indigo.css
 #}
 
-<Layout :fileName="fileName">
+<Layout :file_name="file_name">
 	<main class="resume">
 		<header class="resume__header">
 			<ContactInformation
@@ -16,22 +16,28 @@
 				:position="resume.basics.label"
 				:city="resume.basics.location.city"
 				:region="resume.basics.location.region"
-				:countryCode="resume.basics.location.countryCode"
+				:country_code="resume.basics.location.country_code"
 				:email="resume.basics.email"
 				:phone="resume.basics.phone"
 				:profiles="resume.basics.profiles"
 			/>
 		</header>
 		<article class="resume__body">
-			<section class="resume__section">
-				<Skills :skills="resume.skills" />
-			</section>
-			<section class="resume__section">
-				<WorkExperience :workExperience="resume.work" />
-			</section>
-			<section class="resume__section">
-				<EducationHistory :educationHistory="resume.education" />
-			</section>
+			{% if resume.skills %}
+				<section class="resume__section">
+					<Skills :skills="resume.skills" />
+				</section>
+			{% endif %}
+			{% if resume.work %}
+				<section class="resume__section">
+					<WorkExperience :work_experience="resume.work" />
+				</section>
+			{% endif %}
+			{% if resume.education %}
+				<section class="resume__section">
+					<EducationHistory :education_history="resume.education" />
+				</section>
+			{% endif %}
 		</article>
 	</main>
 </Layout>

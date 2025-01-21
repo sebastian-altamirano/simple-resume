@@ -8,10 +8,10 @@ from typing import TYPE_CHECKING
 from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_OUTPUT_PATH, DEFAULT_TEMPLATE
 
 if TYPE_CHECKING:
-    from simple_resume.type_definitions.json_resume import SimpleResumeMetadata
+    from simple_resume.models.json_resume import SimpleResumeMetadata
 
 
-def get_language(simple_resume_metadata: SimpleResumeMetadata | None, language: str | None) -> str:
+def get_language(simple_resume_metadata: SimpleResumeMetadata, language: str | None) -> str:
     """Return the language of the resume.
 
     The language is determined in the following order:
@@ -20,17 +20,13 @@ def get_language(simple_resume_metadata: SimpleResumeMetadata | None, language: 
     3. From the default language.
 
     Args:
-        simple_resume_metadata: The value of `meta/simpleResume` in the JSON Resume file.
+        simple_resume_metadata: The Simple Resume metadata of the resume.
         language: The language specified via CLI argument.
 
     Returns:
         The determined language.
     """
-    return (
-        language
-        or (simple_resume_metadata is not None and simple_resume_metadata.get("language"))
-        or DEFAULT_LANGUAGE
-    )
+    return language or simple_resume_metadata.language or DEFAULT_LANGUAGE
 
 
 def get_output_path(output_path: str | None) -> Path:
@@ -45,7 +41,7 @@ def get_output_path(output_path: str | None) -> Path:
     return (output_path is not None and Path(output_path).resolve()) or DEFAULT_OUTPUT_PATH
 
 
-def get_template(simple_resume_metadata: SimpleResumeMetadata | None, template: str | None) -> str:
+def get_template(simple_resume_metadata: SimpleResumeMetadata, template: str | None) -> str:
     """Return the template of the resume.
 
     The template is determined in the following order:
@@ -54,14 +50,10 @@ def get_template(simple_resume_metadata: SimpleResumeMetadata | None, template: 
     3. From the default template.
 
     Args:
-        simple_resume_metadata: The value of `meta/simpleResume` in the JSON Resume file.
+        simple_resume_metadata: The Simple Resume metadata of the resume.
         template: The template specified via CLI argument.
 
     Returns:
         The determined template.
     """
-    return (
-        template
-        or (simple_resume_metadata is not None and simple_resume_metadata.get("template"))
-        or DEFAULT_TEMPLATE
-    )
+    return template or simple_resume_metadata.template or DEFAULT_TEMPLATE

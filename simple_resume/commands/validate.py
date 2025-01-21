@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from simple_resume.helpers.json_resume import read_and_validate_resume
-from simple_resume.type_definitions.cli import (  # noqa: TCH001 Typer requires these type annotations to be available at runtime.
+from simple_resume.type_definitions.cli import (
     ResumePath,
 )
 

@@ -16,11 +16,15 @@ authors = [{ name = "Sebastián Altamirano" }]
 dependencies = [
 	"Babel>=2.16.0",
 	"Flask>=3.1.0",
+	"email-validator>=2.2.0",
 	"jinjax[whitenoise]>=0.48",
 	"jsonschema>=4.23.0",
 	"livereload>=2.7.1",
 	"playwright>=1.49.1",
 	"typer>=0.15.1",
+	"pydantic>=2.10.5",
+	"pydantic-extra-types[phonenumbers,pycountry,semver]>=2.10.2",
+	"requests>=2.32.3",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
@@ -61,7 +65,7 @@ src = ["simple_resume"]
 line-ending = "lf"
 
 [tool.ruff.lint]
-ignore = ["ANN101", "D107", "ISC001"]
+ignore = ["D107", "ISC001"]
 select = [
 	"A",
 	"ANN",
@@ -102,7 +106,6 @@ select = [
 	"SLOT",
 	"T10",
 	"T20",
-	"TCH",
 	"TID",
 	"TRY",
 	"UP",

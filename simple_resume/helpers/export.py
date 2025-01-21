@@ -21,7 +21,7 @@ from simple_resume.helpers.serve import serve_resume_for_export
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from simple_resume.type_definitions.json_resume import JsonResume
+    from simple_resume.models.json_resume import JsonResume
 
 
 def _generate_pdf(server_url: str, resume_path: Path) -> None:

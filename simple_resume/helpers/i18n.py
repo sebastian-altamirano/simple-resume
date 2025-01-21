@@ -10,7 +10,7 @@ from simple_resume.helpers.string import remove_accents
 if TYPE_CHECKING:
     from gettext import NullTranslations
 
-    from simple_resume.type_definitions.json_resume import JsonResume
+    from simple_resume.models.json_resume import JsonResume
 
 
 def get_localized_file_name_without_extension(
@@ -25,7 +25,7 @@ def get_localized_file_name_without_extension(
     Returns:
         The localized file name without extension.
     """
-    name = resume.get("basics", {}).get("name", translations.gettext("Anonymous"))
+    name = resume.basics.name or translations.gettext("Anonymous")
     formatted_name = "_".join(remove_accents(name).split(" "))
     return translations.gettext("{name}_Resume").format(name=formatted_name)
 

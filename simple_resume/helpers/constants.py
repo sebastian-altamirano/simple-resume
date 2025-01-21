@@ -9,19 +9,16 @@ DEFAULT_OUTPUT_PATH = Path("~/Desktop").expanduser()
 DEFAULT_PORT = 5000
 DEFAULT_TEMPLATE = "basic"
 
+LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG = "v1.2.1"
+"""The latest supported JSON Resume schema tag that was tested, but any V1.Y.Z resume should work
+with the tool."""
+
 PACKAGE_PATH = (Path(__file__) / ".." / "..").resolve()
 
 COMPONENTS_PATH = (PACKAGE_PATH / "components").resolve()
 SAMPLE_DATA_PATH = (PACKAGE_PATH / "sample_data").resolve()
-SCHEMAS_PATH = (PACKAGE_PATH / "schemas").resolve()
 STATIC_PATH = (PACKAGE_PATH / "static").resolve()
 TEMPLATES_PATH = (PACKAGE_PATH / "templates").resolve()
 TRANSLATIONS_PATH = (PACKAGE_PATH / "translations").resolve()
 
 SAMPLE_RESUME_PATH = (SAMPLE_DATA_PATH / "resume.en.json").resolve()
-
-JSON_RESUME_SCHEMA_PATH = (SCHEMAS_PATH / "json-resume-v1.schema.json").resolve()
-JSON_RESUME_SCHEMA_URL = (
-    "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json"
-)
-SIMPLE_RESUME_METADATA_SCHEMA_PATH = (SCHEMAS_PATH / "simple-resume-metadata.schema.json").resolve()

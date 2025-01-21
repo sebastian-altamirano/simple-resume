@@ -1,4 +1,4 @@
-{#def name, position, city, region, countryCode, email, phone, profiles = [] #}
+{#def name, position, city, region, country_code, email, phone, profiles #}
 
 <h1 class="contact-information__title">
 	<span class="contact-information__name">{{ name }}</span>
@@ -10,7 +10,7 @@
 		<li class="contact-information-item">
 			<Icon id="geo-alt-fill" :title="_('Location:')" />
 			<span class="contact-information-item__description"
-				>{{ city }}, {{ region }}, {{ countryCode | countryname }}</span
+				>{{ city }}, {{ region }}, {{ country_code | countryname }}</span
 			>
 		</li>
 
@@ -21,11 +21,11 @@
 
 		<li class="contact-information-item">
 			<Icon id="telephone-fill" :title="_('Phone number:')" />
-			<a href="{{ phone | telurl }}">{{ phone }}</a>
+			<a href="{{ phone }}">{{ phone | replace("tel:", "") }}</a>
 		</li>
 
 		{% for profile in profiles %}
-			{% if profile.url is defined and 'linkedin' in profile.url %}
+			{% if profile.url and 'linkedin' in profile.url | string %}
 				<li class="contact-information-item">
 					<Icon id="linkedin" :title="_('LinkedIn:')" />
 					<a href="{{ profile.url }}" rel="noopener noreferrer" target="_blank"

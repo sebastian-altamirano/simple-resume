@@ -15,7 +15,6 @@ ResumePathWithFallback = Annotated[
     Option(help="The path to the JSON Resume file. If not provided, a sample resume will be used."),
 ]
 
-
 ResumeTemplate = Annotated[
     str | None,
     Option(

@@ -23,7 +23,7 @@ from simple_resume.helpers.jinja import (
 )
 
 if TYPE_CHECKING:
-    from simple_resume.type_definitions.json_resume import JsonResume
+    from simple_resume.models.json_resume import JsonResume
 
 
 def serve_resume_for_development(
@@ -110,7 +110,7 @@ def _create_flask_app_for_resume(
         "index",
         lambda: catalog.render(
             "Resume",
-            fileName=get_localized_file_name_without_extension(resume, translations),
+            file_name=get_localized_file_name_without_extension(resume, translations),
             resume=resume,
         ),
     )

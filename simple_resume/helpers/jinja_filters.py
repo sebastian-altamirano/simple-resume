@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import re
+from datetime import datetime
 from functools import partial
 from typing import TYPE_CHECKING, Any, cast
 
 from babel import Locale
 
-from simple_resume.helpers.dates import get_current_date, parse_date
+from simple_resume.helpers.dates import get_current_date
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -27,28 +27,15 @@ def _add_colon_if_needed(value: str) -> str:
     return value if value.endswith(":") else f"{value}:"
 
 
-def _create_phone_number_url(phone_number: str) -> str:
-    """Create a phone number URL.
-
-    Args:
-        phone_number: The phone number from which to create the URL.
-
-    Returns:
-        The phone number URL.
-    """
-    phone_number_without_separators = re.sub(r"[ ()]", "", phone_number)
-    return f"tel:{phone_number_without_separators}"
-
-
 def _format_date_for_resume(
-    translations: NullTranslations, date_format: str, date: str | None
+    translations: NullTranslations, date_format: str, date: datetime | None
 ) -> str:
     """Format a date for a resume.
 
     Args:
         translations: The message catalog to use.
         date_format: The date format to use.
-        date: The ISO 8601 date string to format, or `None` if not provided.
+        date: The date to format, or `None` if not provided.
 
     Returns:
         The date in the specified format, or an empty string if no date was provided.
@@ -56,21 +43,21 @@ def _format_date_for_resume(
     if not date:
         return ""
 
-    parsed_date = parse_date(date)
-    formatted_date = parsed_date.strftime(date_format)
+    formatted_date = date.strftime(date_format)
 
-    if parsed_date <= get_current_date():
+    if date <= get_current_date():
         return formatted_date
 
-    return f"{translations.gettext("Expected {date}").format(date=formatted_date)}"
+    return f"{translations.gettext('Expected {date}').format(date=formatted_date)}"
 
 
 def _format_date_range_for_resume(
-    translations: NullTranslations, date_format: str, start_date: str | None, end_date: str | None
+    translations: NullTranslations,
+    date_format: str,
+    start_date: datetime | None,
+    end_date: datetime | None,
 ) -> str:
     """Format a date range for a resume.
-
-    Note: It is assumed that both dates are valid, so no error handling is performed.
 
     Args:
         translations: The message catalog to use.
@@ -85,30 +72,36 @@ def _format_date_range_for_resume(
         return ""
 
     if not end_date:
-        parsed_start_date = parse_date(cast(str, start_date))
-        formatted_start_date = parsed_start_date.strftime(date_format)
-        # `start_date` is assumed to be in the past.
-        return f"{formatted_start_date} - {translations.gettext("Present")}"
+        start_date = cast(datetime, start_date)
+        formatted_start_date = start_date.strftime(date_format)
+
+        return (
+            f"{formatted_start_date} - {translations.gettext('Present')}"
+            if start_date <= get_current_date()
+            else f"{translations.gettext('Expected {date}').format(date=formatted_start_date)}"
+        )
 
     if not start_date:
-        parsed_end_date = parse_date(end_date)
-        formatted_end_date = parsed_end_date.strftime(date_format)
-        if parsed_end_date <= get_current_date():
-            return formatted_end_date
+        formatted_end_date = end_date.strftime(date_format)
 
-        return f"{translations.gettext("Expected {date}").format(date=formatted_end_date)}"
+        return (
+            formatted_end_date
+            if end_date <= get_current_date()
+            else f"{translations.gettext('Expected {date}').format(date=formatted_end_date)}"
+        )
 
-    parsed_start_date = parse_date(start_date)
-    formatted_start_date = parsed_start_date.strftime(date_format)
-    parsed_end_date = parse_date(end_date)
-    formatted_end_date = parsed_end_date.strftime(date_format)
-    # `start_date` is assumed to be earlier than or equal to `end_date`.
-    if parsed_end_date <= get_current_date():
-        return f"{formatted_start_date} - {formatted_end_date}"
+    formatted_start_date = start_date.strftime(date_format)
+    formatted_end_date = end_date.strftime(date_format)
 
+    # The filter assumes that its inputs are validated, so it expects `start_date` to be earlier
+    # than or equal to `end_date`.
     return (
-        f"{formatted_start_date} - "
-        f"{translations.gettext("Expected {date}").format(date=formatted_end_date)}"
+        f"{formatted_start_date} - {formatted_end_date}"
+        if end_date <= get_current_date()
+        else (
+            f"{formatted_start_date} - "
+            f"{translations.gettext('Expected {date}').format(date=formatted_end_date)}"
+        )
     )
 
 
@@ -142,5 +135,4 @@ def get_all_custom_filters(
         "countryname": partial(_get_country_name, language),
         "dateformat": partial(_format_date_for_resume, translations),
         "daterangeformat": partial(_format_date_range_for_resume, translations),
-        "telurl": _create_phone_number_url,
     }

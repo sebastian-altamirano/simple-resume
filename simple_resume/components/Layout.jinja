@@ -1,4 +1,4 @@
-{#def fileName #}
+{#def file_name #}
 {#css styles/sanitize.min.css #}
 
 <!doctype html>
@@ -9,7 +9,7 @@
 		<title>{{ _('Simple Resume - Preview') }}</title>
 		{{ catalog.render_assets() }}
 	</head>
-	<body data-file-name="{{ fileName }}">
+	<body data-file-name="{{ file_name }}">
 		{{ content }}
 	</body>
 </html>

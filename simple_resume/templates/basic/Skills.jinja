@@ -1,14 +1,14 @@
-{#def skills = [] #}
+{#def skills #}
 
 <SectionTitle :title="_('Skills')" />
 
 <ul class="skills">
-	{% for skillsGroup in skills %}
+	{% for skills_group in skills %}
 		<li class="skills-group">
 			<Entry>
-				<h3 class="skills-group__name">{{ skillsGroup.name | addcolon }}</h3>
+				<h3 class="skills-group__name">{{ skills_group.name | addcolon }}</h3>
 
-				<Tags :tags="skillsGroup.keywords" />
+				<Tags :tags="skills_group.keywords" />
 			</Entry>
 		</li>
 	{% endfor %}
