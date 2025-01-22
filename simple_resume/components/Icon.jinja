@@ -1,0 +1,12 @@
+{#def icon_id, sprite_sheet, accessible_name = None, classes = None #}
+
+<svg
+	{% if classes %}class="{{ classes }}"{% endif %}
+	{% if accessible_name %}role="img"{% else %}aria-hidden="true"{% endif %}
+	fill="currentColor"
+>
+	{% if accessible_name %}
+		<title>{{ accessible_name }}</title>
+	{% endif %}
+	<use xlink:href="static/icons/{{ sprite_sheet }}.svg#{{ icon_id }}" />
+</svg>

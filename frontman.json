@@ -28,7 +28,7 @@
 			"files": [
 				{
 					"name": "bootstrap-icons.svg",
-					"rename": "bootstrap-sprite.svg"
+					"rename": "bootstrap.svg"
 				}
 			]
 		},

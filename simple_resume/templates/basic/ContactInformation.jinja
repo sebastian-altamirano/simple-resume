@@ -8,26 +8,26 @@
 <address>
 	<ul class="contact-information__address">
 		<li class="contact-information-item">
-			<Icon id="geo-alt-fill" :title="_('Location:')" />
+			<BootstrapIcon icon_id="geo-alt-fill" :accessible_name="_('Location:')" />
 			<span class="contact-information-item__description"
 				>{{ city }}, {{ region }}, {{ country_code | countryname }}</span
 			>
 		</li>
 
 		<li class="contact-information-item">
-			<Icon id="envelope-fill" :title="_('Email:')" />
+			<BootstrapIcon icon_id="envelope-fill" :accessible_name="_('Email:')" />
 			{{ email | urlize }}
 		</li>
 
 		<li class="contact-information-item">
-			<Icon id="telephone-fill" :title="_('Phone number:')" />
+			<BootstrapIcon icon_id="telephone-fill" :accessible_name="_('Phone number:')" />
 			<a href="{{ phone }}">{{ phone | replace("tel:", "") }}</a>
 		</li>
 
 		{% for profile in profiles %}
 			{% if profile.url and 'linkedin' in profile.url | string %}
 				<li class="contact-information-item">
-					<Icon id="linkedin" :title="_('LinkedIn:')" />
+					<BootstrapIcon icon_id="linkedin" :accessible_name="_('LinkedIn:')" />
 					<a href="{{ profile.url }}" rel="noopener noreferrer" target="_blank"
 						>{{ profile.url }}</a
 					>

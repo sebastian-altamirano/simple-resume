@@ -96,7 +96,4 @@ typings/
 node_modules/
 
 # Simple Resume template dependencies
-simple_resume/static/*
-!simple_resume/static/styles/
-simple_resume/static/styles/*
-!simple_resume/static/styles/bootstrap-icons.css
+simple_resume/static/
