@@ -285,6 +285,8 @@ class JsonResume(JsonResumeBaseModel):
     This implementation is similar to the schema, but it has some differences in terms of validation
     that may break compatibility:
 
+    - `/basics/image`: The schema does not validate the field, so invalid values can be used, such
+    as an empty string or a file path; here, only HTTP or file URLs are accepted.
     - `/basics/phone`: The schema does not impose a specific format for the phone number; here,
     RFC3966 is used.
     - date fields: The schema accepts any ISO 8601 string; here, only common ISO 8601 formats are
