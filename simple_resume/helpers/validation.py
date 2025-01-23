@@ -27,28 +27,6 @@ if TYPE_CHECKING:
     from pydantic_extra_types.language_code import LanguageAlpha2
 
 
-def _get_latest_supported_schema() -> str:
-    """Return the latest supported JSON Resume schema."""
-    schema_template = Template(
-        "https://raw.githubusercontent.com/jsonresume/resume-schema/$latest_supported_tag/schema.json"
-    )
-    latest_supported_tag: str = LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG
-
-    try:
-        response = requests.get("https://api.github.com/repos/jsonresume/resume-schema/tags")
-        response.raise_for_status()
-        tags = response.json()
-        # Tags are sorted by descending date.
-        for tag in tags:
-            if re.match(r"v1\.\d+\.\d+", tag["name"]):
-                latest_supported_tag = tag["name"]
-                break
-    except requests.HTTPError:
-        pass
-
-    return schema_template.substitute(latest_supported_tag=latest_supported_tag)
-
-
 def validate_date_range(start_date: datetime | None, end_date: datetime | None) -> None:
     """Validate that the start date is before the end date.
 
@@ -152,3 +130,25 @@ def validate_metadata_template(template: str | None) -> None:
                 "registered_templates": registered_templates,
             },
         )
+
+
+def _get_latest_supported_schema() -> str:
+    """Return the latest supported JSON Resume schema."""
+    schema_template = Template(
+        "https://raw.githubusercontent.com/jsonresume/resume-schema/$latest_supported_tag/schema.json"
+    )
+    latest_supported_tag: str = LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG
+
+    try:
+        response = requests.get("https://api.github.com/repos/jsonresume/resume-schema/tags")
+        response.raise_for_status()
+        tags = response.json()
+        # Tags are sorted by descending date.
+        for tag in tags:
+            if re.match(r"v1\.\d+\.\d+", tag["name"]):
+                latest_supported_tag = tag["name"]
+                break
+    except requests.HTTPError:
+        pass
+
+    return schema_template.substitute(latest_supported_tag=latest_supported_tag)

@@ -15,6 +15,26 @@ if TYPE_CHECKING:
     from gettext import NullTranslations
 
 
+def get_all_custom_filters(
+    language: str, translations: NullTranslations
+) -> dict[str, Callable[..., Any]]:
+    """Return all custom filters provided by Simple Resume.
+
+    Args:
+        language: The language to use for localization.
+        translations: The message catalog to use.
+
+    Returns:
+        A dictionary containing the custom filters.
+    """
+    return {
+        "addcolon": _add_colon_if_needed,
+        "countryname": partial(_get_country_name, language),
+        "dateformat": partial(_format_date_for_resume, translations),
+        "daterangeformat": partial(_format_date_range_for_resume, translations),
+    }
+
+
 def _add_colon_if_needed(value: str) -> str:
     """Add a colon at the end of a string if it does not already end with one.
 
@@ -116,23 +136,3 @@ def _get_country_name(language: str, country_code: str) -> str:
         The localized country name.
     """
     return Locale(language).territories[country_code]
-
-
-def get_all_custom_filters(
-    language: str, translations: NullTranslations
-) -> dict[str, Callable[..., Any]]:
-    """Return all custom filters provided by Simple Resume.
-
-    Args:
-        language: The language to use for localization.
-        translations: The message catalog to use.
-
-    Returns:
-        A dictionary containing the custom filters.
-    """
-    return {
-        "addcolon": _add_colon_if_needed,
-        "countryname": partial(_get_country_name, language),
-        "dateformat": partial(_format_date_for_resume, translations),
-        "daterangeformat": partial(_format_date_range_for_resume, translations),
-    }

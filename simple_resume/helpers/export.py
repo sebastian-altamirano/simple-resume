@@ -24,27 +24,6 @@ if TYPE_CHECKING:
     from simple_resume.models.json_resume import JsonResume
 
 
-def _generate_pdf(server_url: str, resume_path: Path) -> None:
-    """Generate a PDF from a JSON Resume that is being served.
-
-    Args:
-        server_url: The URL of the server where the resume is being served.
-        resume_path: The path where the generated PDF will be saved.
-    """
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(
-            channel="chromium",
-        )
-        page = browser.new_page()
-        page.goto(server_url, wait_until="load")
-        page.pdf(
-            path=resume_path,
-            prefer_css_page_size=True,
-            print_background=True,
-        )
-        browser.close()
-
-
 def export_resume(
     resume: JsonResume,
     template: str,
@@ -85,3 +64,24 @@ def export_resume(
         raise
     finally:
         server.terminate()
+
+
+def _generate_pdf(server_url: str, resume_path: Path) -> None:
+    """Generate a PDF from a JSON Resume that is being served.
+
+    Args:
+        server_url: The URL of the server where the resume is being served.
+        resume_path: The path where the generated PDF will be saved.
+    """
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(
+            channel="chromium",
+        )
+        page = browser.new_page()
+        page.goto(server_url, wait_until="load")
+        page.pdf(
+            path=resume_path,
+            prefer_css_page_size=True,
+            print_background=True,
+        )
+        browser.close()
