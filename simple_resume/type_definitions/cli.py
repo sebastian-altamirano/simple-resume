@@ -4,15 +4,17 @@ from __future__ import annotations
 
 from typing import Annotated
 
-from typer import Option
+from typer import Argument, Option
 
 from simple_resume.helpers.constants import DEFAULT_LANGUAGE
 
-ResumePath = Annotated[str, Option(help="The path to the JSON Resume file.")]
+ResumePath = Annotated[str, Argument(help="The path to the JSON Resume file.")]
 
 ResumePathWithFallback = Annotated[
     str | None,
-    Option(help="The path to the JSON Resume file. If not provided, a sample resume will be used."),
+    Argument(
+        help="The path to the JSON Resume file. If not provided, a sample resume will be used."
+    ),
 ]
 
 ResumeTemplate = Annotated[
