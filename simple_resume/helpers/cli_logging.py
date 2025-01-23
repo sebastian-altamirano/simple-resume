@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from rich import print
+import rich
 
 
 def print_error_message(message: str) -> None:
@@ -48,4 +48,4 @@ def _print_colored_message(color: str, message: str) -> None:
         color: The color of the message.
         message: The message to print.
     """
-    print(f"[{color}]{message}[/{color}]\n")
+    rich.print(f"[{color}]{message}[/{color}]\n")

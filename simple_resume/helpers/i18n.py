@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from simple_resume.helpers.constants import TRANSLATIONS_PATH
-from simple_resume.helpers.string import remove_accents
+from simple_resume.helpers.string_manipulation import remove_accents
 
 if TYPE_CHECKING:
     from gettext import NullTranslations

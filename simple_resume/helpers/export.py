@@ -9,13 +9,13 @@ import flask.cli
 from babel.support import Translations
 from playwright.sync_api import sync_playwright
 
-from simple_resume.helpers.constants import DEFAULT_PORT, TRANSLATIONS_PATH
-from simple_resume.helpers.i18n import get_localized_file_name_without_extension
-from simple_resume.helpers.logging import (
+from simple_resume.helpers.cli_logging import (
     print_error_message,
     print_info_message,
     print_success_message,
 )
+from simple_resume.helpers.constants import DEFAULT_PORT, TRANSLATIONS_PATH
+from simple_resume.helpers.i18n import get_localized_file_name_without_extension
 from simple_resume.helpers.serve import serve_resume_for_export
 
 if TYPE_CHECKING:

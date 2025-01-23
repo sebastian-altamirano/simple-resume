@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from simple_resume.helpers.logging import (
+from simple_resume.helpers.cli_logging import (
     print_error_message,
     print_info_message,
     print_success_message,

@@ -9,15 +9,15 @@ from typing import TYPE_CHECKING
 import requests
 from pydantic_core import PydanticCustomError
 
+from simple_resume.helpers.cli_logging import (
+    print_warning_message,
+)
 from simple_resume.helpers.constants import (
     DEFAULT_LANGUAGE,
     DEFAULT_TEMPLATE,
     LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG,
 )
 from simple_resume.helpers.i18n import get_supported_languages
-from simple_resume.helpers.logging import (
-    print_warning_message,
-)
 from simple_resume.helpers.templates import get_registered_templates
 
 if TYPE_CHECKING:
