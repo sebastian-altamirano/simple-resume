@@ -22,21 +22,9 @@
 			/>
 		</header>
 		<article class="resume__body">
-			{% if resume.skills %}
-				<section class="resume__section">
-					<Skills :skills="resume.skills" />
-				</section>
-			{% endif %}
-			{% if resume.work %}
-				<section class="resume__section">
-					<WorkExperience :work_experience="resume.work" />
-				</section>
-			{% endif %}
-			{% if resume.education %}
-				<section class="resume__section">
-					<EducationHistory :education_history="resume.education" />
-				</section>
-			{% endif %}
+			<Skills :skills="resume.skills" />
+			<WorkExperience :work_experience="resume.work" />
+			<EducationHistory :education_history="resume.education" />
 		</article>
 	</main>
 </Layout>

@@ -1,16 +1,20 @@
 {#def education_history #}
 
-<SectionTitle :title="_('Education')" />
+{% if education_history %}
+	<ResumeSection>
+		<SectionTitle :title="_('Education')" />
 
-<ul class="education-history">
-	{% for entry in education_history %}
-		<li class="education-history__entry">
-			<SectionItem
-				:title="entry.area"
-				:subtitle="entry.institution"
-				:start_date="entry.start_date"
-				:end_date="entry.end_date"
-			/>
-		</li>
-	{% endfor %}
-</ul>
+		<ul class="education-history">
+			{% for entry in education_history %}
+				<li class="education-history__entry">
+					<SectionItem
+						:title="entry.area"
+						:subtitle="entry.institution"
+						:start_date="entry.start_date"
+						:end_date="entry.end_date"
+					/>
+				</li>
+			{% endfor %}
+		</ul>
+	</ResumeSection>
+{% endif %}

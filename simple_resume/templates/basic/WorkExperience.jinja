@@ -1,18 +1,22 @@
 {#def work_experience #}
 
-<SectionTitle :title="_('Experience')" />
+{% if work_experience %}
+	<ResumeSection>
+		<SectionTitle :title="_('Experience')" />
 
-<ul class="work-experience">
-	{% for entry in work_experience %}
-		<li class="work-experience__entry">
-			<SectionItem
-				:title="entry.position"
-				:subtitle="entry.name"
-				:start_date="entry.start_date"
-				:end_date="entry.end_date"
-				:summary="entry.summary"
-				:highlights="entry.highlights"
-			/>
-		</li>
-	{% endfor %}
-</ul>
+		<ul class="work-experience">
+			{% for entry in work_experience %}
+				<li class="work-experience__entry">
+					<SectionItem
+						:title="entry.position"
+						:subtitle="entry.name"
+						:start_date="entry.start_date"
+						:end_date="entry.end_date"
+						:summary="entry.summary"
+						:highlights="entry.highlights"
+					/>
+				</li>
+			{% endfor %}
+		</ul>
+	</ResumeSection>
+{% endif %}
