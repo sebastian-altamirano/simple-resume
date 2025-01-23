@@ -4,14 +4,6 @@
 
 from __future__ import annotations
 
-from typer import Typer
-
-from simple_resume import commands
-
-app = Typer()
-
-app.command()(commands.export)
-app.command()(commands.serve)
-app.command()(commands.validate)
+from simple_resume.main import app
 
 app(prog_name="simple-resume")
