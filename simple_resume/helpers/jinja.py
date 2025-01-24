@@ -7,8 +7,7 @@ from typing import TYPE_CHECKING
 from simple_resume.helpers.jinja_filters import get_all_custom_filters
 
 if TYPE_CHECKING:
-    from gettext import NullTranslations
-
+    from babel.support import NullTranslations
     from jinja2 import Environment as JinjaEnvironment
 
 

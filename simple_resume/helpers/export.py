@@ -6,7 +6,6 @@ import logging
 from typing import TYPE_CHECKING
 
 import flask.cli
-from babel.support import Translations
 from playwright.sync_api import sync_playwright
 
 from simple_resume.helpers.cli_logging import (
@@ -14,12 +13,14 @@ from simple_resume.helpers.cli_logging import (
     print_info_message,
     print_success_message,
 )
-from simple_resume.helpers.constants import DEFAULT_PORT, TRANSLATIONS_PATH
+from simple_resume.helpers.constants import DEFAULT_PORT
 from simple_resume.helpers.i18n import get_localized_file_name_without_extension
 from simple_resume.helpers.serve import serve_resume_for_export
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from babel.support import NullTranslations
 
     from simple_resume.models.json_resume import JsonResume
 
@@ -29,6 +30,7 @@ def export_resume(
     template: str,
     language: str,
     output_path: Path,
+    translations: NullTranslations,
 ) -> None:
     """Export a JSON Resume.
 
@@ -37,6 +39,7 @@ def export_resume(
         template: The name of the template to use.
         language: The language tag of the language to use.
         output_path: The path to the directory where the resume will be exported.
+        translations: The message catalog to use.
     """
     # Disable all Flask logging.
     flask.cli.show_server_banner = lambda *_args: None  # type: ignore
@@ -44,14 +47,13 @@ def export_resume(
 
     print_info_message("Exporting the resume...")
     server = serve_resume_for_export(
-        resume, template=template, language=language, port=DEFAULT_PORT
+        resume, template=template, language=language, port=DEFAULT_PORT, translations=translations
     )
 
     try:
         # Create the output directory if it doesn't exist.
         output_path.mkdir(parents=True, exist_ok=True)
 
-        translations = Translations.load(TRANSLATIONS_PATH, language)
         file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
         resume_path = output_path / file_name
 

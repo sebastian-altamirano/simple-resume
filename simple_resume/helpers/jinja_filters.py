@@ -12,7 +12,8 @@ from simple_resume.helpers.dates import get_current_date
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-    from gettext import NullTranslations
+
+    from babel.support import NullTranslations
 
 
 def get_all_custom_filters(

@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from babel.support import Translations
+
 from simple_resume.helpers.constants import TRANSLATIONS_PATH
 from simple_resume.helpers.string_manipulation import remove_accents
 
 if TYPE_CHECKING:
-    from gettext import NullTranslations
+    from babel.support import NullTranslations
 
     from simple_resume.models.json_resume import JsonResume
 
@@ -33,3 +35,12 @@ def get_localized_file_name_without_extension(
 def get_supported_languages() -> list[str]:
     """Return the language tags of the supported languages."""
     return [path.name for path in TRANSLATIONS_PATH.glob("*") if path.is_dir()]
+
+
+def get_translations(language: str) -> NullTranslations:
+    """Return the translations for the given language.
+
+    Args:
+        language: The language tag of the language to use.
+    """
+    return Translations.load(TRANSLATIONS_PATH, language)
