@@ -29,23 +29,26 @@ def get_all_custom_filters(
         A dictionary containing the custom filters.
     """
     return {
-        "addcolon": _add_colon_if_needed,
+        "addlocalizedcolon": partial(_add_localized_colon, translations),
         "countryname": partial(_get_country_name, language),
         "dateformat": partial(_format_date_for_resume, translations),
         "daterangeformat": partial(_format_date_range_for_resume, translations),
     }
 
 
-def _add_colon_if_needed(value: str) -> str:
-    """Add a colon at the end of a string if it does not already end with one.
+def _add_localized_colon(translations: NullTranslations, label: str) -> str:
+    """Add a localized colon at the end of a string, replacing the original colon if present.
+
+    This is necessary because, for example, in French there is a space before the colon.
 
     Args:
-        value: The string to modify.
+        translations: The message catalog to use.
+        label: The string to modify.
 
     Returns:
-        The modified string.
+        The modified string with a localized colon.
     """
-    return value if value.endswith(":") else f"{value}:"
+    return f"{translations.gettext('{label}:').format(label=label.removesuffix(':'))}"
 
 
 def _format_date_for_resume(

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-23 19:48-0300\n"
+"POT-Creation-Date: 2025-01-25 21:59-0300\n"
 "PO-Revision-Date: 2024-04-14 18:02-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -22,22 +22,26 @@ msgstr ""
 msgid "Simple Resume - Preview"
 msgstr "Simple Resume - Vista previa"
 
-#: simple_resume/helpers/i18n.py:28
+#: simple_resume/helpers/i18n.py:30
 msgid "Anonymous"
 msgstr "Anónimo"
 
-#: simple_resume/helpers/i18n.py:30
+#: simple_resume/helpers/i18n.py:32
 msgid "{name}_Resume"
 msgstr "{name}_CV"
 
-#: simple_resume/helpers/jinja_filters.py:71
-#: simple_resume/helpers/jinja_filters.py:101
-#: simple_resume/helpers/jinja_filters.py:110
-#: simple_resume/helpers/jinja_filters.py:123
+#: simple_resume/helpers/jinja_filters.py:51
+msgid "{label}:"
+msgstr "{label}:"
+
+#: simple_resume/helpers/jinja_filters.py:75
+#: simple_resume/helpers/jinja_filters.py:105
+#: simple_resume/helpers/jinja_filters.py:114
+#: simple_resume/helpers/jinja_filters.py:127
 msgid "Expected {date}"
 msgstr "Previsto {date}"
 
-#: simple_resume/helpers/jinja_filters.py:99
+#: simple_resume/helpers/jinja_filters.py:103
 msgid "Present"
 msgstr "Presente"
 

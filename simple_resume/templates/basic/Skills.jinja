@@ -8,7 +8,9 @@
 			{% for skills_group in skills %}
 				<li class="skills-group">
 					<Entry>
-						<h3 class="skills-group__name">{{ skills_group.name | addcolon }}</h3>
+						<h3 class="skills-group__name">
+							{{ skills_group.name | addlocalizedcolon }}
+						</h3>
 
 						<Tags :tags="skills_group.keywords" />
 					</Entry>
