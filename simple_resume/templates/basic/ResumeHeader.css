@@ -1,0 +1,8 @@
+.resume-header {
+	align-items: center;
+	background-color: var(--color-primary);
+	color: var(--color-background);
+	display: flex;
+	gap: 24px;
+	padding: 16px 24px;
+}

@@ -1,0 +1,16 @@
+{#def basics #}
+
+<header class="resume-header">
+	<Photo height="175" :image="basics.image" :name="basics.name" />
+
+	<ContactInformation
+		:name="basics.name"
+		:position="basics.label"
+		:city="basics.location.city"
+		:region="basics.location.region"
+		:country_code="basics.location.country_code"
+		:email="basics.email"
+		:phone="basics.phone"
+		:profiles="basics.profiles"
+	/>
+</header>

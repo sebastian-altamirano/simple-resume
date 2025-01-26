@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-21 19:03-0300\n"
+"POT-Creation-Date: 2025-01-23 19:48-0300\n"
 "PO-Revision-Date: 2024-04-14 18:02-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -30,43 +30,46 @@ msgstr "Anónimo"
 msgid "{name}_Resume"
 msgstr "{name}_CV"
 
-#: simple_resume/helpers/jinja_filters.py:51
-#: simple_resume/helpers/jinja_filters.py:81
-#: simple_resume/helpers/jinja_filters.py:90
-#: simple_resume/helpers/jinja_filters.py:103
+#: simple_resume/helpers/jinja_filters.py:71
+#: simple_resume/helpers/jinja_filters.py:101
+#: simple_resume/helpers/jinja_filters.py:110
+#: simple_resume/helpers/jinja_filters.py:123
 msgid "Expected {date}"
 msgstr "Previsto {date}"
 
-#: simple_resume/helpers/jinja_filters.py:79
+#: simple_resume/helpers/jinja_filters.py:99
 msgid "Present"
 msgstr "Presente"
 
-#: simple_resume/templates/basic/ContactInformation.jinja:11
+#: simple_resume/templates/basic/ContactInformation.jinja:12
 #, fuzzy
 msgid "Location:"
 msgstr "Ubicación:"
 
-#: simple_resume/templates/basic/ContactInformation.jinja:18
+#: simple_resume/templates/basic/ContactInformation.jinja:19
 msgid "Email:"
 msgstr "Correo electrónico:"
 
-#: simple_resume/templates/basic/ContactInformation.jinja:23
+#: simple_resume/templates/basic/ContactInformation.jinja:24
 msgid "Phone number:"
 msgstr "Número de teléfono:"
 
-#: simple_resume/templates/basic/ContactInformation.jinja:30
+#: simple_resume/templates/basic/ContactInformation.jinja:31
 msgid "LinkedIn:"
 msgstr "LinkedIn:"
 
-#: simple_resume/templates/basic/EducationHistory.jinja:3
+#: simple_resume/templates/basic/EducationHistory.jinja:5
 msgid "Education"
 msgstr "Educación"
 
-#: simple_resume/templates/basic/Skills.jinja:3
+#: simple_resume/templates/basic/Skills.jinja:5
 msgid "Skills"
 msgstr "Habilidades"
 
-#: simple_resume/templates/basic/WorkExperience.jinja:3
+#: simple_resume/templates/basic/WorkExperience.jinja:5
 msgid "Experience"
 msgstr "Experiencia"
+
+#~ msgid "Photo of %(name)s"
+#~ msgstr "Foto de %(name)s"
 

@@ -1,0 +1,9 @@
+{#def height, image, name #}
+
+{% if image %}
+	<img
+		{% if name %}alt="{{ _('Photo of %(name)s' % {'name': name}) }}"{% endif %}
+		height="{{ height }}"
+		src="{{ image }}"
+	/>
+{% endif %}

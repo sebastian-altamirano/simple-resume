@@ -9,18 +9,7 @@
 
 <Layout :file_name="file_name">
 	<main class="resume">
-		<header class="resume__header">
-			<ContactInformation
-				:name="resume.basics.name"
-				:position="resume.basics.label"
-				:city="resume.basics.location.city"
-				:region="resume.basics.location.region"
-				:country_code="resume.basics.location.country_code"
-				:email="resume.basics.email"
-				:phone="resume.basics.phone"
-				:profiles="resume.basics.profiles"
-			/>
-		</header>
+		<ResumeHeader :basics="resume.basics" />
 		<article class="resume__body">
 			<Skills :skills="resume.skills" />
 			<WorkExperience :work_experience="resume.work" />

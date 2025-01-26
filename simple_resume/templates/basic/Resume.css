@@ -47,12 +47,6 @@ h5 {
 	line-height: 1.6;
 }
 
-.resume__header {
-	background-color: var(--color-primary);
-	color: var(--color-background);
-	padding: 16px 24px;
-}
-
 .resume__body {
 	padding: 16px 24px;
 }
