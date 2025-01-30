@@ -2,7 +2,7 @@
 	"name": "simple-resume",
 	"license": "MIT",
 	"devDependencies": {
-		"prettier": "3.3.3",
-		"prettier-plugin-jinja-template": "1.4.1"
+		"prettier": "3.4.2",
+		"prettier-plugin-jinja-template": "2.0.0"
 	}
 }
