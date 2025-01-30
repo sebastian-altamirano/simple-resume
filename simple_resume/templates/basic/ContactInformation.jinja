@@ -26,14 +26,11 @@
 			</li>
 
 			{% for profile in profiles %}
-				{% if profile.url and 'linkedin' in profile.url | string %}
-					<li class="contact-information-item">
-						<BootstrapIcon icon_id="linkedin" :accessible_name="_('LinkedIn:')" />
-						<a href="{{ profile.url }}" rel="noopener noreferrer" target="_blank"
-							>{{ profile.url }}</a
-						>
-					</li>
-				{% endif %}
+				<Profile
+					:network="profile.network"
+					:username="profile.username"
+					:url="profile.url"
+				/>
 			{% endfor %}
 		</ul>
 	</address>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-25 22:16-0300\n"
+"POT-Creation-Date: 2025-01-29 22:11-0300\n"
 "PO-Revision-Date: 2024-04-14 18:02-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -34,18 +34,18 @@ msgstr ""
 msgid "{name}_Resume"
 msgstr ""
 
-#: simple_resume/helpers/jinja_filters.py:51
+#: simple_resume/helpers/jinja_filters.py:58
 msgid "{label}:"
 msgstr ""
 
-#: simple_resume/helpers/jinja_filters.py:75
-#: simple_resume/helpers/jinja_filters.py:105
-#: simple_resume/helpers/jinja_filters.py:114
-#: simple_resume/helpers/jinja_filters.py:127
+#: simple_resume/helpers/jinja_filters.py:82
+#: simple_resume/helpers/jinja_filters.py:112
+#: simple_resume/helpers/jinja_filters.py:121
+#: simple_resume/helpers/jinja_filters.py:134
 msgid "Expected {date}"
 msgstr ""
 
-#: simple_resume/helpers/jinja_filters.py:103
+#: simple_resume/helpers/jinja_filters.py:110
 msgid "Present"
 msgstr ""
 
@@ -61,10 +61,6 @@ msgstr ""
 msgid "Phone number:"
 msgstr ""
 
-#: simple_resume/templates/basic/ContactInformation.jinja:31
-msgid "LinkedIn:"
-msgstr ""
-
 #: simple_resume/templates/basic/EducationHistory.jinja:5
 msgid "Education"
 msgstr ""
@@ -76,3 +72,4 @@ msgstr ""
 #: simple_resume/templates/basic/WorkExperience.jinja:5
 msgid "Experience"
 msgstr ""
+

@@ -2,13 +2,18 @@
 
 from __future__ import annotations
 
+import re
 from datetime import datetime
 from functools import partial
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, cast, overload
 
 from babel import Locale
+from pydantic import HttpUrl
+from tldextract import tldextract
 
 from simple_resume.helpers.dates import get_current_date
+from simple_resume.helpers.networks import get_supported_networks
+from simple_resume.type_definitions.networks import NetworkInfo
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -33,6 +38,8 @@ def get_all_custom_filters(
         "countryname": partial(_get_country_name, language),
         "dateformat": partial(_format_date_for_resume, translations),
         "daterangeformat": partial(_format_date_range_for_resume, translations),
+        "domainname": _get_domain_name,
+        "networkinfo": _get_network_info,
     }
 
 
@@ -140,3 +147,49 @@ def _get_country_name(language: str, country_code: str) -> str:
         The localized country name.
     """
     return Locale(language).territories[country_code]
+
+
+@overload
+def _get_domain_name(url: HttpUrl) -> str: ...
+@overload
+def _get_domain_name(url: None) -> None: ...
+def _get_domain_name(url: HttpUrl | None) -> str | None:
+    """Extract the domain name from a URL.
+
+    Args:
+        url: The URL, or `None` if not provided.
+
+    Returns:
+        The domain name, or `None` if the URL is not provided.
+    """
+    return tldextract.extract(str(url)).domain if url else None
+
+
+def _get_network_info(network: str | None, url: HttpUrl | None) -> NetworkInfo | None:
+    """Get the network information for a supported network.
+
+    Args:
+        network: The network name, or `None` if not provided.
+        url: The network URL, or `None` if not provided.
+
+    Returns:
+        The network information if the network is supported, or `None` if it is not supported or
+        could not be determined.
+    """
+    supported_networks = get_supported_networks()
+
+    if network:
+        normalized_network = re.sub(r"\s+", "", network.lower())
+        if network_info := supported_networks.get(normalized_network):
+            return network_info
+    if url:
+        extracted_url = tldextract.extract(str(url))
+
+        return (
+            # From most specific to least specific.
+            supported_networks.get(extracted_url.fqdn)
+            or supported_networks.get(f"{extracted_url.subdomain}.{extracted_url.domain}")
+            or supported_networks.get(extracted_url.domain)
+        )
+
+    return None

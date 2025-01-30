@@ -1,0 +1,35 @@
+{#def network, username, url #}
+{% set network_info = network | networkinfo(url) %}
+
+{% if url %}
+	{% if network_info %}
+		{% set accessible_name = network_info.label | addlocalizedcolon %}
+
+		{% if network_info.icon_id.bootstrap %}
+			<ProfileWithExternalLink
+				:icon_accessible_name="accessible_name"
+				:icon_id="network_info.icon_id.bootstrap"
+				:link_text="username or url"
+				:link_url="url"
+			/>
+		{% else %}
+			<ProfileWithExternalLink
+				icon_id="link"
+				:icon_accessible_name="accessible_name"
+				:link_url="url"
+			/>
+		{% endif %}
+	{% else %}
+		<ProfileWithExternalLink
+			icon_id="link"
+			:icon_accessible_name="(network or url | domainname | capitalize) | addlocalizedcolon"
+			:link_url="url"
+		/>
+	{% endif %}
+{% elif network_info and network_info.icon_id.bootstrap and username %}
+	<ProfileWithoutExternalLink
+		:icon_accessible_name="network_info.label | addlocalizedcolon"
+		:icon_id="network_info.icon_id.bootstrap"
+		:text="username"
+	/>
+{% endif %}
