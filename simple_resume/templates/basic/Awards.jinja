@@ -1,0 +1,16 @@
+{#def awards #}
+
+{% if awards %}
+	<Section :section_title="_('Awards')">
+		<ul class="list-unstyled">
+			{% for entry in awards %}
+				<SectionItem
+					:title="entry.title"
+					:end_date="entry.date"
+					:subtitle="entry.awarder"
+					:summary="entry.summary"
+				/>
+			{% endfor %}
+		</ul>
+	</Section>
+{% endif %}
