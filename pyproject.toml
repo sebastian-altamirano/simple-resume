@@ -49,8 +49,9 @@ format.composite = [
 ]
 lint.composite = ["ruff check", "pyright"]
 lint.env.PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release"
+frontman = "./scripts/run_frontman.sh"
 # Hooks
-post_install = "./scripts/run_frontman.sh install"
+post_install = { composite = ["frontman install"] }
 pre_build = { composite = ["compile-messages"] }
 
 [tool.pyright]
