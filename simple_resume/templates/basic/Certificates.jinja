@@ -1,0 +1,16 @@
+{#def certificates #}
+
+{% if certificates %}
+	<Section :section_title="_('Certificates')">
+		<ul class="list-unstyled">
+			{% for entry in certificates %}
+				<SectionItem
+					:title="entry.name"
+					:title_url="entry.url"
+					:end_date="entry.date"
+					:subtitle="entry.issuer"
+				/>
+			{% endfor %}
+		</ul>
+	</Section>
+{% endif %}
