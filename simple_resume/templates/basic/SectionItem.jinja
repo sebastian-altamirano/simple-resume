@@ -1,19 +1,53 @@
-{#def title, subtitle, start_date, end_date, summary = None, highlights = None #}
+{#def
+	title,
+	title_url = None,
+	subtitle = None,
+	subtitle_url = None,
+	start_date = None,
+	end_date = None,
+	summary = None,
+	highlights = None,
+	keywords = None,
+	date_format = "%m-%Y"
+#}
 
-<Entry>
-	<h3 class="section-item__heading">
-		<span>{{ title }}</span>
-		<span class="section-item__date-range"
-			>{{ "%m-%Y" | daterangeformat(start_date, end_date) }}</span
-		>
-		<span class="section-item__subtitle">{{ subtitle }}</span>
-	</h3>
+{% if title %}
+	<li class="section-item">
+		<Entry>
+			<header class="section-item__header">
+				<h3 class="section-item__title">
+					{% if title_url %}
+						<ExternalLink :text="title" :url="title_url" />
+					{% else %}
+						{{ title }}
+					{% endif %}
+				</h3>
+				{% set date_range = date_format | daterangeformat(start_date, end_date) %}
+				{% if date_range %}
+					<p class="h3 section-item__date-range">{{ date_range }}</p>
+				{% endif %}
+				{% if subtitle %}
+					<p class="h3 section-item__subtitle">
+						{% if subtitle_url %}
+							<ExternalLink :text="subtitle" :url="subtitle_url" />
+						{% else %}
+							{{ subtitle }}
+						{% endif %}
+					</p>
+				{% endif %}
+			</header>
 
-	{% if summary %}<p class="section-item__summary">{{ summary }}</p>{% endif %}
+			{% if summary %}<p class="section-item__summary">{{ summary }}</p>{% endif %}
 
-	{% if highlights %}
-		<ul class="section-item__highlights">
-			{% for highlight in highlights %}<li>{{ highlight }}</li>{% endfor %}
-		</ul>
-	{% endif %}
-</Entry>
+			{% if highlights %}
+				<ul class="section-item__highlights">
+					{% for highlight in highlights %}<li>{{ highlight }}</li>{% endfor %}
+				</ul>
+			{% endif %}
+
+			{% if keywords %}
+				<Tags :tags="keywords" />
+			{% endif %}
+		</Entry>
+	</li>
+{% endif %}

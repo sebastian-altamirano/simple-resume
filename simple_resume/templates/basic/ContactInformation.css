@@ -15,16 +15,14 @@
 	font-weight: 300;
 }
 
-.contact-information__address {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
 .contact-information-item:not(:last-child) {
 	margin-bottom: 0.125rem;
 }
 
 .contact-information-item__description {
 	padding: var(--link-padding);
+}
+
+.contact-information {
+	--link-color: var(--indigo-5);
 }

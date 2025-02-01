@@ -1,27 +1,44 @@
-.section-item__heading {
+.section-item:not(:last-child) {
+	margin-bottom: 0.5rem;
+}
+
+.section-item__header {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: space-between;
 	margin: 0 0 0.5rem;
 }
 
+.section-item__title,
 .section-item__subtitle,
 .section-item__date-range {
-	font-weight: 300;
+	margin: 0;
+}
+
+.section-item__subtitle,
+.section-item__date-range {
+	--heading-font-weight: 300;
 }
 
 .section-item__subtitle {
 	flex-basis: 100%;
 }
 
+.section-item__title,
+.section-item__subtitle {
+	--link-padding: 0 6px 0 0;
+}
+
 .section-item__summary {
 	margin: 0;
 }
 
-.section-item__summary + .section-item__highlights {
+.section-item__summary + .section-item__highlights,
+.section-item__highlights + .tags {
 	margin: 0.25rem 0 0;
 }
 
 .section-item__highlights {
 	list-style-type: disc;
+	padding-left: 32px;
 }

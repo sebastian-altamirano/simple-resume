@@ -9,11 +9,14 @@
 
 <Layout :file_name="file_name">
 	<main class="resume">
-		<ResumeHeader :basics="resume.basics" />
+		<Header :basics="resume.basics" />
 		<article class="resume__body">
 			<Skills :skills="resume.skills" />
 			<WorkExperience :work_experience="resume.work" />
 			<EducationHistory :education_history="resume.education" />
+			<Projects :projects="resume.projects" />
+			<Publications :publications="resume.publications" />
+			<Volunteer :volunteer="resume.volunteer" />
 		</article>
 	</main>
 </Layout>

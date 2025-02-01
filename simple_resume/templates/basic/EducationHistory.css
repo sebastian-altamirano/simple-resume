@@ -1,9 +1,0 @@
-.education-history {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
-.education-history__entry:not(:last-child) {
-	margin-bottom: 0.5rem;
-}

@@ -1,0 +1,19 @@
+{#def projects #}
+
+{% if projects %}
+	<Section :section_title="_('Projects')">
+		<ul class="list-unstyled">
+			{% for entry in projects %}
+				<SectionItem
+					:title="entry.name"
+					:title_url="entry.url"
+					:start_date="entry.start_date"
+					:end_date="entry.end_date"
+					:summary="entry.description"
+					:highlights="entry.highlights"
+					:keywords="entry.keywords"
+				/>
+			{% endfor %}
+		</ul>
+	</Section>
+{% endif %}

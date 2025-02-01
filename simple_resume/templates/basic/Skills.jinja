@@ -1,10 +1,8 @@
 {#def skills #}
 
 {% if skills %}
-	<ResumeSection>
-		<SectionTitle :title="_('Skills')" />
-
-		<ul class="skills">
+	<Section :section_title="_('Skills')">
+		<ul class="list-unstyled">
 			{% for skills_group in skills %}
 				<li class="skills-group">
 					<Entry>
@@ -17,5 +15,5 @@
 				</li>
 			{% endfor %}
 		</ul>
-	</ResumeSection>
+	</Section>
 {% endif %}

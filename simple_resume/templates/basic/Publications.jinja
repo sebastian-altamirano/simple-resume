@@ -1,0 +1,18 @@
+{#def publications #}
+
+{% if publications %}
+	<Section :section_title="_('Publications')">
+		<ul class="list-unstyled">
+			{% for entry in publications %}
+				<SectionItem
+					:title="entry.name"
+					:title_url="entry.url"
+					:subtitle="entry.publisher"
+					:end_date="entry.release_date"
+					:summary="entry.summary"
+					date_format="%d-%m-%Y"
+				/>
+			{% endfor %}
+		</ul>
+	</Section>
+{% endif %}

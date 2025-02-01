@@ -1,4 +1,8 @@
-.section-title {
+.section:not(:last-child) {
+	margin-bottom: 1rem;
+}
+
+.section__title {
 	background-color: var(--color-primary);
 	box-sizing: border-box;
 	color: var(--color-background);

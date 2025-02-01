@@ -3,11 +3,20 @@
 	--color-primary-light: var(--indigo-3);
 	--color-background: var(--gray-1);
 
+	--h1-font-size: 1.8rem;
+	--h2-font-size: 1.6rem;
+	--h3-font-size: 1.42rem;
+	--h4-font-size: 1.27rem;
+	--h5-font-size: 1.13rem;
+	--heading-font-weight: 500;
+	--heading-line-height: 1.15;
+
+	--link-color: var(--indigo-11);
 	--link-padding: 0 6px;
 }
 
 a {
-	color: inherit;
+	color: var(--link-color);
 	padding: var(--link-padding);
 }
 
@@ -15,29 +24,45 @@ h1,
 h2,
 h3,
 h4,
-h5 {
-	font-weight: 500;
-	line-height: 1.15;
+h5,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5 {
+	font-weight: var(--heading-font-weight);
+	line-height: var(--heading-line-height);
 }
 
-h1 {
-	font-size: 1.8rem !important;
+h1,
+.h1 {
+	font-size: var(--h1-font-size);
 }
 
-h2 {
-	font-size: 1.6rem !important;
+h2,
+.h2 {
+	font-size: var(--h2-font-size);
 }
 
-h3 {
-	font-size: 1.42rem !important;
+h3,
+.h3 {
+	font-size: var(--h3-font-size);
 }
 
-h4 {
-	font-size: 1.27rem !important;
+h4,
+.h4 {
+	font-size: var(--h4-font-size);
 }
 
-h5 {
-	font-size: 1.13rem !important;
+h5,
+.h5 {
+	font-size: var(--h5-font-size);
+}
+
+.list-unstyled {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
 }
 
 .resume {
