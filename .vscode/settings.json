@@ -15,7 +15,9 @@
 		"**/.venv": true,
 		"**/.venv_frontman": true,
 		"**/__pycache__": true,
-		"**/pdm.lock": true
+		"**/dist": true,
+		"**/pdm.lock": true,
+		"**/static": true
 	},
 
 	// ----------------------------------------- JavaScript ------------------------------------------
