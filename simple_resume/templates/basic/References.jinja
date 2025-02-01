@@ -1,0 +1,11 @@
+{#def references #}
+
+{% if references %}
+	<Section :section_title="_('References')">
+		<ul class="list-unstyled">
+			{% for entry in references %}
+				<Reference :name="entry.name" :reference="entry.reference" />
+			{% endfor %}
+		</ul>
+	</Section>
+{% endif %}

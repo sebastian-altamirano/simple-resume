@@ -1,0 +1,19 @@
+.reference {
+	background: var(--color-primary-light);
+	border-left: 8px solid var(--indigo-6);
+	padding: 8px 16px 8px 32px;
+}
+
+.reference__bloquote {
+	margin: 0 0 8px;
+}
+
+.reference__reference {
+	font-style: italic;
+	margin: 0;
+}
+
+.reference__name {
+	font-weight: 500;
+	margin: 0;
+}

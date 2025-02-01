@@ -1,0 +1,15 @@
+{#def name = None, reference = None #}
+
+{% if name or reference %}
+	<li class="reference">
+		{% if reference %}
+			<blockquote class="reference__bloquote">
+				<p class="reference__reference">{{ reference }}</p>
+			</blockquote>
+		{% endif %}
+
+		{% if name %}
+			<p class="reference__name">{{ name }}</p>
+		{% endif %}
+	</li>
+{% endif %}

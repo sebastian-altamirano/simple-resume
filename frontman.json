@@ -7,12 +7,14 @@
 			"version": "5.0.14",
 			"destination": "fonts/roboto",
 			"files": [
-				"latin-300.css",
-				"latin-400.css",
-				"latin-500.css",
 				"files/roboto-latin-300-normal.woff2",
+				"files/roboto-latin-400-italic.woff2",
 				"files/roboto-latin-400-normal.woff2",
-				"files/roboto-latin-500-normal.woff2"
+				"files/roboto-latin-500-normal.woff2",
+				"latin-300.css",
+				"latin-400-italic.css",
+				"latin-400.css",
+				"latin-500.css"
 			]
 		},
 		{

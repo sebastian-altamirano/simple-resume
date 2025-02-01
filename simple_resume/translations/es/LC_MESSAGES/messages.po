@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-01 15:53-0300\n"
+"POT-Creation-Date: 2025-02-01 16:40-0300\n"
 "PO-Revision-Date: 2024-04-14 18:02-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -72,6 +72,10 @@ msgstr "Proyectos"
 #: simple_resume/templates/basic/Publications.jinja:4
 msgid "Publications"
 msgstr "Publicaciones"
+
+#: simple_resume/templates/basic/References.jinja:4
+msgid "References"
+msgstr "Referencias"
 
 #: simple_resume/templates/basic/Skills.jinja:4
 msgid "Skills"
