@@ -5,6 +5,7 @@
 	subtitle_url = None,
 	start_date = None,
 	end_date = None,
+	location = None,
 	summary = None,
 	highlights = None,
 	keywords = None,
@@ -22,18 +23,28 @@
 						{{ title }}
 					{% endif %}
 				</h3>
+
+				{% if subtitle or location %}
+					<div class="section-item__subtitle-and-location">
+						{% if subtitle %}
+							<p class="h3 section-item__subtitle">
+								{% if subtitle_url %}
+									<ExternalLink :text="subtitle" :url="subtitle_url" />
+								{% else %}
+									{{ subtitle }}
+								{% endif %}
+							</p>
+						{% endif %}
+
+						{% if location %}
+							<p class="h3 section-item__location">{{ location }}</p>
+						{% endif %}
+					</div>
+				{% endif %}
+
 				{% set date_range = date_format | daterangeformat(start_date, end_date) %}
 				{% if date_range %}
 					<p class="h3 section-item__date-range">{{ date_range }}</p>
-				{% endif %}
-				{% if subtitle %}
-					<p class="h3 section-item__subtitle">
-						{% if subtitle_url %}
-							<ExternalLink :text="subtitle" :url="subtitle_url" />
-						{% else %}
-							{{ subtitle }}
-						{% endif %}
-					</p>
 				{% endif %}
 			</header>
 
