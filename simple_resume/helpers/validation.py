@@ -23,8 +23,11 @@ from simple_resume.helpers.templates import get_registered_templates
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from pydantic import HttpUrl
-    from pydantic_extra_types.language_code import LanguageAlpha2
+    from simple_resume.type_definitions.validation import (
+        JsonSchemaUrl,
+        ResumeLanguage,
+        ResumeTemplate,
+    )
 
 
 def validate_date_range(start_date: datetime | None, end_date: datetime | None) -> None:
@@ -49,7 +52,7 @@ def validate_date_range(start_date: datetime | None, end_date: datetime | None) 
     return
 
 
-def validate_json_schema(json_schema: HttpUrl | None) -> None:
+def validate_json_schema_url(json_schema_url: JsonSchemaUrl) -> JsonSchemaUrl:
     """Validate if a JSON Schema is supported by Simple Resume.
 
     It does not raise an error if the JSON Schema is not compatible, but it prints a warning
@@ -57,9 +60,12 @@ def validate_json_schema(json_schema: HttpUrl | None) -> None:
     schema, it may still work without issues if the validation process is successful.
 
     Args:
-        json_schema: The JSON Schema of a JSON Resume.
+        json_schema_url: The JSON Schema URL of a JSON Resume.
+
+    Returns:
+        The given JSON Schema URL.
     """
-    if not json_schema:
+    if not json_schema_url:
         print_warning_message(
             "The resume does not specify a JSON Schema. The validation process is still ongoing, "
             "but Simple Resume is designed to work with JSON Resume schema V1.Y.Z. To avoid this "
@@ -67,7 +73,7 @@ def validate_json_schema(json_schema: HttpUrl | None) -> None:
         )
     elif not re.search(
         r"https:\/\/raw\.githubusercontent\.com\/jsonresume\/resume-schema\/v1\.\d+\.\d+\/schema\.json",
-        str(json_schema),
+        str(json_schema_url),
     ):
         print_warning_message(
             "The resume specifies a JSON Schema different from the one Simple Resume supports or "
@@ -77,8 +83,10 @@ def validate_json_schema(json_schema: HttpUrl | None) -> None:
             f'`"$schema": "{_get_latest_supported_schema()}"` in your resume.'
         )
 
+    return json_schema_url
 
-def validate_metadata_language(language: LanguageAlpha2 | None) -> None:
+
+def validate_metadata_language(language: ResumeLanguage) -> ResumeLanguage:
     """Validate the language specified in the Simple Resume metadata of a JSON Resume.
 
     Args:
@@ -86,6 +94,9 @@ def validate_metadata_language(language: LanguageAlpha2 | None) -> None:
 
     Raises:
         PydanticCustomError: If the language is not supported.
+
+    Returns:
+        The given language.
     """
     if language is None:
         print_warning_message(
@@ -104,8 +115,10 @@ def validate_metadata_language(language: LanguageAlpha2 | None) -> None:
             },
         )
 
+    return language
 
-def validate_metadata_template(template: str | None) -> None:
+
+def validate_metadata_template(template: ResumeTemplate) -> ResumeTemplate:
     """Validate the template specified in the Simple Resume metadata of a JSON Resume.
 
     Args:
@@ -113,6 +126,9 @@ def validate_metadata_template(template: str | None) -> None:
 
     Raises:
         PydanticCustomError: If the template does not exist.
+
+    Returns:
+        The given template.
     """
     if template is None:
         print_warning_message(
@@ -130,6 +146,8 @@ def validate_metadata_template(template: str | None) -> None:
                 "registered_templates": registered_templates,
             },
         )
+
+    return template
 
 
 def _get_latest_supported_schema() -> str:

@@ -23,7 +23,7 @@ from pydantic_extra_types.semantic_version import SemanticVersion
 from simple_resume.helpers.dates import to_aware_datetime
 from simple_resume.helpers.validation import (
     validate_date_range,
-    validate_json_schema,
+    validate_json_schema_url,
     validate_metadata_language,
     validate_metadata_template,
 )
@@ -252,9 +252,7 @@ class JsonResumeMeta(JsonResumeBaseModel):
     canonical: HttpUrl | None = None
     version: SemanticVersion | None = None
     last_modified: _PastDateTime | None = None
-    simple_resume: SimpleResumeMetadata = Field(
-        alias="simpleResume", default_factory=SimpleResumeMetadata
-    )
+    simple_resume: SimpleResumeMetadata = Field(default_factory=SimpleResumeMetadata)
 
     @field_validator("version", mode="before")
     @classmethod
@@ -295,7 +293,7 @@ class JsonResume(JsonResumeBaseModel):
     compatibility.
     """
 
-    json_schema: Annotated[HttpUrl | None, AfterValidator(validate_json_schema)] = Field(
+    json_schema: Annotated[HttpUrl | None, AfterValidator(validate_json_schema_url)] = Field(
         alias="$schema",
         default=None,
         validate_default=True,
