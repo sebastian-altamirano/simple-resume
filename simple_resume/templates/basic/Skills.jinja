@@ -1,7 +1,14 @@
-{#def skills #}
+{#def interests, languages, skills #}
 
-{% if skills %}
-	<Section :section_title="_('Skills')">
+{% if skills or languages or interests %}
+	{%
+		set section_title =
+		_('Skills and Interests') if interests and (skills or languages)
+		else _('Interests') if interests
+		else _('Skills') if skills
+		else _('Languages')
+	%}
+	<Section :section_title="section_title">
 		<ul class="list-unstyled">
 			{% for skills_group in skills %}
 				<li class="skills-group">
@@ -14,6 +21,32 @@
 					</Entry>
 				</li>
 			{% endfor %}
+			{% if languages %}
+				{% if skills or interests %}
+					<li class="skills-group">
+						<Entry>
+							<h3 class="skills-group__name">{{ _('Languages:') }}</h3>
+
+							<Tags :tags="languages | maplanguages" />
+						</Entry>
+					</li>
+				{% else %}
+					<Tags :tags="languages | maplanguages" />
+				{% endif %}
+			{% endif %}
+			{% if interests %}
+				{% if skills or languages %}
+					<li class="skills-group">
+						<Entry>
+							<h3 class="skills-group__name">{{ _('Interests:') }}</h3>
+
+							<Tags :tags="interests | mapinterests" />
+						</Entry>
+					</li>
+				{% else %}
+					<Tags :tags="interests | mapinterests" />
+				{% endif %}
+			{% endif %}
 		</ul>
 	</Section>
 {% endif %}

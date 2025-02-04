@@ -12,7 +12,12 @@
 	<main class="resume">
 		<Header :basics="resume.basics" />
 		<article class="resume__body">
-			<Skills :skills="resume.skills" />
+			<About :summary="resume.basics.summary" />
+			<Skills
+				:interests="resume.interests"
+				:languages="resume.languages"
+				:skills="resume.skills"
+			/>
 			<WorkExperience :work_experience="resume.work" />
 			<EducationHistory :education_history="resume.education" />
 			<Projects :projects="resume.projects" />

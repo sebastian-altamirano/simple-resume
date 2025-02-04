@@ -8,11 +8,13 @@ from functools import partial
 from typing import TYPE_CHECKING, Any, cast, overload
 
 from babel import Locale
+from babel.lists import format_list
 from pydantic import HttpUrl
 from tldextract import tldextract
 
 from simple_resume.helpers.dates import get_current_date
 from simple_resume.helpers.networks import get_supported_networks
+from simple_resume.models.json_resume import JsonResumeInterest, JsonResumeLanguage
 from simple_resume.type_definitions.networks import NetworkInfo
 
 if TYPE_CHECKING:
@@ -39,6 +41,8 @@ def get_all_custom_filters(
         "dateformat": partial(_format_date_for_resume, translations),
         "daterangeformat": partial(_format_date_range_for_resume, translations),
         "domainname": _get_domain_name,
+        "mapinterests": partial(_map_interests, language),
+        "maplanguages": _map_languages,
         "networkinfo": _get_network_info,
     }
 
@@ -56,6 +60,34 @@ def _add_localized_colon(translations: NullTranslations, label: str) -> str:
         The modified string with a localized colon.
     """
     return f"{translations.gettext('{label}:').format(label=label.removesuffix(':'))}"
+
+
+def _map_interests(language: str, interests: list[JsonResumeInterest]) -> list[str]:
+    """Map the interests to a list of strings.
+
+    Args:
+        language: The language to use for localization.
+        interests: The interests to map.
+
+    Returns:
+        The mapped interests.
+    """
+    return [
+        f"{interest.name} ({format_list(interest.keywords, locale=language)})"
+        if interest.keywords
+        else interest.name
+        for interest in interests
+        if interest.name
+    ]
+
+
+def _map_languages(languages: list[JsonResumeLanguage]) -> list[str]:
+    """Map the languages to a list of strings."""
+    return [
+        f"{language.language} ({language.fluency})" if language.fluency else language.language
+        for language in languages
+        if language.language
+    ]
 
 
 def _format_date_for_resume(
@@ -140,8 +172,8 @@ def _get_country_name(language: str, country_code: str) -> str:
     """Get the localized country name.
 
     Args:
-        country_code: An ISO 3166 country code.
         language: The language to use for localization.
+        country_code: An ISO 3166 country code.
 
     Returns:
         The localized country name.
