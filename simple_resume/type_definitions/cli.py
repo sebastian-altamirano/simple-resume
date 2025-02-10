@@ -7,6 +7,7 @@ from typing import Annotated
 from typer import Argument, Option
 
 from simple_resume.helpers.constants import DEFAULT_LANGUAGE
+from simple_resume.type_definitions.export import SupportedBrowserChannel
 
 ResumePath = Annotated[str, Argument(help="The path to the JSON Resume file.")]
 
@@ -46,5 +47,26 @@ ResumeOutputPath = Annotated[
             "The path to the directory where the resume will be exported. If not provided, it will "
             "be saved to the desktop."
         )
+    ),
+]
+
+
+BrowserChannel = Annotated[
+    SupportedBrowserChannel | None,
+    Option(
+        "--browser",
+        help=(
+            "The browser to use to generate the PDF file. If not provided, the application will "
+            "attempt to use a compatible browser. If no compatible browser is found, the process "
+            "will fail."
+        ),
+    ),
+]
+
+ShouldInstallBrowser = Annotated[
+    bool,
+    Option(
+        "--install-browser",
+        help="Installs the browser specified with `--browser` if it is not already installed.",
     ),
 ]
