@@ -6,7 +6,7 @@ from typer import Typer
 
 from simple_resume import commands
 
-app = Typer()
+app = Typer(pretty_exceptions_show_locals=False)
 
 app.command()(commands.export)
 app.command()(commands.serve)
