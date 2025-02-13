@@ -92,11 +92,11 @@ def validate_metadata_language(language: ResumeLanguage) -> ResumeLanguage:
     Args:
         language: The language specified in the metadata.
 
-    Raises:
-        PydanticCustomError: If the language is not supported.
-
     Returns:
         The given language.
+
+    Raises:
+        PydanticCustomError: If the language is not supported.
     """
     if language is None:
         print_warning_message(
@@ -124,11 +124,11 @@ def validate_metadata_template(template: ResumeTemplate) -> ResumeTemplate:
     Args:
         template: The template specified in the metadata.
 
-    Raises:
-        PydanticCustomError: If the template does not exist.
-
     Returns:
         The given template.
+
+    Raises:
+        PydanticCustomError: If the template does not exist.
     """
     if template is None:
         print_warning_message(
