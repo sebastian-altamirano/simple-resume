@@ -4,6 +4,9 @@
 	"editor.insertSpaces": false,
 	"editor.tabSize": 2,
 
+	"files.associations": {
+		"*.spec": "python" // Pyinstaller spec files
+	},
 	"files.eol": "\n",
 	"files.insertFinalNewline": true,
 	"files.trimTrailingWhitespace": true,

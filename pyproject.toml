@@ -5,8 +5,8 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 [dependency-groups]
-lint = ["ruff>=0.9.5"]
-types = ["types-jsonschema>=4.23.0.20241208", "pyright>=1.1.393"]
+build = ["pyinstaller-versionfile>=3.0.0"]
+lint = ["pyright>=1.1.394", "ruff>=0.9.6"]
 
 [project]
 name = "simple-resume"
@@ -18,14 +18,14 @@ dependencies = [
 	"Flask>=3.1.0",
 	"email-validator>=2.2.0",
 	"jinjax[whitenoise]>=0.48",
-	"jsonschema>=4.23.0",
 	"livereload>=2.7.1",
 	"playwright>=1.50.0",
-	"typer>=0.15.1",
 	"pydantic>=2.10.6",
 	"pydantic-extra-types[phonenumbers,pycountry,semver]>=2.10.2",
+	"pyinstaller>=6.12.0",
 	"requests>=2.32.3",
 	"tldextract>=5.1.3",
+	"typer>=0.15.1",
 ]
 requires-python = "==3.12.*"
 readme = "README.md"
@@ -50,12 +50,20 @@ format.composite = [
 lint.composite = ["ruff check", "pyright"]
 lint.env.PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release"
 frontman = "./scripts/run_frontman.sh"
+build-pyinstaller.composite = [
+	"compile-messages",
+	"frontman install",
+	"pyinstaller app.spec --noconfirm",
+]
+pack-pyinstaller-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
+pack-pyinstaller-windows = "Compress-Archive -Path dist/simple_resume/* -DestinationPath dist/simple_resume.zip -Force"
 # Hooks
-post_install = { composite = ["frontman install"] }
+post_install = { composite = ["compile-messages", "frontman install"] }
 pre_build = { composite = ["compile-messages"] }
 
 [tool.pyright]
 include = ["simple_resume"]
+pythonPlatform = "All"
 typeCheckingMode = "strict"
 
 [tool.ruff]

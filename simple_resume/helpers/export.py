@@ -60,7 +60,7 @@ def export_resume(
     logging.getLogger("werkzeug").disabled = True
 
     print_info_message("Exporting the resume...")
-    server = serve_resume_for_export(
+    serve_resume_for_export(
         resume, template=template, language=language, port=DEFAULT_PORT, translations=translations
     )
 
@@ -83,8 +83,6 @@ def export_resume(
     except:
         print_error_message("Failed to export the resume.")
         raise
-    finally:
-        server.terminate()
 
 
 def _generate_pdf(

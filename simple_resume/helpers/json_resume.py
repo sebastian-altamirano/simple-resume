@@ -27,7 +27,7 @@ def read_and_validate_resume(resume_path: str) -> JsonResume:
         JSONDecodeError: If the file is not a valid JSON.
         ValidationError: If the resume is not valid.
     """
-    resume = json.loads(Path(resume_path).resolve().read_text())
+    resume = json.loads(Path(resume_path).resolve().read_text(encoding="utf-8"))
 
     print_info_message("Validating the resume...")
 

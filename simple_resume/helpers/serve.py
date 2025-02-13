@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from multiprocessing import Process
+from threading import Thread
 from typing import TYPE_CHECKING
 
 from flask import Flask
@@ -51,8 +51,8 @@ def serve_resume_for_development(
 
 def serve_resume_for_export(
     resume: JsonResume, template: str, language: str, port: int, translations: NullTranslations
-) -> Process:
-    """Serve a JSON Resume without live reloading and wrapped in a process, so it can be stopped.
+) -> None:
+    """Serve a JSON Resume without live reloading.
 
     Args:
         resume: The content of a JSON Resume file.
@@ -60,17 +60,11 @@ def serve_resume_for_export(
         language: The language tag of the language to use.
         port: The port on which the server should listen.
         translations: The message catalog to use.
-
-    Returns:
-        A process instance that can be used to stop the server.
     """
     app = _create_flask_app_for_resume(resume, template, language, translations)
 
-    port = 5000
-    process = Process(target=lambda: app.run(port=port))
-    process.start()
-
-    return process
+    thread = Thread(target=app.run, daemon=True, kwargs={"port": port})
+    thread.start()
 
 
 def _create_flask_app_for_resume(
