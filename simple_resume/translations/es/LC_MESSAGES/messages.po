@@ -1,127 +1,104 @@
-# Spanish translations for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
-#
-msgid ""
-msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-04 18:54-0300\n"
-"PO-Revision-Date: 2024-04-14 18:02-0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: es\n"
-"Language-Team: es <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+#: simple_resume/templates/basic/About.jinja
+msgid "About Me"
+msgstr "Acerca de"
 
-#: simple_resume/components/Layout.jinja:9
-msgid "Simple Resume - Preview"
-msgstr "Simple Resume - Vista previa"
-
-#: simple_resume/components/Photo.jinja:5
-#, python-brace-format
-msgid "Photo of {name}"
-msgstr "Foto de {name}"
-
-#: simple_resume/helpers/i18n.py:30
+#: simple_resume/helpers/i18n.py
 msgid "Anonymous"
 msgstr "Anónimo"
 
-#: simple_resume/helpers/i18n.py:32
-#, python-brace-format
-msgid "{name}_Resume"
-msgstr "{name}_CV"
+#: simple_resume/templates/basic/Awards.jinja
+msgid "Awards"
+msgstr "Reconocimientos"
 
-#: simple_resume/helpers/jinja_filters.py:62
-#, python-brace-format
-msgid "{label}:"
-msgstr "{label}:"
+#: simple_resume/templates/basic/Certificates.jinja
+msgid "Certificates"
+msgstr "Certificados"
 
-#: simple_resume/helpers/jinja_filters.py:114
-#: simple_resume/helpers/jinja_filters.py:144
-#: simple_resume/helpers/jinja_filters.py:153
-#: simple_resume/helpers/jinja_filters.py:166
+#: simple_resume/templates/basic/EducationHistory.jinja
+msgid "Education"
+msgstr "Educación"
+
+#: simple_resume/templates/basic/ContactInformation.jinja
+msgid "Email:"
+msgstr "Correo electrónico:"
+
+#: simple_resume/helpers/jinja_filters.py
 #, python-brace-format
 msgid "Expected {date}"
 msgstr "Previsto {date}"
 
-#: simple_resume/helpers/jinja_filters.py:142
-msgid "Present"
-msgstr "Presente"
+#: simple_resume/templates/basic/WorkExperience.jinja
+msgid "Experience"
+msgstr "Experiencia"
 
-#: simple_resume/templates/basic/About.jinja:4
-msgid "About Me"
-msgstr "Acerca de"
-
-#: simple_resume/templates/basic/Awards.jinja:4
-msgid "Awards"
-msgstr "Reconocimientos"
-
-#: simple_resume/templates/basic/Certificates.jinja:4
-msgid "Certificates"
-msgstr "Certificados"
-
-#: simple_resume/templates/basic/ContactInformation.jinja:12
-msgid "Location:"
-msgstr "Ubicación:"
-
-#: simple_resume/templates/basic/ContactInformation.jinja:19
-msgid "Email:"
-msgstr "Correo electrónico:"
-
-#: simple_resume/templates/basic/ContactInformation.jinja:24
-msgid "Phone number:"
-msgstr "Número de teléfono:"
-
-#: simple_resume/templates/basic/EducationHistory.jinja:4
-msgid "Education"
-msgstr "Educación"
-
-#: simple_resume/templates/basic/Projects.jinja:4
-msgid "Projects"
-msgstr "Proyectos"
-
-#: simple_resume/templates/basic/Publications.jinja:4
-msgid "Publications"
-msgstr "Publicaciones"
-
-#: simple_resume/templates/basic/References.jinja:4
-msgid "References"
-msgstr "Referencias"
-
-#: simple_resume/templates/basic/Skills.jinja:6
-msgid "Skills and Interests"
-msgstr "Habilidades e Intereses"
-
-#: simple_resume/templates/basic/Skills.jinja:7
+#: simple_resume/templates/basic/Skills.jinja
 msgid "Interests"
 msgstr "Intereses"
 
-#: simple_resume/templates/basic/Skills.jinja:8
-msgid "Skills"
-msgstr "Habilidades"
-
-#: simple_resume/templates/basic/Skills.jinja:9
-msgid "Languages"
-msgstr "Lenguajes"
-
-#: simple_resume/templates/basic/Skills.jinja:28
-msgid "Languages:"
-msgstr "Lenguajes:"
-
-#: simple_resume/templates/basic/Skills.jinja:41
+#: simple_resume/templates/basic/Skills.jinja
 msgid "Interests:"
 msgstr "Intereses:"
 
-#: simple_resume/templates/basic/Volunteer.jinja:4
+#: simple_resume/templates/basic/Skills.jinja
+msgid "Languages"
+msgstr "Lenguajes"
+
+#: simple_resume/templates/basic/Skills.jinja
+msgid "Languages:"
+msgstr "Lenguajes:"
+
+#: simple_resume/templates/basic/ContactInformation.jinja
+msgid "Location:"
+msgstr "Ubicación:"
+
+#: simple_resume/templates/basic/ContactInformation.jinja
+msgid "Phone number:"
+msgstr "Número de teléfono:"
+
+#: simple_resume/components/Photo.jinja
+#, python-brace-format
+msgid "Photo of {name}"
+msgstr "Foto de {name}"
+
+#: simple_resume/helpers/jinja_filters.py
+msgid "Present"
+msgstr "Presente"
+
+#: simple_resume/templates/basic/Projects.jinja
+msgid "Projects"
+msgstr "Proyectos"
+
+#: simple_resume/templates/basic/Publications.jinja
+msgid "Publications"
+msgstr "Publicaciones"
+
+#: simple_resume/templates/basic/References.jinja
+msgid "References"
+msgstr "Referencias"
+
+#: simple_resume/components/Layout.jinja
+msgid "Simple Resume - Preview"
+msgstr "Simple Resume - Vista previa"
+
+#: simple_resume/templates/basic/Skills.jinja
+msgid "Skills"
+msgstr "Habilidades"
+
+#: simple_resume/templates/basic/Skills.jinja
+msgid "Skills and Interests"
+msgstr "Habilidades e Intereses"
+
+#: simple_resume/templates/basic/Volunteer.jinja
 msgid "Volunteer"
 msgstr "Voluntariado"
 
-#: simple_resume/templates/basic/WorkExperience.jinja:4
-msgid "Experience"
-msgstr "Experiencia"
+#: simple_resume/helpers/jinja_filters.py
+#, python-brace-format
+msgid "{label}:"
+msgstr "{label}:"
+
+#: simple_resume/helpers/i18n.py
+#, python-brace-format
+msgid "{name}_Resume"
+msgstr "{name}_CV"
 

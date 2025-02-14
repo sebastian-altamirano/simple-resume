@@ -38,10 +38,30 @@ simple-resume = "simple_resume.__main__:app"
 distribution = true
 
 [tool.pdm.scripts]
-extract-messages = "pybabel extract . -F simple_resume/translations/babel.cfg -o simple_resume/translations/messages.pot"
-initialize-messages = "pybabel init -i simple_resume/translations/messages.pot -d simple_resume/translations -l"
-update-messages = "pybabel update -i simple_resume/translations/messages.pot -d simple_resume/translations"
-compile-messages = "pybabel compile -d simple_resume/translations"
+_extract-messages = """pybabel extract simple_resume
+	--add-location file
+	--mapping-file simple_resume/translations/babel.cfg
+	--omit-header
+	--output-file simple_resume/translations/messages.pot
+	--sort-output
+	--width 100
+"""
+_update-messages = """pybabel update
+	--ignore-obsolete
+	--input-file simple_resume/translations/messages.pot
+	--omit-header
+	--output-dir simple_resume/translations
+	--width 100
+"""
+update-messages.composite = ["_extract-messages", "_update-messages"]
+initialize-messages.composite = [
+	"_extract-messages",
+	"mkdir -p simple_resume/translations/{args}/LC_MESSAGES",
+	"_update-messages --init-missing --locale {args}",
+]
+# `--use-fuzzy` is necessary because `.po` files without headers are marked as fuzzy.
+# https://github.com/python-babel/babel/issues/688
+compile-messages = "pybabel compile --directory simple_resume/translations --use-fuzzy"
 format.composite = [
 	"ruff check --select I --fix",             # Sort imports
 	"ruff format",
@@ -56,7 +76,11 @@ build-pyinstaller.composite = [
 	"pyinstaller app.spec --noconfirm",
 ]
 pack-pyinstaller-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
-pack-pyinstaller-windows = "Compress-Archive -Path dist/simple_resume/* -DestinationPath dist/simple_resume.zip -Force"
+pack-pyinstaller-windows = """Compress-Archive
+	-DestinationPath dist/simple_resume.zip
+	-Force
+	-Path dist/simple_resume/*
+"""
 # Hooks
 post_install = { composite = ["compile-messages", "frontman install"] }
 pre_build = { composite = ["compile-messages"] }
