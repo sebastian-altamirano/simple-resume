@@ -1,18 +1,19 @@
 #:schema https://json.schemastore.org/pyproject.json
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [dependency-groups]
-build = ["pyinstaller-versionfile>=3.0.0"]
-lint = ["pyright>=1.1.394", "ruff>=0.9.6"]
+dev = [
+	"poethepoet>=0.32.2",
+	"pyinstaller>=6.12.0",
+	"pyinstaller-versionfile>=3.0.0",
+	"pyright>=1.1.394",
+	"ruff>=0.9.6",
+]
 
 [project]
-name = "simple-resume"
-version = "1.0.0"
-description = "CLI tool to build a resume using a JSON Resume file"
-authors = [{ name = "Sebastián Altamirano" }]
 dependencies = [
 	"Babel>=2.17.0",
 	"Flask>=3.1.0",
@@ -22,22 +23,53 @@ dependencies = [
 	"playwright>=1.50.0",
 	"pydantic>=2.10.6",
 	"pydantic-extra-types[phonenumbers,pycountry,semver]>=2.10.2",
-	"pyinstaller>=6.12.0",
 	"requests>=2.32.3",
 	"tldextract>=5.1.3",
 	"typer>=0.15.1",
 ]
-requires-python = "==3.12.*"
+requires-python = ">=3.12"
+name = "simple-resume"
+version = "1.0.0"
+description = "CLI tool to build a resume using a JSON Resume file"
+authors = [{ name = "Sebastián Altamirano" }]
 readme = "README.md"
 license = { text = "MIT" }
 
 [project.scripts]
 simple-resume = "simple_resume.__main__:app"
 
-[tool.pdm]
-distribution = true
+[tool.poe.tasks]
+# Build (Pyinstaller)
+_pack-pyinstaller-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
 
-[tool.pdm.scripts]
+_pack-pyinstaller-windows.interpreter = "pwsh"
+_pack-pyinstaller-windows.shell = """Compress-Archive
+	-DestinationPath dist/simple_resume.zip
+	-Force
+	-Path dist/simple_resume/*
+"""
+
+_pack-pyinstaller.control = { expr = "sys.platform" }
+_pack-pyinstaller.switch = [
+	{ case = "linux", ref = "_pack-pyinstaller-linux" },
+	{ case = "win32", ref = "_pack-pyinstaller-windows" },
+]
+
+build-pyinstaller.sequence = [{ cmd = "pyinstaller app.spec --noconfirm" }, "_pack-pyinstaller"]
+build-pyinstaller.deps = ["compile-messages", "download-assets"]
+
+# Format
+_format-prettier = "npx prettier --write --ignore-unknown ."
+_format-ruff = "ruff format"
+_sort-imports = "ruff check --select I --fix"
+format = ["_format-prettier", "_format-ruff", "_sort-imports"]
+
+# Lint
+_lint-pyright = { cmd = "pyright", env = { PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release" } }
+_lint-ruff = "ruff check"
+lint = ["_lint-ruff", "_lint-pyright"]
+
+# Translation management
 _extract-messages = """pybabel extract simple_resume
 	--add-location file
 	--mapping-file simple_resume/translations/babel.cfg
@@ -46,6 +78,7 @@ _extract-messages = """pybabel extract simple_resume
 	--sort-output
 	--width 100
 """
+
 _update-messages = """pybabel update
 	--ignore-obsolete
 	--input-file simple_resume/translations/messages.pot
@@ -53,37 +86,26 @@ _update-messages = """pybabel update
 	--output-dir simple_resume/translations
 	--width 100
 """
-update-messages.composite = ["_extract-messages", "_update-messages"]
-initialize-messages.composite = [
-	"_extract-messages",
-	"mkdir -p simple_resume/translations/{args}/LC_MESSAGES",
-	"_update-messages --init-missing --locale {args}",
-]
+
 # `--use-fuzzy` is necessary because `.po` files without headers are marked as fuzzy.
 # https://github.com/python-babel/babel/issues/688
 compile-messages = "pybabel compile --directory simple_resume/translations --use-fuzzy"
-format.composite = [
-	"ruff check --select I --fix",             # Sort imports
-	"ruff format",
-	"npx prettier --write --ignore-unknown .",
+
+initialize-messages.sequence = [
+	"_extract-messages",
+	# `--init-missing` fails if the directory does not exist.
+	# https://github.com/python-babel/babel/issues/1139
+	{ cmd = "mkdir -p simple_resume/translations/${locale}/LC_MESSAGES" },
+	"_update-messages --init-missing --locale ${locale}",
 ]
-lint.composite = ["ruff check", "pyright"]
-lint.env.PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release"
-frontman = "./scripts/run_frontman.sh"
-build-pyinstaller.composite = [
-	"compile-messages",
-	"frontman install",
-	"pyinstaller app.spec --noconfirm",
+initialize-messages.args = [
+	{ name = "locale", positional = true, required = true, type = "string" },
 ]
-pack-pyinstaller-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
-pack-pyinstaller-windows = """Compress-Archive
-	-DestinationPath dist/simple_resume.zip
-	-Force
-	-Path dist/simple_resume/*
-"""
-# Hooks
-post_install = { composite = ["compile-messages", "frontman install"] }
-pre_build = { composite = ["compile-messages"] }
+
+update-messages = ["_extract-messages", "_update-messages"]
+
+# Template dependency management
+download-assets = "scripts/run_frontman.sh install"
 
 [tool.pyright]
 include = ["simple_resume"]
