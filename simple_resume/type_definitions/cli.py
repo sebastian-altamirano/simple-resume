@@ -21,32 +21,38 @@ ResumePathWithFallback = Annotated[
 ResumeTemplate = Annotated[
     str | None,
     Option(
+        "--template",
+        "-t",
         help=(
             "The name of the template to use. If not provided, the template specified in the "
             "resume metadata will be used, or the default template ({DEFAULT_TEMPLATE}) if none is "
             "specified."
-        )
+        ),
     ),
 ]
 
 ResumeLanguage = Annotated[
     str | None,
     Option(
+        "--language",
+        "-l",
         help=(
             "The language tag of the language to use, for example: 'en', 'en_US'. If not provided, "
             "the language specified in the resume metadata will be used, or the default language "
             f"({DEFAULT_LANGUAGE}) if none is specified."
-        )
+        ),
     ),
 ]
 
 ResumeOutputPath = Annotated[
     str | None,
     Option(
+        "--output-path",
+        "-o",
         help=(
             "The path to the directory where the resume will be exported. If not provided, it will "
             "be saved to the desktop."
-        )
+        ),
     ),
 ]
 
@@ -55,6 +61,7 @@ BrowserChannel = Annotated[
     SupportedBrowserChannel | None,
     Option(
         "--browser",
+        "-b",
         help=(
             "The browser to use to generate the PDF file. If not provided, the application will "
             "attempt to use a compatible browser. If no compatible browser is found, the process "
@@ -68,5 +75,14 @@ ShouldInstallBrowser = Annotated[
     Option(
         "--install-browser",
         help="Installs the browser specified with `--browser` if it is not already installed.",
+    ),
+]
+
+ServerPort = Annotated[
+    int,
+    Option(
+        "--port",
+        "-p",
+        help=("The port on which the server should listen."),
     ),
 ]

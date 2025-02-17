@@ -6,7 +6,9 @@ from typer import Typer
 
 from simple_resume import commands
 
-app = Typer(pretty_exceptions_show_locals=False)
+app = Typer(
+    context_settings={"help_option_names": ["-h", "--help"]}, pretty_exceptions_show_locals=False
+)
 
 app.command()(commands.export)
 app.command()(commands.serve)
