@@ -61,24 +61,24 @@ exclude = [
 include = ["simple_resume"]
 
 [tool.poe.tasks]
-# Build (Pyinstaller)
-_pack-pyinstaller-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
+# Build (standalone)
+_pack-standalone-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
 
-_pack-pyinstaller-windows.interpreter = "pwsh"
-_pack-pyinstaller-windows.shell = """Compress-Archive
+_pack-standalone-windows.interpreter = "pwsh"
+_pack-standalone-windows.shell = """Compress-Archive
 	-DestinationPath dist/simple_resume.zip
 	-Force
 	-Path dist/simple_resume/*
 """
 
-_pack-pyinstaller.control = { expr = "sys.platform" }
-_pack-pyinstaller.switch = [
-	{ case = "linux", ref = "_pack-pyinstaller-linux" },
-	{ case = "win32", ref = "_pack-pyinstaller-windows" },
+_pack-standalone.control = { expr = "sys.platform" }
+_pack-standalone.switch = [
+	{ case = "linux", ref = "_pack-standalone-linux" },
+	{ case = "win32", ref = "_pack-standalone-windows" },
 ]
 
-build-pyinstaller.sequence = [{ cmd = "pyinstaller app.spec --noconfirm" }, "_pack-pyinstaller"]
-build-pyinstaller.deps = ["compile-messages", "download-assets"]
+build-standalone.sequence = [{ cmd = "pyinstaller app.spec --noconfirm" }, "_pack-standalone"]
+build-standalone.deps = ["compile-messages", "download-assets"]
 
 # Format
 _format-prettier = "npx prettier --write --ignore-unknown ."
