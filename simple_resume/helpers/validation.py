@@ -7,7 +7,9 @@ from string import Template
 from typing import TYPE_CHECKING
 
 import requests
+from pydantic import HttpUrl
 from pydantic_core import PydanticCustomError
+from pydantic_extra_types.language_code import LanguageAlpha2
 
 from simple_resume.helpers.cli_logging import (
     print_warning_message,
@@ -22,12 +24,6 @@ from simple_resume.helpers.templates import get_registered_templates
 
 if TYPE_CHECKING:
     from datetime import datetime
-
-    from simple_resume.type_definitions.validation import (
-        JsonSchemaUrl,
-        ResumeLanguage,
-        ResumeTemplate,
-    )
 
 
 def validate_date_range(start_date: datetime | None, end_date: datetime | None) -> None:
@@ -52,7 +48,9 @@ def validate_date_range(start_date: datetime | None, end_date: datetime | None) 
     return
 
 
-def validate_json_schema_url(json_schema_url: JsonSchemaUrl) -> JsonSchemaUrl:
+def validate_json_schema_url[JsonSchemaUrl: HttpUrl | None](
+    json_schema_url: JsonSchemaUrl,
+) -> JsonSchemaUrl:
     """Validate if a JSON Schema is supported by Simple Resume.
 
     It does not raise an error if the JSON Schema is not compatible, but it prints a warning
@@ -86,7 +84,9 @@ def validate_json_schema_url(json_schema_url: JsonSchemaUrl) -> JsonSchemaUrl:
     return json_schema_url
 
 
-def validate_metadata_language(language: ResumeLanguage) -> ResumeLanguage:
+def validate_metadata_language[ResumeLanguage: LanguageAlpha2 | None](
+    language: ResumeLanguage,
+) -> ResumeLanguage:
     """Validate the language specified in the Simple Resume metadata of a JSON Resume.
 
     Args:
@@ -118,7 +118,9 @@ def validate_metadata_language(language: ResumeLanguage) -> ResumeLanguage:
     return language
 
 
-def validate_metadata_template(template: ResumeTemplate) -> ResumeTemplate:
+def validate_metadata_template[ResumeTemplate: str | None](
+    template: ResumeTemplate,
+) -> ResumeTemplate:
     """Validate the template specified in the Simple Resume metadata of a JSON Resume.
 
     Args:
