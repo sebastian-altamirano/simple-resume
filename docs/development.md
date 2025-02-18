@@ -116,6 +116,4 @@ uv build --wheel
 uv run poe build-standalone
 ```
 
-Standalone builds are only compatible with certain operating systems. For instance, a 32-bit Windows 10 build will work on both 32-bit and 64-bit Windows 10/11 systems ([and potentially older versions if the Universal C Runtime is installed](https://pyinstaller.org/en/v6.12.0/usage.html#windows)). However, a 64-bit build will only work on 64-bit Windows.
-
-If you need to generate a build for an operating system different from the one you are currently using, you must have access to that system. Common and easy workarounds include using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (to generate a Linux build from Windows) or [Docker](https://github.com/batonogov/docker-pyinstaller) (to generate a Linux build from Windows or a Windows build from Linux using Wine).
+Standalone builds are created with PyInstaller, which cannot cross-compile. This means you can only generate builds for your current operating system. Common workarounds include using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (to generate a Linux build from Windows) or [Docker](https://github.com/batonogov/docker-pyinstaller) (to generate a Linux build from Windows or a Windows build from Linux using Wine). [There are a few other catches that are documented in the PyInstaller documentation](https://pyinstaller.org/en/v6.12.0/usage.html#platform-specific-notes).
