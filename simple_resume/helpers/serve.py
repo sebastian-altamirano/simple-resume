@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import errno
 from threading import Thread
 from typing import TYPE_CHECKING
 
@@ -46,7 +47,13 @@ def serve_resume_for_development(
     server.watch("**/*.css")
     server.watch("**/*.js")
 
-    server.serve(port=port)
+    try:
+        server.serve(port=port)
+    except OSError as error:
+        if error.errno == errno.EADDRINUSE:
+            error_message = f"Port {port} is already in use, please choose another port."
+            raise ValueError(error_message) from None
+        raise
 
 
 def serve_resume_for_export(
