@@ -63,22 +63,7 @@ include = ["simple_resume"]
 
 [tool.poe.tasks]
 # Build (standalone)
-_pack-standalone-linux = "tar -czf dist/simple_resume.tar.gz -C dist/simple_resume ."
-
-_pack-standalone-windows.interpreter = "pwsh"
-_pack-standalone-windows.shell = """Compress-Archive
-	-DestinationPath dist/simple_resume.zip
-	-Force
-	-Path dist/simple_resume/*
-"""
-
-_pack-standalone.control = { expr = "sys.platform" }
-_pack-standalone.switch = [
-	{ case = "linux", ref = "_pack-standalone-linux" },
-	{ case = "win32", ref = "_pack-standalone-windows" },
-]
-
-build-standalone.sequence = [{ cmd = "pyinstaller app.spec --noconfirm" }, "_pack-standalone"]
+build-standalone.cmd = "pyinstaller app.spec --noconfirm"
 build-standalone.deps = ["compile-messages", "download-assets"]
 
 # Format

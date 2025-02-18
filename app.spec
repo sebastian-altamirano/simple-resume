@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import platform
 import shutil
 import sys
 import tomllib
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import livereload
 import pyinstaller_versionfile
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
     from PyInstaller.building.build_main import Analysis
 
 # `PACKAGE_PATH` is used because `__file__` is not available in this context.
-PROJECT_PATH = PACKAGE_PATH / ".."
+PROJECT_PATH = (PACKAGE_PATH / "..").resolve()
 
 
 def _copy_license_and_readme(destination_path: str) -> None:
@@ -29,9 +30,7 @@ def _copy_license_and_readme(destination_path: str) -> None:
 
 
 def _create_windows_version_info_file() -> Path:
-    project_metadata = tomllib.loads((PROJECT_PATH / "pyproject.toml").read_text(encoding="utf-8"))[
-        "project"
-    ]
+    project_metadata = _get_project_metadata()
     author = project_metadata["authors"][0]["name"]
 
     output_file = PROJECT_PATH / "dist" / "windows_version_info.txt"
@@ -61,6 +60,10 @@ def _get_directory_paths() -> list[tuple[Path, Path]]:
     ]
 
 
+def _get_project_metadata() -> dict[str, Any]:
+    return tomllib.loads((PROJECT_PATH / "pyproject.toml").read_text(encoding="utf-8"))["project"]
+
+
 def _get_translations_paths() -> list[tuple[Path, Path]]:
     supported_languages = get_supported_languages()
 
@@ -70,6 +73,22 @@ def _get_translations_paths() -> list[tuple[Path, Path]]:
         paths.append((base_path / "messages.mo", base_path))
 
     return paths
+
+
+def _make_archive() -> None:
+    version = _get_project_metadata()["version"]
+    system = platform.system().lower()
+    system = "macos" if system == "darwin" else system
+    architecture = platform.machine()
+    architecture = "x86_64" if architecture in ("AMD64", "x86_64") else architecture
+    dist_path = PROJECT_PATH / "dist"
+
+    shutil.make_archive(
+        str(dist_path / f"simple_resume-{version}-{system}-{architecture}"),
+        "zip" if system == "windows" else "gztar",
+        root_dir=dist_path / "simple_resume",
+        base_dir=".",
+    )
 
 
 if sys.platform == "win32":
@@ -107,7 +126,7 @@ exe = EXE(
     a.scripts,
     [("O", None, "OPTION"), ("O", None, "OPTION")],
     exclude_binaries=True,
-    name="simple_resume",
+    name="simple-resume",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -131,3 +150,4 @@ coll = COLLECT(
 )
 
 _copy_license_and_readme(coll.name)
+_make_archive()
