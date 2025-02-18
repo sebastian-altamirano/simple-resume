@@ -7,13 +7,13 @@ from typing import TYPE_CHECKING
 
 import flask.cli
 from playwright.sync_api import sync_playwright
+from portpicker import pick_unused_port
 
 from simple_resume.helpers.cli_logging import (
     print_error_message,
     print_info_message,
     print_success_message,
 )
-from simple_resume.helpers.constants import DEFAULT_PORT
 from simple_resume.helpers.i18n import get_localized_file_name_without_extension
 from simple_resume.helpers.playwright import launch_browser
 from simple_resume.helpers.serve import serve_resume_for_export
@@ -60,8 +60,13 @@ def export_resume(
     logging.getLogger("werkzeug").disabled = True
 
     print_info_message("Exporting the resume...")
+    port = pick_unused_port()
     serve_resume_for_export(
-        resume, template=template, language=language, port=DEFAULT_PORT, translations=translations
+        resume,
+        template=template,
+        language=language,
+        port=port,
+        translations=translations,
     )
 
     try:
@@ -72,7 +77,7 @@ def export_resume(
         resume_path = output_path / file_name
 
         _generate_pdf(
-            f"http://localhost:{DEFAULT_PORT}",
+            f"http://localhost:{port}",
             resume_path,
             browser_channel,
             should_install_browser=should_install_browser,

@@ -12,6 +12,8 @@ dev = [
 	"pyinstaller-versionfile>=3.0.0",
 	"pyright>=1.1.394",
 	"ruff>=0.9.6",
+	"types-portpicker>=1.6.0.0",
+	"types-requests>=2.32.0.20241016",
 ]
 
 [project]
@@ -22,6 +24,7 @@ dependencies = [
 	"jinjax[whitenoise]>=0.48",
 	"livereload>=2.7.1",
 	"playwright>=1.50.0",
+	"portpicker>=1.6.0",
 	"pydantic>=2.10.6",
 	"pydantic-extra-types[phonenumbers,pycountry,semver]>=2.10.2",
 	"requests>=2.32.3",
