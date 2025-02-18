@@ -46,6 +46,7 @@ dependencies = ["Babel", "poethepoet"]
 include = [
 	".python-version",
 	"app.spec",
+	"docs",
 	"frontman.json",
 	"scripts/run_frontman.sh",
 	"simple_resume",
