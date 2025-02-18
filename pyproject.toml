@@ -197,3 +197,6 @@ required-imports = ["from __future__ import annotations"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.uv]
+required-environments = ["sys_platform == 'linux'", "sys_platform == 'win32'"]
