@@ -5,7 +5,7 @@ import shutil
 import sys
 import tomllib
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import livereload
 import pyinstaller_versionfile
@@ -18,7 +18,12 @@ if TYPE_CHECKING:
     from PyInstaller.building.build_main import Analysis
 
 # `PACKAGE_PATH` is used because `__file__` is not available in this context.
-PROJECT_PATH = (PACKAGE_PATH / "..").resolve()
+PROJECT_PATH = PACKAGE_PATH.parent
+DIST_PATH = PROJECT_PATH / "dist"
+
+project_metadata = tomllib.loads((PROJECT_PATH / "pyproject.toml").read_text(encoding="utf-8"))[
+    "project"
+]
 
 
 def _copy_license_and_readme(destination_path: str) -> None:
@@ -30,10 +35,9 @@ def _copy_license_and_readme(destination_path: str) -> None:
 
 
 def _create_windows_version_info_file() -> Path:
-    project_metadata = _get_project_metadata()
     author = project_metadata["authors"][0]["name"]
 
-    output_file = PROJECT_PATH / "dist" / "windows_version_info.txt"
+    output_file = DIST_PATH / "windows_version_info.txt"
     pyinstaller_versionfile.create_versionfile(
         company_name=author,
         file_description=project_metadata["description"],
@@ -60,43 +64,38 @@ def _get_directory_paths() -> list[tuple[Path, Path]]:
     ]
 
 
-def _get_project_metadata() -> dict[str, Any]:
-    return tomllib.loads((PROJECT_PATH / "pyproject.toml").read_text(encoding="utf-8"))["project"]
-
-
 def _get_translations_paths() -> list[tuple[Path, Path]]:
     supported_languages = get_supported_languages()
 
     paths: list[tuple[Path, Path]] = []
     for language in supported_languages:
-        base_path = Path("simple_resume") / "translations" / language / "LC_MESSAGES"
-        paths.append((base_path / "messages.mo", base_path))
+        messages_path = Path("simple_resume") / "translations" / language / "LC_MESSAGES"
+        paths.append((messages_path / "messages.mo", messages_path))
 
     return paths
 
 
 def _make_archive() -> None:
-    version = _get_project_metadata()["version"]
+    version = project_metadata["version"]
     system = platform.system().lower()
     system = "macos" if system == "darwin" else system
     architecture = platform.machine()
     architecture = "x86_64" if architecture in ("AMD64", "x86_64") else architecture
-    dist_path = PROJECT_PATH / "dist"
 
     shutil.make_archive(
-        str(dist_path / f"simple_resume-{version}-{system}-{architecture}"),
+        str(DIST_PATH / f"simple_resume-{version}-{system}-{architecture}"),
         "zip" if system == "windows" else "gztar",
-        root_dir=dist_path / "simple_resume",
+        root_dir=DIST_PATH / "simple_resume",
         base_dir=".",
     )
 
 
 if sys.platform == "win32":
     binaries = [(Path(".venv") / "Scripts" / "playwright.exe", "playwright")]
-    version_info_path = _create_windows_version_info_file()
+    windows_version_info_path = _create_windows_version_info_file()
 else:
     binaries = [(Path(".venv") / "bin" / "playwright", "playwright")]
-    version_info_path = None
+    windows_version_info_path = None
 
 
 a = Analysis(
@@ -137,7 +136,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    version=version_info_path,
+    version=windows_version_info_path,
 )
 coll = COLLECT(
     exe,
