@@ -13,3 +13,4 @@ app = Typer(
 app.command()(commands.export)
 app.command()(commands.serve)
 app.command()(commands.validate)
+app.command()(commands.version)

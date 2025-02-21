@@ -51,13 +51,17 @@ include = [
 	"app.spec",
 	"docs",
 	"frontman.json",
-	"scripts/run_frontman.sh",
+	"scripts",
 	"simple_resume",
 	"uv.lock",
 ]
 
 [tool.hatch.build.targets.wheel]
-artifacts = ["simple_resume/static", "simple_resume/translations/**/LC_MESSAGES/messages.mo"]
+artifacts = [
+	"simple_resume/VERSION_INFO",
+	"simple_resume/static",
+	"simple_resume/translations/**/LC_MESSAGES/messages.mo",
+]
 exclude = [
 	"simple_resume/translations/**/LC_MESSAGES/messages.po",
 	"simple_resume/translations/babel.cfg",
@@ -67,7 +71,17 @@ include = ["simple_resume"]
 [tool.poe.tasks]
 # Build (standalone)
 build-standalone.cmd = "pyinstaller app.spec --noconfirm"
-build-standalone.deps = ["compile-messages", "download-assets"]
+build-standalone.deps = [
+	"compile-messages",
+	"download-assets",
+	"create-version-info-file pyinstaller",
+]
+
+# Build helpers
+create-version-info-file.script = "scripts.build:create_version_info_file(build_system)"
+create-version-info-file.args = [
+	{ name = "build_system", positional = true, required = true, type = "string" },
+]
 
 # Format
 _format-prettier = "npx prettier --write --ignore-unknown ."

@@ -15,6 +15,8 @@ with the tool."""
 
 PACKAGE_PATH = Path(__file__).parent.parent
 
+VERSION_INFO_PATH = PACKAGE_PATH / "VERSION_INFO"
+
 COMPONENTS_PATH = PACKAGE_PATH / "components"
 SAMPLE_DATA_PATH = PACKAGE_PATH / "sample_data"
 STATIC_PATH = PACKAGE_PATH / "static"

@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 import livereload
 import pyinstaller_versionfile
 from PyInstaller.utils.hooks import collect_submodules
-from simple_resume.helpers.constants import PACKAGE_PATH
+from simple_resume.helpers.constants import PACKAGE_PATH, VERSION_INFO_PATH
 from simple_resume.helpers.i18n import get_supported_languages
 
 if TYPE_CHECKING:
@@ -24,6 +24,10 @@ DIST_PATH = PROJECT_PATH / "dist"
 project_metadata = tomllib.loads((PROJECT_PATH / "pyproject.toml").read_text(encoding="utf-8"))[
     "project"
 ]
+
+
+def _cleanup() -> None:
+    VERSION_INFO_PATH.unlink(missing_ok=True)
 
 
 def _copy_license_and_readme(destination_path: str) -> None:
@@ -105,6 +109,7 @@ a = Analysis(
     datas=[
         *_get_directory_paths(),
         *_get_translations_paths(),
+        (Path("simple_resume") / "VERSION_INFO", "simple_resume"),
         (
             Path(livereload.__file__).parent / "vendors" / "livereload.js",
             Path("livereload") / "vendors",
@@ -150,3 +155,5 @@ coll = COLLECT(
 
 _copy_license_and_readme(coll.name)
 _make_archive()
+
+_cleanup()

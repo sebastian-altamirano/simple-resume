@@ -84,5 +84,6 @@ typings/
 # Node dependencies
 node_modules/
 
-# Simple Resume template dependencies
+# Simple Resume
 simple_resume/static/
+simple_resume/VERSION_INFO

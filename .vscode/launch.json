@@ -4,7 +4,7 @@
 			"args": ["export", "${workspaceFolder}/simple_resume/sample_data/resume.en.json"],
 			"jinja": true,
 			"justMyCode": true,
-			"name": "Export Resume",
+			"name": "export",
 			"program": "${workspaceFolder}/simple_resume/__main__.py",
 			"request": "launch",
 			"type": "debugpy"
@@ -13,7 +13,7 @@
 			"args": ["serve"],
 			"jinja": true,
 			"justMyCode": true,
-			"name": "Serve Resume",
+			"name": "serve",
 			"program": "${workspaceFolder}/simple_resume/__main__.py",
 			"request": "launch",
 			"type": "debugpy"
@@ -21,7 +21,15 @@
 		{
 			"args": ["validate", "${workspaceFolder}/simple_resume/sample_data/resume.en.json"],
 			"justMyCode": true,
-			"name": "Validate Resume",
+			"name": "validate",
+			"program": "${workspaceFolder}/simple_resume/__main__.py",
+			"request": "launch",
+			"type": "debugpy"
+		},
+		{
+			"args": ["version"],
+			"justMyCode": true,
+			"name": "version",
 			"program": "${workspaceFolder}/simple_resume/__main__.py",
 			"request": "launch",
 			"type": "debugpy"
