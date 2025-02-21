@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
-import subprocess
+import sys
 
+from playwright.__main__ import main as playwright_main
 from playwright.sync_api import Browser, Error, Playwright
 
-from simple_resume.helpers.cli_logging import print_error_message, print_info_message
+from simple_resume.helpers.cli_logging import (
+    print_error_message,
+    print_info_message,
+    print_success_message,
+)
 from simple_resume.helpers.exceptions import BrowserNotFoundError
 from simple_resume.type_definitions.export import SupportedBrowserChannel
 
@@ -87,15 +92,25 @@ def _get_browser(
             print_info_message(
                 f"{browser_label} is not installed, will try to install it as requested..."
             )
+
+            argv_backup = sys.argv
             try:
-                subprocess.run(
-                    ["playwright", "install", browser_channel, "--with-deps"], check=True
-                )
-            except subprocess.CalledProcessError:
-                print_error_message(f"{browser_label} installation failed.")
-                raise
-            except KeyboardInterrupt:
-                print_error_message(f"{browser_label} installation was interrupted.")
-                raise
+                sys.argv = ["", "install", browser_channel.value, "--with-deps"]
+                playwright_main()
+            except SystemExit as error:
+                if error.code == 0:
+                    print_success_message(f"{browser_label} installed successfully.")
+                else:
+                    # The error code is obtained from:
+                    # https://github.com/microsoft/playwright-python/blob/v1.50.0/playwright/__main__.py#L29
+                    keyboard_interrupt_code = 130
+                    print_error_message(
+                        f"{browser_label} installation was interrupted."
+                        if error.code == keyboard_interrupt_code
+                        else f"{browser_label} installation failed."
+                    )
+                    raise
+            finally:
+                sys.argv = argv_backup
 
             return playwright.chromium.launch(channel=browser_channel)

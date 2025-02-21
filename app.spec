@@ -94,18 +94,10 @@ def _make_archive() -> None:
     )
 
 
-if sys.platform == "win32":
-    binaries = [(Path(".venv") / "Scripts" / "playwright.exe", "playwright")]
-    windows_version_info_path = _create_windows_version_info_file()
-else:
-    binaries = [(Path(".venv") / "bin" / "playwright", "playwright")]
-    windows_version_info_path = None
-
-
 a = Analysis(
     [Path("simple_resume") / "__main__.py"],
     pathex=[],
-    binaries=binaries,
+    binaries=[],
     datas=[
         *_get_directory_paths(),
         *_get_translations_paths(),
@@ -141,7 +133,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    version=windows_version_info_path,
+    version=_create_windows_version_info_file() if sys.platform == "win32" else None,
 )
 coll = COLLECT(
     exe,
