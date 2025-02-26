@@ -4,11 +4,9 @@
 	fonts/roboto/latin-400.css,
 	fonts/roboto/latin-400-italic.css,
 	fonts/roboto/latin-500.css,
-	styles/radix-colors/gray.css,
-	styles/radix-colors/indigo.css
 #}
 
-<Layout :file_name="file_name">
+<Layout :file_name="file_name" :resume="resume">
 	<main class="resume">
 		<Header :basics="resume.basics" />
 		<article class="resume__body">

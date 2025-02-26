@@ -1,0 +1,33 @@
+{
+	"extends": "@tsconfig/strictest/tsconfig.json",
+	"compilerOptions": {
+		// Reverted options from `@tsconfig/strictest`.
+		"esModuleInterop": false,
+		"skipLibCheck": false,
+
+		// TS is only used for type checking.
+		"checkJs": true,
+		"noEmit": true,
+		"noEmitOnError": true,
+
+		"noErrorTruncation": true,
+
+		"lib": ["ES2021", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"target": "ES2021",
+
+		"baseUrl": "./",
+		"paths": {
+			"/static/*": ["simple_resume/ui_helpers/*"],
+			"simple-resume": ["simple_resume/ui_helpers/types.d.ts"]
+		}
+	},
+	"include": [
+		"simple_resume/components/**/*.d.ts",
+		"simple_resume/components/**/*.js",
+		"simple_resume/templates/**/*.d.ts",
+		"simple_resume/templates/**/*.js",
+		"simple_resume/ui_helpers/**/*.d.ts",
+		"simple_resume/ui_helpers/**/*.js"
+	]
+}

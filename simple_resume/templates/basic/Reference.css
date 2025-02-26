@@ -1,6 +1,6 @@
 .reference {
 	background: var(--color-primary-light);
-	border-left: 8px solid var(--indigo-6);
+	border-left: 8px solid var(--reference-border-color);
 	padding: 8px 16px 8px 32px;
 }
 

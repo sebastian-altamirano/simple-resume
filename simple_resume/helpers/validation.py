@@ -7,6 +7,7 @@ from string import Template
 from typing import TYPE_CHECKING
 
 import requests
+from babel.lists import format_list
 from pydantic import HttpUrl
 from pydantic_core import PydanticCustomError
 from pydantic_extra_types.language_code import LanguageAlpha2
@@ -20,10 +21,50 @@ from simple_resume.helpers.constants import (
     LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG,
 )
 from simple_resume.helpers.i18n import get_supported_languages
+from simple_resume.helpers.template_metadata import get_colors_by_color_system
 from simple_resume.helpers.templates import get_registered_templates
+from simple_resume.type_definitions.template_metadata import ColorSystem
 
 if TYPE_CHECKING:
     from datetime import datetime
+
+
+def validate_color_scheme(
+    color_system: ColorSystem | None, color_scheme: dict[str, str] | None
+) -> None:
+    """Validate that the color scheme respects the color system.
+
+    Raises:
+        PydanticCustomError: If the color system is not specified or if the color scheme does
+            not match the color system.
+    """
+    if not color_scheme:
+        return
+
+    if not color_system:
+        raise PydanticCustomError(
+            "color_scheme",  # noqa: EM101 Does not apply here.
+            "The color scheme is defined, but the color system is not. The supported color systems "
+            "are: {color_systems}.",
+            {
+                "color_systems": format_list(
+                    [f"'{color_system.value}'" for color_system in ColorSystem], locale="en"
+                ),
+            },
+        )
+
+    colors = get_colors_by_color_system(color_system)
+    if any(color not in colors for color in color_scheme.values()):
+        raise PydanticCustomError(
+            "color_scheme",  # noqa: EM101 Does not apply here.
+            "The color scheme `{color_scheme}` does not respect the '{color_system}' color system. "
+            "It contains invalid colors. The supported colors are: {colors}.",
+            {
+                "color_scheme": color_scheme,
+                "color_system": color_system,
+                "colors": format_list([f"'{color}'" for color in colors], locale="en"),
+            },
+        )
 
 
 def validate_date_range(start_date: datetime | None, end_date: datetime | None) -> None:

@@ -14,6 +14,7 @@ from simple_resume.helpers.constants import (
     COMPONENTS_PATH,
     STATIC_PATH,
     TEMPLATES_PATH,
+    UI_HELPERS_PATH,
 )
 from simple_resume.helpers.i18n import get_localized_file_name_without_extension
 from simple_resume.helpers.jinja import (
@@ -102,6 +103,7 @@ def _create_flask_app_for_resume(
     catalog.add_folder(COMPONENTS_PATH)
     catalog.add_folder(TEMPLATES_PATH / template)
     catalog.add_folder(STATIC_PATH)
+    catalog.add_folder(UI_HELPERS_PATH)
     app.wsgi_app = catalog.get_middleware(
         app.wsgi_app,
         autorefresh=auto_reload,

@@ -1,11 +1,13 @@
 {
 	"recommendations": [
-		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"ms-python.debugpy",
 		"charliermarsh.ruff",
 		"esbenp.prettier-vscode",
+		"ms-python.debugpy",
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"pietz.jinjax-syntax",
 		"samuelcolvin.jinjahtml",
-		"tamasfe.even-better-toml"
+		"tamasfe.even-better-toml",
+		"YoavBls.pretty-ts-errors"
 	]
 }

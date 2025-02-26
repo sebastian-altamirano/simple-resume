@@ -21,7 +21,39 @@
 			"name": "@radix-ui/colors",
 			"version": "3.0.0",
 			"destination": "styles/radix-colors",
-			"files": ["gray.css", "indigo.css"]
+			"files": [
+				"amber.css",
+				"blue.css",
+				"bronze.css",
+				"brown.css",
+				"crimson.css",
+				"cyan.css",
+				"gold.css",
+				"grass.css",
+				"gray.css",
+				"green.css",
+				"indigo.css",
+				"iris.css",
+				"jade.css",
+				"lime.css",
+				"mauve.css",
+				"mint.css",
+				"olive.css",
+				"orange.css",
+				"pink.css",
+				"plum.css",
+				"purple.css",
+				"red.css",
+				"ruby.css",
+				"sage.css",
+				"sand.css",
+				"sky.css",
+				"slate.css",
+				"teal.css",
+				"tomato.css",
+				"violet.css",
+				"yellow.css"
+			]
 		},
 		{
 			"name": "bootstrap-icons",
@@ -33,6 +65,18 @@
 					"rename": "bootstrap.svg"
 				}
 			]
+		},
+		{
+			"name": "open-color",
+			"version": "1.9.1",
+			"destination": "styles",
+			"files": ["open-color.css"]
+		},
+		{
+			"name": "reasonable-colors",
+			"version": "0.4.0",
+			"destination": "styles",
+			"files": ["reasonable-colors.css"]
 		},
 		{
 			"name": "sanitize.css",

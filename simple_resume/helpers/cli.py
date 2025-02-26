@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_OUTPUT_PATH, DEFAULT_TEMPLATE
+from simple_resume.models.json_resume import SimpleResumeTemplateMetadata
 
 if TYPE_CHECKING:
     from simple_resume.models.json_resume import SimpleResumeMetadata
@@ -46,7 +47,8 @@ def get_template(simple_resume_metadata: SimpleResumeMetadata, template: str | N
 
     The template is determined in the following order:
     1. From the `template` argument provided to the CLI.
-    2. From `/meta/simpleResume/template` in the JSON Resume file.
+    2. From `/meta/simpleResume/template/name` or `/meta/simpleResume/template` in the JSON Resume
+    file.
     3. From the default template.
 
     Args:
@@ -56,4 +58,12 @@ def get_template(simple_resume_metadata: SimpleResumeMetadata, template: str | N
     Returns:
         The determined template.
     """
-    return template or simple_resume_metadata.template or DEFAULT_TEMPLATE
+    return (
+        template
+        or (
+            simple_resume_metadata.template.name
+            if isinstance(simple_resume_metadata.template, SimpleResumeTemplateMetadata)
+            else simple_resume_metadata.template
+        )
+        or DEFAULT_TEMPLATE
+    )

@@ -6,7 +6,7 @@ To work on this project you need to have the following installed:
 
 - [Python](https://www.python.org/downloads/): The version specified in [`.python-version`](../.python-version) or a newer one.
 - [uv](https://docs.astral.sh/uv/getting-started/installation/): Used as project and package manager.
-- [Node.js](https://nodejs.org/en/download): Necessary to run Prettier and Pyright from the terminal.
+- [Node.js](https://nodejs.org/en/download): Necessary to run Prettier, Pyright and TypeScript from the terminal.
 - Google Chrome or Microsoft Edge: Required by the `export` command to generate a PDF file. If no compatible browser is installed, you can include the `--install-browser` flag when running the `export` command to automatically install one.
 
 ## Setup
@@ -23,7 +23,7 @@ uv sync
 uv run poe download-assets
 # Compile the translations.
 uv run poe compile-messages
-# Install Prettier.
+# Install Prettier and TypeScript.
 npm install
 ```
 

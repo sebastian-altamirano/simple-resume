@@ -22,11 +22,13 @@ from pydantic_extra_types.semantic_version import SemanticVersion
 
 from simple_resume.helpers.dates import to_aware_datetime
 from simple_resume.helpers.validation import (
+    validate_color_scheme,
     validate_date_range,
     validate_json_schema_url,
     validate_metadata_language,
     validate_metadata_template,
 )
+from simple_resume.type_definitions.template_metadata import ColorSystem
 
 _DateTime = Annotated[
     datetime,
@@ -230,6 +232,25 @@ class JsonResumeProject(JsonResumeBaseModel):
         return self
 
 
+class SimpleResumeTemplateMetadata(JsonResumeBaseModel):
+    """Extended template metadata."""
+
+    color_scheme: dict[str, str] | None = None
+    color_system: ColorSystem | None = None
+    name: Annotated[str, AfterValidator(validate_metadata_template)]
+
+    @model_validator(mode="after")
+    def check_color_scheme_respects_color_system(self) -> Self:
+        """Validate that the color scheme respects the color system.
+
+        Raises:
+            PydanticCustomError: If the color system is not specified or if the color scheme does
+                not match the color system.
+        """
+        validate_color_scheme(self.color_system, self.color_scheme)
+        return self
+
+
 class SimpleResumeMetadata(JsonResumeBaseModel):
     """Metadata supported by Simple Resume for a JSON Resume.
 
@@ -240,7 +261,10 @@ class SimpleResumeMetadata(JsonResumeBaseModel):
         default=None,
         validate_default=True,
     )
-    template: Annotated[str | None, AfterValidator(validate_metadata_template)] = Field(
+    template: (
+        Annotated[str | None, AfterValidator(validate_metadata_template)]
+        | SimpleResumeTemplateMetadata
+    ) = Field(
         default=None,
         validate_default=True,
     )

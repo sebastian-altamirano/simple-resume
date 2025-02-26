@@ -83,16 +83,17 @@ create-version-info-file.args = [
 	{ name = "build_system", positional = true, required = true, type = "string" },
 ]
 
+# Check
+_check-pyright = { cmd = "pyright", env = { PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release" } }
+_check-ruff = "ruff check"
+_check_typescript = "npx tsc"
+check = ["_check-ruff", "_check-pyright", "_check_typescript"]
+
 # Format
 _format-prettier = "npx prettier --write --ignore-unknown ."
 _format-ruff = "ruff format"
 _sort-imports = "ruff check --select I --fix"
-format = ["_format-prettier", "_format-ruff", "_sort-imports"]
-
-# Lint
-_lint-pyright = { cmd = "pyright", env = { PYRIGHT_PYTHON_PYLANCE_VERSION = "latest-release" } }
-_lint-ruff = "ruff check"
-lint = ["_lint-ruff", "_lint-pyright"]
+format = ["_format-ruff", "_sort-imports", "_format-prettier"]
 
 # Translation management
 _extract-messages = """pybabel extract simple_resume

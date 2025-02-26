@@ -1,8 +1,4 @@
 :root {
-	--color-primary: var(--indigo-12);
-	--color-primary-light: var(--indigo-3);
-	--color-background: var(--gray-1);
-
 	--h1-font-size: 1.8rem;
 	--h2-font-size: 1.6rem;
 	--h3-font-size: 1.42rem;
@@ -10,8 +6,6 @@
 	--h5-font-size: 1.13rem;
 	--heading-font-weight: 500;
 	--heading-line-height: 1.15;
-
-	--link-color: var(--indigo-11);
 	--link-padding: 0 6px;
 }
 

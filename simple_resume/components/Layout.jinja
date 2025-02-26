@@ -1,5 +1,10 @@
-{#def file_name #}
-{#css styles/sanitize.min.css #}
+{#def file_name, resume #}
+{#css
+	styles/open-color.css,
+	radix-colors.css,
+	styles/reasonable-colors.css,
+	styles/sanitize.min.css,
+#}
 
 <!doctype html>
 <html>
@@ -11,5 +16,8 @@
 	</head>
 	<body data-file-name="{{ file_name }}">
 		{{ content }}
+		<script id="simple-resume-metadata" type="application/json">{{
+			resume.meta.simple_resume.model_dump_json(by_alias=True)
+		}}</script>
 	</body>
 </html>
