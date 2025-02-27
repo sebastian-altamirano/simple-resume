@@ -1,27 +1,19 @@
-/**
- * @import {
- *   CssVariableMapper,
- *   ColorScheme,
- *   ColorSchemeConfig,
- *   ColorSchemesConfig,
- *   ColorSystem,
- *   SimpleResumeMetadata,
- * } from "simple-resume"
- */
+/** @import {CssVariableMapper, ColorScheme, ColorSchemeConfig, ColorSchemesConfig, ColorSystem, SimpleResumeMetadata} from "simple-resume" */
 
 /**
  * Returns a function to map a color and scale to a CSS variable.
+ *
+ * @example
+ * 	getCssVariableMapper("Open Color")("red", 5); // "var(--oc-red-5)"
+ *
+ * @example
+ * 	getCssVariableMapper("Radix Colors")("red", 5); // "var(--red-5)"
  *
  * @template {ColorSystem} ColorSystemType
  *
  * @param {ColorSystemType} colorSystem The color system to use for the mapping.
  *
- * @returns {CssVariableMapper<ColorSystemType>}
- *
- * @example
- * getCssVariableMapper("Open Color")("red", 5)  // "var(--oc-red-5)"
- * @example
- * getCssVariableMapper("Radix Colors")("red", 5)  // "var(--red-5)"
+ * @returns {CssVariableMapper<ColorSystemType>} The mapping function.
  */
 function getCssVariableMapper(colorSystem) {
 	/** @type {{ [ColorSystemKey in ColorSystem]: CssVariableMapper<ColorSystemKey> }} */
@@ -35,19 +27,22 @@ function getCssVariableMapper(colorSystem) {
 }
 
 /**
- * Determines the color variables that need to be initialized.
+ * Determines the CSS color variables that need to be initialized.
+ *
+ * @example
+ * 	// { "color-primary": "oc-red-9", "color-primary-light": "oc-red-1" }
+ * 	getCssVariablesToInitialize(colorSchemesConfig, "Open Color");
  *
  * @template {string} ColorCategoryType
  * @template {ColorSystem} DefaultColorSystemType
  *
- * @param {ColorSchemesConfig<ColorCategoryType, DefaultColorSystemType>} colorSchemesConfig
- * @param {DefaultColorSystemType} defaultColorSystem
+ * @param {ColorSchemesConfig<ColorCategoryType, DefaultColorSystemType>} colorSchemesConfig The
+ *   configuration for each supported color system. If a configuration is not provided for a color
+ *   system, it is said to be unsupported.
+ * @param {DefaultColorSystemType} defaultColorSystem The color system to use in case
+ *   `/meta/simpleResume/template/colorSystem` is not set.
  *
- * @returns {{ [variableName: string]: string }}
- *
- * @example
- * // `{ "color-primary": "oc-red-9", "color-primary-light": "oc-red-1" }`
- * getCssVariablesToInitialize(colorSchemesConfig, "Open Color")
+ * @returns {{ [variableName: string]: string }} The CSS variables to initialize.
  */
 function getCssVariablesToInitialize(colorSchemesConfig, defaultColorSystem) {
 	/** @type {SimpleResumeMetadata<ColorSystem, ColorCategoryType>} */
@@ -94,10 +89,10 @@ function getCssVariablesToInitialize(colorSchemesConfig, defaultColorSystem) {
  * @template {ColorSystem} DefaultColorSystemType
  *
  * @param {ColorSchemesConfig<ColorCategoryType, DefaultColorSystemType>} colorSchemesConfig The
- * configuration for each supported color system. If a configuration is not provided for a color
- * system, it is said to be unsupported.
+ *   configuration for each supported color system. If a configuration is not provided for a color
+ *   system, it is said to be unsupported.
  * @param {DefaultColorSystemType} defaultColorSystem The color system to use in case
- * `/meta/simpleResume/template/colorSystem` is not set.
+ *   `/meta/simpleResume/template/colorSystem` is not set.
  *
  * @returns {void}
  */

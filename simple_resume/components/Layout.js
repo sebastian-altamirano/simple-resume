@@ -1,6 +1,7 @@
 /**
- * @typedef {Object} Dataset
- * @property {string} fileName
+ * @typedef {object} Dataset
+ *
+ * @property {string} fileName The file name to use when printing to PDF.
  */
 
 const title = document.title;
