@@ -10,20 +10,10 @@
 	<main class="resume">
 		<Header :basics="resume.basics" />
 		<article class="resume__body">
-			<About :summary="resume.basics.summary" />
-			<Skills
-				:interests="resume.interests"
-				:languages="resume.languages"
-				:skills="resume.skills"
-			/>
-			<WorkExperience :work_experience="resume.work" />
-			<EducationHistory :education_history="resume.education" />
-			<Projects :projects="resume.projects" />
-			<Publications :publications="resume.publications" />
-			<Awards :awards="resume.awards" />
-			<Certificates :certificates="resume.certificates" />
-			<Volunteer :volunteer="resume.volunteer" />
-			<References :references="resume.references" />
+			{% set sections_config = resume.meta.simple_resume.template.sections | mapsections(resume, ["Interests", "Languages"]) %}
+			{% for component, props in sections_config %}
+				{{ catalog.irender(component, **props) }}
+			{% endfor %}
 		</article>
 	</main>
 </Layout>

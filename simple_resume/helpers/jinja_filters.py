@@ -14,8 +14,9 @@ from tldextract import tldextract
 
 from simple_resume.helpers.dates import get_current_date
 from simple_resume.helpers.networks import get_supported_networks
-from simple_resume.models.json_resume import JsonResumeInterest, JsonResumeLanguage
+from simple_resume.models.json_resume import JsonResume, JsonResumeInterest, JsonResumeLanguage
 from simple_resume.type_definitions.networks import NetworkInfo
+from simple_resume.type_definitions.template_metadata import ResumeSection
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -43,6 +44,7 @@ def get_all_custom_filters(
         "domainname": _get_domain_name,
         "mapinterests": partial(_map_interests, language),
         "maplanguages": _map_languages,
+        "mapsections": _map_sections,
         "networkinfo": _get_network_info,
     }
 
@@ -60,34 +62,6 @@ def _add_localized_colon(translations: NullTranslations, label: str) -> str:
         The modified string with a localized colon.
     """
     return f"{translations.gettext('{label}:').format(label=label.removesuffix(':'))}"
-
-
-def _map_interests(language: str, interests: list[JsonResumeInterest]) -> list[str]:
-    """Map the interests to a list of strings.
-
-    Args:
-        language: The language to use for localization.
-        interests: The interests to map.
-
-    Returns:
-        The mapped interests.
-    """
-    return [
-        f"{interest.name} ({format_list(interest.keywords, locale=language)})"
-        if interest.keywords
-        else interest.name
-        for interest in interests
-        if interest.name
-    ]
-
-
-def _map_languages(languages: list[JsonResumeLanguage]) -> list[str]:
-    """Map the languages to a list of strings."""
-    return [
-        f"{language.language} ({language.fluency})" if language.fluency else language.language
-        for language in languages
-        if language.language
-    ]
 
 
 def _format_date_for_resume(
@@ -225,3 +199,68 @@ def _get_network_info(network: str | None, url: HttpUrl | None) -> NetworkInfo |
         )
 
     return None
+
+
+def _map_interests(language: str, interests: list[JsonResumeInterest]) -> list[str]:
+    """Map the interests to a list of strings.
+
+    Args:
+        language: The language to use for localization.
+        interests: The interests to map.
+
+    Returns:
+        The mapped interests.
+    """
+    return [
+        f"{interest.name} ({format_list(interest.keywords, locale=language)})"
+        if interest.keywords
+        else interest.name
+        for interest in interests
+        if interest.name
+    ]
+
+
+def _map_languages(languages: list[JsonResumeLanguage]) -> list[str]:
+    """Map the languages to a list of strings."""
+    return [
+        f"{language.language} ({language.fluency})" if language.fluency else language.language
+        for language in languages
+        if language.language
+    ]
+
+
+def _map_sections(
+    sections: list[ResumeSection],
+    resume: JsonResume,
+    unsupported_sections: list[ResumeSection] | None = None,
+) -> list[tuple[str, dict[str, Any]]]:
+    """Map the resume sections to components.
+
+    Args:
+        sections: The resume sections, arranged in order of display.
+        resume: The contents of a JSON Resume file.
+        unsupported_sections: The resume sections that are not supported by the template.
+
+    Returns:
+        A list of tuples containing the component name and its props.
+    """
+    components: dict[ResumeSection, tuple[str, dict[str, Any]]] = {
+        "About Me": ("About", {"summary": resume.basics.summary}),
+        "Awards": ("Awards", {"awards": resume.awards}),
+        "Certificates": ("Certificates", {"certificates": resume.certificates}),
+        "Education": ("EducationHistory", {"education_history": resume.education}),
+        "Experience": ("WorkExperience", {"work_experience": resume.work}),
+        "Interests": ("Interests", {"interests": resume.interests}),
+        "Languages": ("Languages", {"languages": resume.languages}),
+        "Projects": ("Projects", {"projects": resume.projects}),
+        "Publications": ("Publications", {"publications": resume.publications}),
+        "References": ("References", {"references": resume.references}),
+        "Skills": (
+            "Skills",
+            {"interests": resume.interests, "languages": resume.languages, "skills": resume.skills},
+        ),
+        "Volunteer": ("Volunteer", {"volunteer": resume.volunteer}),
+    }
+
+    unsupported_sections_set = set(unsupported_sections or [])
+    return [components[section] for section in sections if section not in unsupported_sections_set]

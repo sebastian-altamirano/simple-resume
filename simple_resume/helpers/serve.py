@@ -34,7 +34,7 @@ def serve_resume_for_development(
     """Serve a JSON Resume with live reloading.
 
     Args:
-        resume: The content of a JSON Resume file.
+        resume: The contents of a JSON Resume file.
         template: The name of the template to use.
         language: The language tag of the language to use.
         port: The port on which the server should listen.
@@ -63,7 +63,7 @@ def serve_resume_for_export(
     """Serve a JSON Resume without live reloading.
 
     Args:
-        resume: The content of a JSON Resume file.
+        resume: The contents of a JSON Resume file.
         template: The name of the template to use.
         language: The language tag of the language to use.
         port: The port on which the server should listen.
@@ -81,7 +81,7 @@ def _create_flask_app_for_resume(
     """Create a Flask application to serve a JSON Resume.
 
     Args:
-        resume: The content of a JSON Resume file.
+        resume: The contents of a JSON Resume file.
         template: The name of the template to use.
         language: The language tag of the language to use.
         translations: The message catalog to use.

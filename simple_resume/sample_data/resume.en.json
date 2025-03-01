@@ -144,7 +144,21 @@
 					"primary": "indigo"
 				},
 				"colorSystem": "Radix Colors",
-				"name": "basic"
+				"name": "basic",
+				"sections": [
+					"About Me",
+					"Skills",
+					"Experience",
+					"Projects",
+					"Education",
+					"Certificates",
+					"Awards",
+					"Publications",
+					"Volunteer",
+					"Languages",
+					"Interests",
+					"References"
+				]
 			}
 		}
 	}

@@ -17,7 +17,6 @@ from simple_resume.helpers.cli_logging import (
 )
 from simple_resume.helpers.constants import (
     DEFAULT_LANGUAGE,
-    DEFAULT_TEMPLATE,
     LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG,
 )
 from simple_resume.helpers.i18n import get_supported_languages
@@ -27,6 +26,8 @@ from simple_resume.type_definitions.template_metadata import ColorSystem
 
 if TYPE_CHECKING:
     from datetime import datetime
+
+    from simple_resume.type_definitions.pydantic import ListItemType
 
 
 def validate_color_scheme(
@@ -159,9 +160,7 @@ def validate_metadata_language[ResumeLanguage: LanguageAlpha2 | None](
     return language
 
 
-def validate_metadata_template[ResumeTemplate: str | None](
-    template: ResumeTemplate,
-) -> ResumeTemplate:
+def validate_metadata_template(template: str) -> str:
     """Validate the template specified in the Simple Resume metadata of a JSON Resume.
 
     Args:
@@ -173,13 +172,7 @@ def validate_metadata_template[ResumeTemplate: str | None](
     Raises:
         PydanticCustomError: If the template does not exist.
     """
-    if template is None:
-        print_warning_message(
-            "A template is not specified in the resume metadata, so unless specified by a command "
-            f"line argument, the default template ({DEFAULT_TEMPLATE}) will be used when exporting "
-            "or serving the resume."
-        )
-    elif template not in (registered_templates := get_registered_templates()):
+    if template not in (registered_templates := get_registered_templates()):
         raise PydanticCustomError(
             "metadata_template",  # noqa: EM101 Does not apply here.
             "The template '{template}' does not exist, the registered templates are: "
@@ -191,6 +184,18 @@ def validate_metadata_template[ResumeTemplate: str | None](
         )
 
     return template
+
+
+def validate_unique_list(value: list[ListItemType]) -> list[ListItemType]:
+    """Validate that a list has unique items.
+
+    Raises:
+        PydanticCustomError: If the list is not unique.
+    """
+    if len(value) != len(set(value)):
+        raise PydanticCustomError("unique_list", "List must be unique.")
+
+    return value
 
 
 def _get_latest_supported_schema() -> str:

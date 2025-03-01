@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_OUTPUT_PATH, DEFAULT_TEMPLATE
-from simple_resume.models.json_resume import SimpleResumeTemplateMetadata
 
 if TYPE_CHECKING:
     from simple_resume.models.json_resume import SimpleResumeMetadata
@@ -60,10 +59,6 @@ def get_template(simple_resume_metadata: SimpleResumeMetadata, template: str | N
     """
     return (
         template
-        or (
-            simple_resume_metadata.template.name
-            if isinstance(simple_resume_metadata.template, SimpleResumeTemplateMetadata)
-            else simple_resume_metadata.template
-        )
+        or (simple_resume_metadata.template and simple_resume_metadata.template.name)
         or DEFAULT_TEMPLATE
     )

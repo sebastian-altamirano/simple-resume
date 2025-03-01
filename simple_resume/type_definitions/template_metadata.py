@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from enum import Enum
+from typing import Literal
 
 
 class ColorSystem(str, Enum):
@@ -11,3 +12,19 @@ class ColorSystem(str, Enum):
     OpenColor = "Open Color"
     RadixColors = "Radix Colors"
     ReasonableColors = "Reasonable Colors"
+
+
+ResumeSection = Literal[
+    "About Me",
+    "Awards",
+    "Certificates",
+    "Education",
+    "Experience",
+    "Interests",
+    "Languages",
+    "Projects",
+    "Publications",
+    "References",
+    "Skills",
+    "Volunteer",
+]

@@ -2,16 +2,15 @@
 
 from __future__ import annotations
 
-from datetime import datetime
-from typing import Annotated, Self
+from typing import Annotated, Any, Self
 
 from pydantic import (
     BaseModel,
+    BeforeValidator,
     ConfigDict,
     EmailStr,
     Field,
     HttpUrl,
-    PastDatetime,
 )
 from pydantic.alias_generators import to_camel
 from pydantic.functional_validators import AfterValidator, field_validator, model_validator
@@ -20,7 +19,8 @@ from pydantic_extra_types.language_code import LanguageAlpha2
 from pydantic_extra_types.phone_numbers import PhoneNumber
 from pydantic_extra_types.semantic_version import SemanticVersion
 
-from simple_resume.helpers.dates import to_aware_datetime
+from simple_resume.helpers.cli_logging import print_warning_message
+from simple_resume.helpers.constants import DEFAULT_TEMPLATE
 from simple_resume.helpers.validation import (
     validate_color_scheme,
     validate_date_range,
@@ -28,17 +28,8 @@ from simple_resume.helpers.validation import (
     validate_metadata_language,
     validate_metadata_template,
 )
-from simple_resume.type_definitions.template_metadata import ColorSystem
-
-_DateTime = Annotated[
-    datetime,
-    AfterValidator(to_aware_datetime),
-]
-
-_PastDateTime = Annotated[
-    PastDatetime,
-    AfterValidator(to_aware_datetime),
-]
+from simple_resume.type_definitions.pydantic import DateTime, PastDateTime, UniqueList
+from simple_resume.type_definitions.template_metadata import ColorSystem, ResumeSection
 
 
 class JsonResumeBaseModel(BaseModel):
@@ -89,8 +80,8 @@ class JsonResumeWork(JsonResumeBaseModel):
     description: str | None = None
     position: str | None = None
     url: HttpUrl | None = None
-    start_date: _DateTime | None = None
-    end_date: _DateTime | None = None
+    start_date: DateTime | None = None
+    end_date: DateTime | None = None
     summary: str | None = None
     highlights: list[str] = Field(default_factory=list)
 
@@ -111,8 +102,8 @@ class JsonResumeVolunteer(JsonResumeBaseModel):
     organization: str | None = None
     position: str | None = None
     url: HttpUrl | None = None
-    start_date: _DateTime | None = None
-    end_date: _DateTime | None = None
+    start_date: DateTime | None = None
+    end_date: DateTime | None = None
     summary: str | None = None
     highlights: list[str] = Field(default_factory=list)
 
@@ -134,8 +125,8 @@ class JsonResumeEducation(JsonResumeBaseModel):
     url: HttpUrl | None = None
     area: str | None = None
     study_type: str | None = None
-    start_date: _DateTime | None = None
-    end_date: _DateTime | None = None
+    start_date: DateTime | None = None
+    end_date: DateTime | None = None
     score: str | None = None
     courses: list[str] = Field(default_factory=list)
 
@@ -154,7 +145,7 @@ class JsonResumeAward(JsonResumeBaseModel):
     """`/awards/{index}` field of the JSON Resume spec."""
 
     title: str | None = None
-    date: _DateTime | None = None
+    date: DateTime | None = None
     awarder: str | None = None
     summary: str | None = None
 
@@ -163,7 +154,7 @@ class JsonResumeCertificate(JsonResumeBaseModel):
     """`/certificates/{index}` field of the JSON Resume spec."""
 
     name: str | None = None
-    date: _DateTime | None = None
+    date: DateTime | None = None
     url: HttpUrl | None = None
     issuer: str | None = None
 
@@ -173,7 +164,7 @@ class JsonResumePublication(JsonResumeBaseModel):
 
     name: str | None = None
     publisher: str | None = None
-    release_date: _DateTime | None = None
+    release_date: DateTime | None = None
     url: HttpUrl | None = None
     summary: str | None = None
 
@@ -214,8 +205,8 @@ class JsonResumeProject(JsonResumeBaseModel):
     description: str | None = None
     highlights: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)
-    start_date: _DateTime | None = None
-    end_date: _DateTime | None = None
+    start_date: DateTime | None = None
+    end_date: DateTime | None = None
     url: HttpUrl | None = None
     roles: list[str] = Field(default_factory=list)
     entity: str | None = None
@@ -232,12 +223,31 @@ class JsonResumeProject(JsonResumeBaseModel):
         return self
 
 
+def _get_default_sections() -> list[ResumeSection]:
+    return [
+        "About Me",
+        "Skills",
+        "Experience",
+        "Projects",
+        "Education",
+        "Certificates",
+        "Awards",
+        "Publications",
+        "Volunteer",
+        "Languages",
+        "Interests",
+        "References",
+    ]
+
+
 class SimpleResumeTemplateMetadata(JsonResumeBaseModel):
     """Extended template metadata."""
 
     color_scheme: dict[str, str] | None = None
     color_system: ColorSystem | None = None
     name: Annotated[str, AfterValidator(validate_metadata_template)]
+    # TODO: Add support for templates with multiple areas.
+    sections: UniqueList[ResumeSection] = Field(default_factory=_get_default_sections)
 
     @model_validator(mode="after")
     def check_color_scheme_respects_color_system(self) -> Self:
@@ -251,6 +261,20 @@ class SimpleResumeTemplateMetadata(JsonResumeBaseModel):
         return self
 
 
+def _ensure_template_metadata(template: Any) -> Any:  # noqa: ANN401
+    """Try to convert the template metadata into an instance of `SimpleResumeTemplateMetadata`."""
+    if isinstance(template, str):
+        return SimpleResumeTemplateMetadata(name=template)
+    if template is None:
+        print_warning_message(
+            "A template is not specified in the resume metadata, so unless specified by a command "
+            f"line argument, the default template ({DEFAULT_TEMPLATE}) will be used when exporting "
+            "or serving the resume."
+        )
+
+    return template
+
+
 class SimpleResumeMetadata(JsonResumeBaseModel):
     """Metadata supported by Simple Resume for a JSON Resume.
 
@@ -261,10 +285,9 @@ class SimpleResumeMetadata(JsonResumeBaseModel):
         default=None,
         validate_default=True,
     )
-    template: (
-        Annotated[str | None, AfterValidator(validate_metadata_template)]
-        | SimpleResumeTemplateMetadata
-    ) = Field(
+    template: Annotated[
+        SimpleResumeTemplateMetadata | None, BeforeValidator(_ensure_template_metadata)
+    ] = Field(
         default=None,
         validate_default=True,
     )
@@ -275,7 +298,7 @@ class JsonResumeMeta(JsonResumeBaseModel):
 
     canonical: HttpUrl | None = None
     version: SemanticVersion | None = None
-    last_modified: _PastDateTime | None = None
+    last_modified: PastDateTime | None = None
     simple_resume: SimpleResumeMetadata = Field(default_factory=SimpleResumeMetadata)
 
     @field_validator("version", mode="before")

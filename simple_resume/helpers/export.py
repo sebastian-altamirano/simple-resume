@@ -40,7 +40,7 @@ def export_resume(
     """Export a JSON Resume.
 
     Args:
-        resume: The content of a JSON Resume file.
+        resume: The contents of a JSON Resume file.
         template: The name of the template to use.
         language: The language tag of the language to use.
         output_path: The path to the directory where the resume will be exported.
