@@ -55,17 +55,12 @@ def export_resume(
     port = pick_unused_port()
     serve_resume_for_export(resume, port=port)
 
-    simple_resume_metadata = resume.meta.simple_resume
-    language = simple_resume_metadata.language
-    template = simple_resume_metadata.template.name
-
     try:
         # Create the output directory if it doesn't exist.
         output_path.mkdir(parents=True, exist_ok=True)
 
-        file_name = (
-            f"{get_localized_file_name_without_extension(resume, get_translations(language))}.pdf"
-        )
+        translations = get_translations(resume.meta.simple_resume.language)
+        file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
         resume_path = output_path / file_name
 
         _generate_pdf(
@@ -74,9 +69,7 @@ def export_resume(
             browser_channel,
             should_install_browser=should_install_browser,
         )
-        print_success_message(
-            f"Resume exported to `{resume_path}` (language: {language}; template: {template})."
-        )
+        print_success_message(f"Resume exported to `{resume_path}`.")
     except:
         print_error_message("Failed to export the resume.")
         raise
