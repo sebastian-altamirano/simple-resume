@@ -238,7 +238,7 @@ def _map_sections(
 
     Args:
         sections: The resume sections, arranged in order of display.
-        resume: The contents of a JSON Resume file.
+        resume: A validated JSON Resume.
         unsupported_sections: The resume sections that are not supported by the template.
 
     Returns:

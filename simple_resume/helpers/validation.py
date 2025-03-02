@@ -16,7 +16,6 @@ from simple_resume.helpers.cli_logging import (
     print_warning_message,
 )
 from simple_resume.helpers.constants import (
-    DEFAULT_LANGUAGE,
     LATEST_SUPPORTED_JSON_RESUME_SCHEMA_TAG,
 )
 from simple_resume.helpers.i18n import get_supported_languages
@@ -126,9 +125,7 @@ def validate_json_schema_url[JsonSchemaUrl: HttpUrl | None](
     return json_schema_url
 
 
-def validate_metadata_language[ResumeLanguage: LanguageAlpha2 | None](
-    language: ResumeLanguage,
-) -> ResumeLanguage:
+def validate_metadata_language(language: LanguageAlpha2) -> LanguageAlpha2:
     """Validate the language specified in the Simple Resume metadata of a JSON Resume.
 
     Args:
@@ -140,13 +137,7 @@ def validate_metadata_language[ResumeLanguage: LanguageAlpha2 | None](
     Raises:
         PydanticCustomError: If the language is not supported.
     """
-    if language is None:
-        print_warning_message(
-            "A language is not specified in the resume metadata, so unless specified by a command "
-            f"line argument, the default language ({DEFAULT_LANGUAGE}) will be used when exporting "
-            "or serving the resume."
-        )
-    elif language not in (supported_languages := get_supported_languages()):
+    if language not in (supported_languages := get_supported_languages()):
         raise PydanticCustomError(
             "metadata_language",  # noqa: EM101 Does not apply here.
             "The language '{language}' is not supported, the supported languages are: "

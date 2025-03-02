@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from typer import BadParameter
 
-from simple_resume.helpers.cli import get_language, get_output_path, get_template
+from simple_resume.helpers.constants import DEFAULT_OUTPUT_PATH
 from simple_resume.helpers.export import export_resume
-from simple_resume.helpers.i18n import get_translations
 from simple_resume.helpers.json_resume import read_and_validate_resume
 from simple_resume.type_definitions.cli import (
     BrowserChannel,
@@ -17,6 +18,18 @@ from simple_resume.type_definitions.cli import (
     ShouldInstallBrowser,
 )
 from simple_resume.type_definitions.export import SupportedBrowserChannel
+
+
+def _get_output_path(output_path: str | None) -> Path:
+    """Resolve the output path or return the default one.
+
+    Args:
+        output_path: The output path specified via CLI argument.
+
+    Returns:
+        The determined output path.
+    """
+    return (output_path is not None and Path(output_path).resolve()) or DEFAULT_OUTPUT_PATH
 
 
 def _validate_should_install_browser(
@@ -47,18 +60,12 @@ def export(
     """Export a JSON resume."""
     _validate_should_install_browser(browser_channel, should_install_browser=should_install_browser)
 
-    resume = read_and_validate_resume(resume_path)
-    simple_resume_metadata = resume.meta.simple_resume
-    final_template = get_template(simple_resume_metadata, template)
-    final_language = get_language(simple_resume_metadata, language)
-    final_output_path = get_output_path(output_path)
-
+    resume = read_and_validate_resume(
+        resume_path, cli_overrides={"template": template, "language": language}
+    )
     export_resume(
         resume,
-        template=final_template,
-        language=final_language,
-        output_path=final_output_path,
-        translations=get_translations(final_language),
+        output_path=_get_output_path(output_path),
         browser_channel=browser_channel,
         should_install_browser=should_install_browser,
     )

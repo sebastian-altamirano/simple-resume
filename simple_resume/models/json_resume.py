@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Annotated, Any, Self
+from typing import Annotated, Self
 
 from pydantic import (
     BaseModel,
-    BeforeValidator,
     ConfigDict,
     EmailStr,
     Field,
@@ -20,7 +19,7 @@ from pydantic_extra_types.phone_numbers import PhoneNumber
 from pydantic_extra_types.semantic_version import SemanticVersion
 
 from simple_resume.helpers.cli_logging import print_warning_message
-from simple_resume.helpers.constants import DEFAULT_TEMPLATE
+from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_TEMPLATE
 from simple_resume.helpers.validation import (
     validate_color_scheme,
     validate_date_range,
@@ -261,18 +260,22 @@ class SimpleResumeTemplateMetadata(JsonResumeBaseModel):
         return self
 
 
-def _ensure_template_metadata(template: Any) -> Any:  # noqa: ANN401
-    """Try to convert the template metadata into an instance of `SimpleResumeTemplateMetadata`."""
-    if isinstance(template, str):
-        return SimpleResumeTemplateMetadata(name=template)
-    if template is None:
-        print_warning_message(
-            "A template is not specified in the resume metadata, so unless specified by a command "
-            f"line argument, the default template ({DEFAULT_TEMPLATE}) will be used when exporting "
-            "or serving the resume."
-        )
+def _language_metadata_default_factory() -> LanguageAlpha2:
+    print_warning_message(
+        "A language is not specified in the resume metadata, so unless specified by a command line "
+        f"argument, the default language ({DEFAULT_LANGUAGE}) will be used when exporting or "
+        "serving the resume."
+    )
+    return LanguageAlpha2(DEFAULT_LANGUAGE)
 
-    return template
+
+def _template_metadata_default_factory() -> SimpleResumeTemplateMetadata:
+    print_warning_message(
+        "A template is not specified in the resume metadata, so unless specified by a command line "
+        f"argument, the default template ({DEFAULT_TEMPLATE}) will be used when exporting or "
+        "serving the resume."
+    )
+    return SimpleResumeTemplateMetadata(name=DEFAULT_TEMPLATE)
 
 
 class SimpleResumeMetadata(JsonResumeBaseModel):
@@ -281,15 +284,11 @@ class SimpleResumeMetadata(JsonResumeBaseModel):
     It can be found in `/meta/simpleResume` of the JSON Resume.
     """
 
-    language: Annotated[LanguageAlpha2 | None, AfterValidator(validate_metadata_language)] = Field(
-        default=None,
-        validate_default=True,
+    language: Annotated[LanguageAlpha2, AfterValidator(validate_metadata_language)] = Field(
+        default_factory=_language_metadata_default_factory,
     )
-    template: Annotated[
-        SimpleResumeTemplateMetadata | None, BeforeValidator(_ensure_template_metadata)
-    ] = Field(
-        default=None,
-        validate_default=True,
+    template: SimpleResumeTemplateMetadata = Field(
+        default_factory=_template_metadata_default_factory,
     )
 
 

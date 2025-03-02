@@ -16,31 +16,24 @@ from simple_resume.helpers.constants import (
     TEMPLATES_PATH,
     UI_HELPERS_PATH,
 )
-from simple_resume.helpers.i18n import get_localized_file_name_without_extension
+from simple_resume.helpers.i18n import get_localized_file_name_without_extension, get_translations
 from simple_resume.helpers.jinja import (
     add_custom_filters_to_jinja_environment,
     add_i18n_support_to_jinja_environment,
 )
 
 if TYPE_CHECKING:
-    from babel.support import NullTranslations
-
     from simple_resume.models.json_resume import JsonResume
 
 
-def serve_resume_for_development(
-    resume: JsonResume, template: str, language: str, port: int, translations: NullTranslations
-) -> None:
+def serve_resume_for_development(resume: JsonResume, port: int) -> None:
     """Serve a JSON Resume with live reloading.
 
     Args:
-        resume: The contents of a JSON Resume file.
-        template: The name of the template to use.
-        language: The language tag of the language to use.
+        resume: A validated JSON Resume.
         port: The port on which the server should listen.
-        translations: The message catalog to use.
     """
-    app = _create_flask_app_for_resume(resume, template, language, translations)
+    app = _create_flask_app_for_resume(resume)
     app.debug = True
 
     server = Server(app.wsgi_app)
@@ -57,39 +50,33 @@ def serve_resume_for_development(
         raise
 
 
-def serve_resume_for_export(
-    resume: JsonResume, template: str, language: str, port: int, translations: NullTranslations
-) -> None:
+def serve_resume_for_export(resume: JsonResume, port: int) -> None:
     """Serve a JSON Resume without live reloading.
 
     Args:
-        resume: The contents of a JSON Resume file.
-        template: The name of the template to use.
-        language: The language tag of the language to use.
+        resume: A validated JSON Resume.
         port: The port on which the server should listen.
-        translations: The message catalog to use.
     """
-    app = _create_flask_app_for_resume(resume, template, language, translations)
+    app = _create_flask_app_for_resume(resume)
 
     thread = Thread(target=app.run, daemon=True, kwargs={"port": port})
     thread.start()
 
 
-def _create_flask_app_for_resume(
-    resume: JsonResume, template: str, language: str, translations: NullTranslations
-) -> Flask:
+def _create_flask_app_for_resume(resume: JsonResume) -> Flask:
     """Create a Flask application to serve a JSON Resume.
 
     Args:
-        resume: The contents of a JSON Resume file.
-        template: The name of the template to use.
-        language: The language tag of the language to use.
-        translations: The message catalog to use.
+        resume: A validated JSON Resume.
 
     Returns:
         A Flask application instance configured to serve the JSON Resume.
     """
     app = Flask(__name__)
+
+    simple_resume_metadata = resume.meta.simple_resume
+    language = simple_resume_metadata.language
+    translations = get_translations(language)
 
     add_i18n_support_to_jinja_environment(app.jinja_env, translations)
     add_custom_filters_to_jinja_environment(app.jinja_env, language, translations)
@@ -101,7 +88,7 @@ def _create_flask_app_for_resume(
 
     catalog = Catalog(jinja_env=app.jinja_env, root_url="/static/")
     catalog.add_folder(COMPONENTS_PATH)
-    catalog.add_folder(TEMPLATES_PATH / template)
+    catalog.add_folder(TEMPLATES_PATH / simple_resume_metadata.template.name)
     catalog.add_folder(STATIC_PATH)
     catalog.add_folder(UI_HELPERS_PATH)
     app.wsgi_app = catalog.get_middleware(

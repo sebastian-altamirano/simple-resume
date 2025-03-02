@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Annotated
+from typing import Annotated, TypedDict
 
 from typer import Argument, Option
 
@@ -86,3 +86,10 @@ ServerPort = Annotated[
         help=("The port on which the server should listen."),
     ),
 ]
+
+
+class SimpleResumeMetadataCliOverrides(TypedDict):
+    """CLI options that override values within the `/meta/simpleResume` section of a JSON Resume."""
+
+    language: ResumeLanguage
+    template: ResumeTemplate

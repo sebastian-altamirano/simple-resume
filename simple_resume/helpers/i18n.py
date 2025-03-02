@@ -21,7 +21,7 @@ def get_localized_file_name_without_extension(
     """Return the localized file name of a JSON Resume without extension.
 
     Args:
-        resume: The contents of a JSON Resume file.
+        resume: A validated JSON Resume.
         translations: The message catalog to use.
 
     Returns:

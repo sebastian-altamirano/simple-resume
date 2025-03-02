@@ -14,7 +14,7 @@ from simple_resume.helpers.cli_logging import (
     print_info_message,
     print_success_message,
 )
-from simple_resume.helpers.i18n import get_localized_file_name_without_extension
+from simple_resume.helpers.i18n import get_localized_file_name_without_extension, get_translations
 from simple_resume.helpers.playwright import launch_browser
 from simple_resume.helpers.serve import serve_resume_for_export
 from simple_resume.type_definitions.export import SupportedBrowserChannel
@@ -22,17 +22,12 @@ from simple_resume.type_definitions.export import SupportedBrowserChannel
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from babel.support import NullTranslations
-
     from simple_resume.models.json_resume import JsonResume
 
 
 def export_resume(
     resume: JsonResume,
-    template: str,
-    language: str,
     output_path: Path,
-    translations: NullTranslations,
     browser_channel: SupportedBrowserChannel | None,
     *,
     should_install_browser: bool,
@@ -40,11 +35,8 @@ def export_resume(
     """Export a JSON Resume.
 
     Args:
-        resume: The contents of a JSON Resume file.
-        template: The name of the template to use.
-        language: The language tag of the language to use.
+        resume: A validated JSON Resume.
         output_path: The path to the directory where the resume will be exported.
-        translations: The message catalog to use.
         browser_channel: The browser to use to generate the PDF file. If `None`, it will try to use
             a browser installed in the system.
         should_install_browser: Whether to install the specified browser if it is not already
@@ -61,19 +53,19 @@ def export_resume(
 
     print_info_message("Exporting the resume...")
     port = pick_unused_port()
-    serve_resume_for_export(
-        resume,
-        template=template,
-        language=language,
-        port=port,
-        translations=translations,
-    )
+    serve_resume_for_export(resume, port=port)
+
+    simple_resume_metadata = resume.meta.simple_resume
+    language = simple_resume_metadata.language
+    template = simple_resume_metadata.template.name
 
     try:
         # Create the output directory if it doesn't exist.
         output_path.mkdir(parents=True, exist_ok=True)
 
-        file_name = f"{get_localized_file_name_without_extension(resume, translations)}.pdf"
+        file_name = (
+            f"{get_localized_file_name_without_extension(resume, get_translations(language))}.pdf"
+        )
         resume_path = output_path / file_name
 
         _generate_pdf(
