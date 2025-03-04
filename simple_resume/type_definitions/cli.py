@@ -7,7 +7,7 @@ from typing import Annotated, TypedDict
 from typer import Argument, Option
 
 from simple_resume.helpers.constants import DEFAULT_LANGUAGE
-from simple_resume.type_definitions.export import SupportedBrowserChannel
+from simple_resume.type_definitions.export import SupportedBrowserChannel, SupportedPaperSize
 
 ResumePath = Annotated[str, Argument(help="The path to the JSON Resume file.")]
 
@@ -63,9 +63,8 @@ BrowserChannel = Annotated[
         "--browser",
         "-b",
         help=(
-            "The browser to use to generate the PDF file. If not provided, the application will "
-            "attempt to use a compatible browser. If no compatible browser is found, the process "
-            "will fail."
+            "The browser to use to generate the PDF. If not provided, the application will attempt "
+            "to use a compatible browser. If no compatible browser is found, the process will fail."
         ),
     ),
 ]
@@ -84,6 +83,15 @@ ServerPort = Annotated[
         "--port",
         "-p",
         help=("The port on which the server should listen."),
+    ),
+]
+
+PaperSize = Annotated[
+    SupportedPaperSize,
+    Option(
+        "--size",
+        "-z",
+        help=("The paper size of the PDF."),
     ),
 ]
 

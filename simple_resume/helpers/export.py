@@ -17,7 +17,7 @@ from simple_resume.helpers.cli_logging import (
 from simple_resume.helpers.i18n import get_localized_file_name_without_extension, get_translations
 from simple_resume.helpers.playwright import launch_browser
 from simple_resume.helpers.serve import serve_resume_for_export
-from simple_resume.type_definitions.export import SupportedBrowserChannel
+from simple_resume.type_definitions.export import SupportedBrowserChannel, SupportedPaperSize
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -28,6 +28,7 @@ if TYPE_CHECKING:
 def export_resume(
     resume: JsonResume,
     output_path: Path,
+    paper_size: SupportedPaperSize,
     browser_channel: SupportedBrowserChannel | None,
     *,
     should_install_browser: bool,
@@ -37,6 +38,7 @@ def export_resume(
     Args:
         resume: A validated JSON Resume.
         output_path: The path to the directory where the resume will be exported.
+        paper_size: The paper size to use for the PDF.
         browser_channel: The browser to use to generate the PDF file. If `None`, it will try to use
             a browser installed in the system.
         should_install_browser: Whether to install the specified browser if it is not already
@@ -66,6 +68,7 @@ def export_resume(
         _generate_pdf(
             f"http://localhost:{port}",
             resume_path,
+            paper_size,
             browser_channel,
             should_install_browser=should_install_browser,
         )
@@ -78,6 +81,7 @@ def export_resume(
 def _generate_pdf(
     server_url: str,
     resume_path: Path,
+    paper_size: SupportedPaperSize,
     browser_channel: SupportedBrowserChannel | None,
     *,
     should_install_browser: bool,
@@ -87,6 +91,7 @@ def _generate_pdf(
     Args:
         server_url: The URL of the server where the resume is being served.
         resume_path: The path where the generated PDF will be saved.
+        paper_size: The paper size to use for the PDF.
         browser_channel: The browser to use to generate the PDF file. If `None`, it will try to use
             a browser installed in the system.
         should_install_browser: Whether to install the specified browser if it is not already
@@ -105,7 +110,7 @@ def _generate_pdf(
         page.goto(server_url, wait_until="load")
         page.pdf(
             path=resume_path,
-            prefer_css_page_size=True,
             print_background=True,
+            format=paper_size,
         )
         browser.close()

@@ -2,8 +2,4 @@
 	body {
 		font-variant-ligatures: none;
 	}
-
-	@page {
-		size: A4;
-	}
 }

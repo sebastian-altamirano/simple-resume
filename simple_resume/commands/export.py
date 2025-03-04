@@ -11,13 +11,14 @@ from simple_resume.helpers.export import export_resume
 from simple_resume.helpers.json_resume import read_and_validate_resume
 from simple_resume.type_definitions.cli import (
     BrowserChannel,
+    PaperSize,
     ResumeLanguage,
     ResumeOutputPath,
     ResumePath,
     ResumeTemplate,
     ShouldInstallBrowser,
 )
-from simple_resume.type_definitions.export import SupportedBrowserChannel
+from simple_resume.type_definitions.export import SupportedBrowserChannel, SupportedPaperSize
 
 
 def _get_output_path(output_path: str | None) -> Path:
@@ -48,11 +49,12 @@ def _validate_should_install_browser(
         raise BadParameter("`--install-browser` requires `--browser` to be specified.")
 
 
-def export(
+def export(  # noqa: PLR0913
     resume_path: ResumePath,
     template: ResumeTemplate = None,
     language: ResumeLanguage = None,
     output_path: ResumeOutputPath = None,
+    paper_size: PaperSize = SupportedPaperSize.A4,
     browser_channel: BrowserChannel = None,
     *,
     should_install_browser: ShouldInstallBrowser = False,
@@ -66,6 +68,7 @@ def export(
     export_resume(
         resume,
         output_path=_get_output_path(output_path),
+        paper_size=paper_size,
         browser_channel=browser_channel,
         should_install_browser=should_install_browser,
     )
