@@ -6,7 +6,7 @@ from typing import Annotated, TypedDict
 
 from typer import Argument, Option
 
-from simple_resume.helpers.constants import DEFAULT_LANGUAGE
+from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_PAPER_SIZE, DEFAULT_TEMPLATE
 from simple_resume.type_definitions.export import SupportedBrowserChannel, SupportedPaperSize
 
 ResumePath = Annotated[str, Argument(help="The path to the JSON Resume file.")]
@@ -25,8 +25,8 @@ ResumeTemplate = Annotated[
         "-t",
         help=(
             "The name of the template to use. If not provided, the template specified in the "
-            "resume metadata will be used, or the default template ({DEFAULT_TEMPLATE}) if none is "
-            "specified."
+            f"resume metadata will be used, or the default template ({DEFAULT_TEMPLATE}) if none "
+            "is specified."
         ),
     ),
 ]
@@ -45,14 +45,11 @@ ResumeLanguage = Annotated[
 ]
 
 ResumeOutputPath = Annotated[
-    str | None,
+    str,
     Option(
         "--output-path",
         "-o",
-        help=(
-            "The path to the directory where the resume will be exported. If not provided, it will "
-            "be saved to the desktop."
-        ),
+        help=("The path to the directory where the resume will be exported."),
     ),
 ]
 
@@ -64,7 +61,7 @@ BrowserChannel = Annotated[
         "-b",
         help=(
             "The browser to use to generate the PDF. If not provided, the application will attempt "
-            "to use a compatible browser. If no compatible browser is found, the process will fail."
+            "to use a compatible browser. If no compatible browser is found, the command will fail."
         ),
     ),
 ]
@@ -87,11 +84,15 @@ ServerPort = Annotated[
 ]
 
 PaperSize = Annotated[
-    SupportedPaperSize,
+    SupportedPaperSize | None,
     Option(
-        "--size",
+        "--paper-size",
         "-z",
-        help=("The paper size of the PDF."),
+        help=(
+            "The paper size of the PDF. If not provided, the paper size specified in the resume "
+            f"metadata will be used, or the default paper size ({DEFAULT_PAPER_SIZE.value}) if "
+            "none is specified."
+        ),
     ),
 ]
 
@@ -100,4 +101,5 @@ class SimpleResumeMetadataCliOverrides(TypedDict):
     """CLI options that override values within the `/meta/simpleResume` section of a JSON Resume."""
 
     language: ResumeLanguage
+    paper_size: PaperSize
     template: ResumeTemplate

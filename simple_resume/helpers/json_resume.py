@@ -19,8 +19,11 @@ def _apply_cli_overrides(
     resume: dict[str, Any], cli_overrides: SimpleResumeMetadataCliOverrides
 ) -> None:
     simple_resume_metadata = resume.setdefault("meta", {}).setdefault("simpleResume", {})
+
     if cli_overrides["language"]:
         simple_resume_metadata["language"] = cli_overrides["language"]
+    if cli_overrides["paper_size"]:
+        simple_resume_metadata["paperSize"] = cli_overrides["paper_size"]
     if cli_overrides["template"]:
         simple_resume_metadata.setdefault("template", {})["name"] = cli_overrides["template"]
 

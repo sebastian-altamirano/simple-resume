@@ -18,19 +18,7 @@ from simple_resume.type_definitions.cli import (
     ResumeTemplate,
     ShouldInstallBrowser,
 )
-from simple_resume.type_definitions.export import SupportedBrowserChannel, SupportedPaperSize
-
-
-def _get_output_path(output_path: str | None) -> Path:
-    """Resolve the output path or return the default one.
-
-    Args:
-        output_path: The output path specified via CLI argument.
-
-    Returns:
-        The determined output path.
-    """
-    return (output_path is not None and Path(output_path).resolve()) or DEFAULT_OUTPUT_PATH
+from simple_resume.type_definitions.export import SupportedBrowserChannel
 
 
 def _validate_should_install_browser(
@@ -53,8 +41,8 @@ def export(  # noqa: PLR0913
     resume_path: ResumePath,
     template: ResumeTemplate = None,
     language: ResumeLanguage = None,
-    output_path: ResumeOutputPath = None,
-    paper_size: PaperSize = SupportedPaperSize.A4,
+    output_path: ResumeOutputPath = str(DEFAULT_OUTPUT_PATH),
+    paper_size: PaperSize = None,
     browser_channel: BrowserChannel = None,
     *,
     should_install_browser: ShouldInstallBrowser = False,
@@ -63,12 +51,12 @@ def export(  # noqa: PLR0913
     _validate_should_install_browser(browser_channel, should_install_browser=should_install_browser)
 
     resume = read_and_validate_resume(
-        resume_path, cli_overrides={"template": template, "language": language}
+        resume_path,
+        cli_overrides={"language": language, "paper_size": paper_size, "template": template},
     )
     export_resume(
         resume,
-        output_path=_get_output_path(output_path),
-        paper_size=paper_size,
+        output_path=Path(output_path).resolve(),
         browser_channel=browser_channel,
         should_install_browser=should_install_browser,
     )

@@ -4,8 +4,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from simple_resume.type_definitions.export import SupportedPaperSize
+
 DEFAULT_LANGUAGE = "en"
 DEFAULT_OUTPUT_PATH = Path("~/Desktop").expanduser()
+DEFAULT_PAPER_SIZE = SupportedPaperSize.A4
 DEFAULT_PORT = 5000
 DEFAULT_TEMPLATE = "basic"
 

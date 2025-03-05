@@ -28,7 +28,6 @@ if TYPE_CHECKING:
 def export_resume(
     resume: JsonResume,
     output_path: Path,
-    paper_size: SupportedPaperSize,
     browser_channel: SupportedBrowserChannel | None,
     *,
     should_install_browser: bool,
@@ -38,7 +37,6 @@ def export_resume(
     Args:
         resume: A validated JSON Resume.
         output_path: The path to the directory where the resume will be exported.
-        paper_size: The paper size to use for the PDF.
         browser_channel: The browser to use to generate the PDF file. If `None`, it will try to use
             a browser installed in the system.
         should_install_browser: Whether to install the specified browser if it is not already
@@ -68,7 +66,7 @@ def export_resume(
         _generate_pdf(
             f"http://localhost:{port}",
             resume_path,
-            paper_size,
+            resume.meta.simple_resume.paper_size,
             browser_channel,
             should_install_browser=should_install_browser,
         )

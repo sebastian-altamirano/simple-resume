@@ -22,7 +22,7 @@ def serve(
     """Start a web server that hosts a JSON resume."""
     resume = read_and_validate_resume(
         resume_path or str(SAMPLE_RESUME_PATH),
-        cli_overrides={"template": template, "language": language},
+        cli_overrides={"language": language, "paper_size": None, "template": template},
     )
 
     serve_resume_for_development(resume, port=port)

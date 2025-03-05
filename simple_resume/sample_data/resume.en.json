@@ -138,6 +138,7 @@
 		"lastModified": "2017-12-24T15:53:00",
 		"simpleResume": {
 			"language": "en",
+			"paperSize": "A4",
 			"template": {
 				"colorScheme": {
 					"neutral": "gray",

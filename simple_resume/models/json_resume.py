@@ -18,8 +18,7 @@ from pydantic_extra_types.language_code import LanguageAlpha2
 from pydantic_extra_types.phone_numbers import PhoneNumber
 from pydantic_extra_types.semantic_version import SemanticVersion
 
-from simple_resume.helpers.cli_logging import print_warning_message
-from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_TEMPLATE
+from simple_resume.helpers.constants import DEFAULT_LANGUAGE, DEFAULT_PAPER_SIZE, DEFAULT_TEMPLATE
 from simple_resume.helpers.validation import (
     validate_color_scheme,
     validate_date_range,
@@ -27,6 +26,7 @@ from simple_resume.helpers.validation import (
     validate_metadata_language,
     validate_metadata_template,
 )
+from simple_resume.type_definitions.export import SupportedPaperSize
 from simple_resume.type_definitions.pydantic import DateTime, PastDateTime, UniqueList
 from simple_resume.type_definitions.template_metadata import ColorSystem, ResumeSection
 
@@ -260,21 +260,7 @@ class SimpleResumeTemplateMetadata(JsonResumeBaseModel):
         return self
 
 
-def _language_metadata_default_factory() -> LanguageAlpha2:
-    print_warning_message(
-        "A language is not specified in the resume metadata, so unless specified by a command line "
-        f"argument, the default language ({DEFAULT_LANGUAGE}) will be used when exporting or "
-        "serving the resume."
-    )
-    return LanguageAlpha2(DEFAULT_LANGUAGE)
-
-
 def _template_metadata_default_factory() -> SimpleResumeTemplateMetadata:
-    print_warning_message(
-        "A template is not specified in the resume metadata, so unless specified by a command line "
-        f"argument, the default template ({DEFAULT_TEMPLATE}) will be used when exporting or "
-        "serving the resume."
-    )
     return SimpleResumeTemplateMetadata(name=DEFAULT_TEMPLATE)
 
 
@@ -284,9 +270,10 @@ class SimpleResumeMetadata(JsonResumeBaseModel):
     It can be found in `/meta/simpleResume` of the JSON Resume.
     """
 
-    language: Annotated[LanguageAlpha2, AfterValidator(validate_metadata_language)] = Field(
-        default_factory=_language_metadata_default_factory,
+    language: Annotated[LanguageAlpha2, AfterValidator(validate_metadata_language)] = (
+        LanguageAlpha2(DEFAULT_LANGUAGE)
     )
+    paper_size: SupportedPaperSize = DEFAULT_PAPER_SIZE
     template: SimpleResumeTemplateMetadata = Field(
         default_factory=_template_metadata_default_factory,
     )
