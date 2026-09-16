@@ -34,13 +34,15 @@ uv run simple-resume serve
 uv run simple-resume export simple_resume/sample_data/resume.en.json
 ```
 
+Alternatively, activate `.venv` and then invoke `simple-resume` directly.
+
 ### Development checks
 
 You can format and lint the code with the following commands:
 
 ```bash
 uv run poe format
-uv run poe lint
+uv run poe check
 ```
 
 ### Debugging
@@ -108,12 +110,17 @@ to extract and update the list of messages, then you can update the necessary tr
 Use the appropriate command below to build the application for your desired target:
 
 ```bash
-# Can be published to `PyPI` and installed with `pipx` or `uvx`.
+# Build the source distribution only.
 uv build --sdist
+# Build the wheel and run the custom Hatch wheel hook.
 uv build --wheel
-# uv build  # Build both sdist and wheel.
+# Build both distributions.
+uv build
+
 # Can be used without Python on an OS compatible with the one used to produce the build.
 uv run poe build-standalone
 ```
+
+The source distribution and wheel can be published to PyPI and installed with `pipx` or `uvx`. The standalone build is a separate executable produced by PyInstaller.
 
 Standalone builds are created with PyInstaller, which cannot cross-compile. This means you can only generate builds for your current operating system. Common workarounds include using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) (to generate a Linux build from Windows) or [Docker](https://github.com/batonogov/docker-pyinstaller) (to generate a Linux build from Windows or a Windows build from Linux using Wine). [There are a few other catches that are documented in the PyInstaller documentation](https://pyinstaller.org/en/v6.12.0/usage.html#platform-specific-notes).
