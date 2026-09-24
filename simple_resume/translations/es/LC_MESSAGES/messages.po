@@ -73,6 +73,10 @@ msgid "Publications"
 msgstr "Publicaciones"
 
 #: simple_resume/templates/basic/References.jinja
+msgid "Available upon request."
+msgstr "Disponibles a solicitud."
+
+#: simple_resume/templates/basic/References.jinja
 msgid "References"
 msgstr "Referencias"
 
@@ -101,4 +105,3 @@ msgstr "{label}:"
 #, python-brace-format
 msgid "{name}_Resume"
 msgstr "{name}_CV"
-

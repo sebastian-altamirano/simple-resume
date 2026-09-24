@@ -254,7 +254,13 @@ def _map_sections(
         "Languages": ("Languages", {"languages": resume.languages}),
         "Projects": ("Projects", {"projects": resume.projects}),
         "Publications": ("Publications", {"publications": resume.publications}),
-        "References": ("References", {"references": resume.references}),
+        "References": (
+            "References",
+            {
+                "references": resume.references,
+                "references_on_request": resume.meta.simple_resume.template.references_on_request,
+            },
+        ),
         "Skills": (
             "Skills",
             {"interests": resume.interests, "languages": resume.languages, "skills": resume.skills},

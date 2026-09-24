@@ -1,11 +1,15 @@
-{#def references #}
+{#def references, references_on_request = False #}
 
-{% if references %}
+{% if references_on_request or references %}
 	<Section :section_title="_('References')">
-		<ul class="list-unstyled">
-			{% for entry in references %}
-				<Reference :name="entry.name" :reference="entry.reference" />
-			{% endfor %}
-		</ul>
+		{% if references_on_request %}
+			<p>{{ _('Available upon request.') }}</p>
+		{% else %}
+			<ul class="list-unstyled">
+				{% for entry in references %}
+					<Reference :name="entry.name" :reference="entry.reference" />
+				{% endfor %}
+			</ul>
+		{% endif %}
 	</Section>
 {% endif %}

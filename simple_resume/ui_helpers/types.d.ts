@@ -151,6 +151,7 @@ export type SimpleResumeTemplateMetadata<
 	ColorCategoryType extends string,
 > = {
 	name: string;
+	referencesOnRequest?: boolean;
 } & (
 	| {
 			colorScheme: null;

@@ -245,6 +245,7 @@ class SimpleResumeTemplateMetadata(JsonResumeBaseModel):
     color_scheme: dict[str, str] | None = None
     color_system: ColorSystem | None = None
     name: Annotated[str, AfterValidator(validate_metadata_template)]
+    references_on_request: bool = False
     # TODO: Add support for templates with multiple areas.
     sections: UniqueList[ResumeSection] = Field(default_factory=_get_default_sections)
 
