@@ -3,6 +3,7 @@
 }
 
 .section-item__header {
+	break-inside: avoid;
 	font-size: 0;
 	margin: 0 0 0.5rem;
 	text-align: justify;
@@ -17,6 +18,14 @@
 		display: inline-block;
 		width: 100%;
 	}
+}
+
+.section-item__header:not(:last-child) {
+	break-after: avoid-page;
+}
+
+.section-item__highlight {
+	break-inside: avoid;
 }
 
 .section-item__subtitle-and-location {

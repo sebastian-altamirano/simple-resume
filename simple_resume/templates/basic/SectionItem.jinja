@@ -14,7 +14,7 @@
 
 {% if title %}
 	<li class="section-item">
-		<Entry>
+		<article>
 			<header class="section-item__header">
 				<h3 class="section-item__title">
 					{% if title_url %}
@@ -52,13 +52,15 @@
 
 			{% if highlights %}
 				<ul class="section-item__highlights">
-					{% for highlight in highlights %}<li>{{ highlight }}</li>{% endfor %}
+					{% for highlight in highlights %}
+						<li class="section-item__highlight">{{ highlight }}</li>
+					{% endfor %}
 				</ul>
 			{% endif %}
 
 			{% if keywords %}
 				<Tags :tags="keywords" />
 			{% endif %}
-		</Entry>
+		</article>
 	</li>
 {% endif %}

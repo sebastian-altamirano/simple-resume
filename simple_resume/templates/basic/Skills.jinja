@@ -12,23 +12,23 @@
 		<ul class="list-unstyled">
 			{% for skills_group in skills %}
 				<li class="skills-group">
-					<Entry>
+					<article>
 						<h3 class="skills-group__name">
 							{{ skills_group.name | addlocalizedcolon }}
 						</h3>
 
 						<Tags :tags="skills_group.keywords" />
-					</Entry>
+					</article>
 				</li>
 			{% endfor %}
 			{% if languages %}
 				{% if skills or interests %}
 					<li class="skills-group">
-						<Entry>
+						<article>
 							<h3 class="skills-group__name">{{ _('Languages:') }}</h3>
 
 							<Tags :tags="languages | maplanguages" />
-						</Entry>
+						</article>
 					</li>
 				{% else %}
 					<Tags :tags="languages | maplanguages" />
@@ -37,11 +37,11 @@
 			{% if interests %}
 				{% if skills or languages %}
 					<li class="skills-group">
-						<Entry>
+						<article>
 							<h3 class="skills-group__name">{{ _('Interests:') }}</h3>
 
 							<Tags :tags="interests | mapinterests" />
-						</Entry>
+						</article>
 					</li>
 				{% else %}
 					<Tags :tags="interests | mapinterests" />

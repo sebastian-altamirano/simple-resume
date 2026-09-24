@@ -2,14 +2,16 @@
 
 {% if name or reference %}
 	<li class="reference">
-		{% if reference %}
-			<blockquote class="reference__bloquote">
-				<p class="reference__reference">{{ reference }}</p>
-			</blockquote>
-		{% endif %}
+		<article>
+			{% if reference %}
+				<blockquote class="reference__blockquote">
+					<p class="reference__reference">{{ reference }}</p>
+				</blockquote>
+			{% endif %}
 
-		{% if name %}
-			<p class="reference__name">{{ name }}</p>
-		{% endif %}
+			{% if name %}
+				<p class="reference__name">{{ name }}</p>
+			{% endif %}
+		</article>
 	</li>
 {% endif %}

@@ -1,3 +1,7 @@
+.skills-group {
+	break-inside: avoid;
+}
+
 .skills-group:not(:last-child) {
 	margin-bottom: 0.5rem;
 }

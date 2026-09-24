@@ -1,13 +1,14 @@
 .section:not(:last-child) {
-	margin-bottom: 1rem;
+	margin-bottom: 0.75rem;
 }
 
 .section__title {
 	background-color: var(--color-primary);
+	break-after: avoid-page;
 	color: var(--color-background);
 	font-weight: 300;
-	margin: 0 0 1rem;
-	padding: 8px 12px;
+	margin: 0 0 0.75rem;
+	padding: 6px 9px;
 	text-align: center;
 	text-transform: uppercase;
 	width: 100%;
