@@ -118,7 +118,7 @@ class JsonResumeVolunteer(JsonResumeBaseModel):
 
 
 class JsonResumeEducation(JsonResumeBaseModel):
-    """`/education/{index}` field of the JSON Resume spec."""
+    """`/education/{index}` field of the JSON Resume spec, extended with an optional `summary`."""
 
     institution: str | None = None
     url: HttpUrl | None = None
@@ -127,6 +127,7 @@ class JsonResumeEducation(JsonResumeBaseModel):
     start_date: DateTime | None = None
     end_date: DateTime | None = None
     score: str | None = None
+    summary: str | None = None
     courses: list[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
@@ -310,7 +311,7 @@ class JsonResumeMeta(JsonResumeBaseModel):
 class JsonResume(JsonResumeBaseModel):
     """JSON Resume v1.Y.Z.
 
-    Check the [JSON Schema](https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json)
+    Check the [JSON Schema](https://raw.githubusercontent.com/jsonresume/resume-schema/v1.2.1/schema.json)
     for the meaning of each field.
 
     This implementation is similar to the schema, but it has some differences in terms of validation
@@ -322,6 +323,10 @@ class JsonResume(JsonResumeBaseModel):
     RFC3966 is used.
     - date fields: The schema accepts any ISO 8601 string; here, only common ISO 8601 formats are
     accepted.
+
+    It also accepts optional fields outside the JSON Resume schema:
+
+    - `/education/{index}/summary`: A free-text description of an education entry.
 
     There are also some other differences that are not mentioned because they are unlikely to break
     compatibility.
