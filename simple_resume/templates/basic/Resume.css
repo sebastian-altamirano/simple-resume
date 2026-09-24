@@ -77,10 +77,10 @@ p {
 @media print {
 	@page {
 		background-color: var(--color-background);
-		margin: 1rem 0 1rem;
+		margin: 16px 0 16px;
 	}
 
 	@page :first {
-		margin: 0 0 1rem;
+		margin: 0 0 16px;
 	}
 }
